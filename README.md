@@ -65,10 +65,6 @@ src/
 └── assets/             # Static assets
 ```
 
-## 🤝 Contributing
-
-This project was developed with assistance from Claude AI for rapid development and best practices implementation.
-
 ## 📄 License
 
 This project is private and proprietary to Nissal company.
