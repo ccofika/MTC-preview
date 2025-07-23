@@ -1,0 +1,861 @@
+/* EcologyPage.css - Scoped styles for EcologyPage component only */
+
+/* IMPORTANT: All styles in this file are scoped to .ecology-page and will not affect other components */
+/* This ensures complete isolation from Footer, Header and other components */
+
+/* Ensure no styles leak to other components */
+.ecology-page {
+  isolation: isolate;
+}
+
+/* CSS Variables - EcologyPage specific */
+.ecology-page {
+  --primary-color: #FF6B35;
+  --primary-light: #FF8559;
+  --primary-dark: #E55A2B;
+  --secondary-color: #2C3E50;
+  --secondary-light: #34495E;
+  --secondary-dark: #1B2631;
+  --accent-color: #E74C3C;
+  --color-white: #FFFFFF;
+  --color-black: #0A0A0A;
+  --color-gray-50: #F8F9FA;
+  --color-gray-100: #F1F3F4;
+  --color-gray-200: #E9ECEF;
+  --color-gray-300: #DEE2E6;
+  --color-gray-400: #CED4DA;
+  --color-gray-500: #ADB5BD;
+  --color-gray-600: #6C757D;
+  --color-gray-700: #495057;
+  --color-gray-800: #343A40;
+  --color-gray-900: #212529;
+  --color-success: #28A745;
+  --color-warning: #FFC107;
+  --color-green: #10B981;
+  --color-green-light: #34D399;
+  --color-green-dark: #059669;
+  
+  /* Typography */
+  --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 3.75rem;
+  
+  /* Spacing */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  
+  /* Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-green: 0 4px 14px 0 rgba(16, 185, 129, 0.39);
+  
+  /* Border radius */
+  --radius-sm: 0.125rem;
+  --radius-base: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base styles for EcologyPage */
+.ecology-page {
+  font-family: var(--font-family-primary);
+  color: var(--color-black);
+  line-height: 1.6;
+  background-color: var(--color-white);
+}
+
+.ecology-page * {
+  box-sizing: border-box;
+}
+
+/* Container - Scoped to ecology-page only */
+.ecology-page .container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-4);
+}
+
+/* Section Styles - Scoped to ecology-page only */
+.ecology-page section {
+  padding: var(--spacing-20) 0;
+}
+
+.ecology-page .section-title {
+  font-size: var(--font-size-4xl);
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 var(--spacing-16) 0;
+  color: var(--color-black);
+  position: relative;
+}
+
+.ecology-page .section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -var(--spacing-4);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-green), var(--color-green-light));
+  border-radius: var(--radius-base);
+}
+
+.ecology-page .section-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-gray-600);
+  text-align: center;
+  margin: var(--spacing-4) 0 0 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ecology-page .section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-16);
+}
+
+/* Hero Section - Scoped to ecology-page only */
+.ecology-page .ecology-hero {
+  margin-top: 80px;
+  padding: var(--spacing-24) 0;
+  background: linear-gradient(135deg, #f0fdf4 0%, var(--color-white) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.ecology-page .ecology-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -10%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent 0%, rgba(16, 185, 129, 0.05) 100%);
+  transform: skewX(-15deg);
+}
+
+.ecology-page .hero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-16);
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.ecology-page .hero-title {
+  font-size: var(--font-size-5xl);
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0 0 var(--spacing-6) 0;
+  color: var(--color-black);
+}
+
+.ecology-page .hero-subtitle {
+  font-size: var(--font-size-xl);
+  color: var(--color-gray-600);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.ecology-page .hero-image img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Sustainability Section - Scoped to ecology-page only */
+.ecology-page .sustainability-section {
+  background-color: var(--color-white);
+}
+
+.ecology-page .sustainability-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-8);
+}
+
+.ecology-page .sustainability-card {
+  background-color: var(--color-white);
+  padding: var(--spacing-8);
+  border-radius: var(--radius-2xl);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  border: 1px solid var(--color-gray-100);
+  position: relative;
+  overflow: hidden;
+}
+
+.ecology-page .sustainability-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.03), transparent);
+  transition: left var(--transition-slow);
+}
+
+.ecology-page .sustainability-card:hover::before {
+  left: 100%;
+}
+
+.ecology-page .sustainability-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-green);
+}
+
+.ecology-page .sustainability-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto var(--spacing-4) auto;
+  background: linear-gradient(135deg, var(--color-green) 0%, var(--color-green-light) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  transition: transform var(--transition-normal);
+}
+
+.ecology-page .sustainability-card:hover .sustainability-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.ecology-page .sustainability-icon svg {
+  width: 36px;
+  height: 36px;
+}
+
+.ecology-page .sustainability-stats {
+  margin-bottom: var(--spacing-6);
+}
+
+.ecology-page .stat-number {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  color: var(--color-green);
+  line-height: 1;
+}
+
+.ecology-page .stat-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+  margin-top: var(--spacing-1);
+}
+
+.ecology-page .sustainability-card h3 {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin: 0 0 var(--spacing-4) 0;
+  color: var(--color-black);
+}
+
+.ecology-page .sustainability-card p {
+  color: var(--color-gray-600);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Lifecycle Section - Scoped to ecology-page only */
+.ecology-page .lifecycle-section {
+  background-color: var(--color-gray-50);
+}
+
+.ecology-page .lifecycle-timeline {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.ecology-page .lifecycle-timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(to bottom, var(--color-green), var(--color-green-light));
+  transform: translateX(-50%);
+}
+
+.ecology-page .lifecycle-phase {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-12);
+  position: relative;
+}
+
+.ecology-page .lifecycle-phase:nth-child(odd) {
+  flex-direction: row;
+}
+
+.ecology-page .lifecycle-phase:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.ecology-page .phase-number {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--color-green) 0%, var(--color-green-light) 100%);
+  color: var(--color-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  position: relative;
+  z-index: 2;
+  box-shadow: var(--shadow-green);
+}
+
+.ecology-page .phase-content {
+  flex: 1;
+  background-color: var(--color-white);
+  padding: var(--spacing-6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  margin: var(--spacing-6);
+  transition: all var(--transition-normal);
+  border: 1px solid var(--color-gray-100);
+}
+
+.ecology-page .phase-content:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-base);
+  border-color: var(--color-green);
+}
+
+.ecology-page .phase-content h3 {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin: 0 0 var(--spacing-3) 0;
+  color: var(--color-black);
+}
+
+.ecology-page .phase-description {
+  color: var(--color-gray-600);
+  margin: 0 0 var(--spacing-4) 0;
+  line-height: 1.6;
+}
+
+.ecology-page .phase-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+}
+
+.ecology-page .phase-duration,
+.ecology-page .phase-impact {
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.ecology-page .phase-duration {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-700);
+}
+
+.ecology-page .phase-impact {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--color-green-dark);
+}
+
+/* Benefits Section - Scoped to ecology-page only */
+.ecology-page .benefits-section {
+  background-color: var(--color-white);
+}
+
+.ecology-page .benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: var(--spacing-6);
+}
+
+.ecology-page .benefit-card {
+  background-color: var(--color-white);
+  padding: var(--spacing-6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  border: 1px solid var(--color-gray-100);
+  border-left: 4px solid var(--color-green);
+}
+
+.ecology-page .benefit-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-base);
+  border-left-color: var(--color-green-dark);
+}
+
+.ecology-page .benefit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-4);
+}
+
+.ecology-page .benefit-card h3 {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-black);
+}
+
+.ecology-page .benefit-value {
+  background: linear-gradient(135deg, var(--color-green) 0%, var(--color-green-light) 100%);
+  color: var(--color-white);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.ecology-page .benefit-card p {
+  color: var(--color-gray-600);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Initiatives Section - Scoped to ecology-page only */
+.ecology-page .initiatives-section {
+  background-color: var(--color-gray-50);
+}
+
+.ecology-page .initiatives-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--spacing-8);
+}
+
+.ecology-page .initiative-card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  border: 1px solid var(--color-gray-100);
+}
+
+.ecology-page .initiative-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.ecology-page .initiative-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.ecology-page .initiative-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.ecology-page .initiative-card:hover .initiative-image img {
+  transform: scale(1.05);
+}
+
+.ecology-page .initiative-status {
+  position: absolute;
+  top: var(--spacing-4);
+  right: var(--spacing-4);
+}
+
+.ecology-page .status-badge {
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ecology-page .status-badge.active {
+  background-color: var(--color-green);
+  color: var(--color-white);
+}
+
+.ecology-page .status-badge.completed {
+  background-color: var(--color-gray-600);
+  color: var(--color-white);
+}
+
+.ecology-page .initiative-content {
+  padding: var(--spacing-6);
+}
+
+.ecology-page .initiative-content h3 {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin: 0 0 var(--spacing-3) 0;
+  color: var(--color-black);
+}
+
+.ecology-page .initiative-content p {
+  color: var(--color-gray-600);
+  margin: 0 0 var(--spacing-4) 0;
+  line-height: 1.6;
+}
+
+.ecology-page .initiative-impact {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--color-green-dark);
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Impact Section - Scoped to ecology-page only */
+.ecology-page .impact-section {
+  background: linear-gradient(135deg, var(--color-green) 0%, var(--color-green-dark) 100%);
+  color: var(--color-white);
+}
+
+.ecology-page .impact-section .section-title {
+  color: var(--color-white);
+}
+
+.ecology-page .impact-section .section-title::after {
+  background: linear-gradient(90deg, var(--color-white), rgba(255, 255, 255, 0.7));
+}
+
+.ecology-page .impact-section .section-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ecology-page .impact-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-8);
+}
+
+.ecology-page .impact-metric {
+  text-align: center;
+  padding: var(--spacing-6);
+}
+
+.ecology-page .metric-value {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
+}
+
+.ecology-page .metric-number {
+  font-size: var(--font-size-6xl);
+  font-weight: 800;
+  color: var(--color-white);
+  line-height: 1;
+}
+
+.ecology-page .metric-unit {
+  font-size: var(--font-size-lg);
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.ecology-page .metric-description {
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Certifications Section - Scoped to ecology-page only */
+.ecology-page .certifications-section {
+  background-color: var(--color-white);
+}
+
+.ecology-page .certifications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-8);
+}
+
+.ecology-page .certification-card {
+  background-color: var(--color-white);
+  padding: var(--spacing-6);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  transition: all var(--transition-normal);
+  border: 1px solid var(--color-gray-100);
+}
+
+.ecology-page .certification-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-green);
+}
+
+.ecology-page .certification-image {
+  height: 120px;
+  margin-bottom: var(--spacing-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ecology-page .certification-image img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.ecology-page .certification-content h3 {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin: 0 0 var(--spacing-3) 0;
+  color: var(--color-black);
+}
+
+.ecology-page .certification-content p {
+  color: var(--color-gray-600);
+  margin: 0 0 var(--spacing-3) 0;
+  font-size: var(--font-size-sm);
+}
+
+.ecology-page .certification-year {
+  background-color: var(--color-green);
+  color: var(--color-white);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* Responsive Design - Scoped to ecology-page only */
+@media (max-width: 768px) {
+  .ecology-page .ecology-hero {
+    margin-top: 120px;
+    padding: var(--spacing-16) 0;
+  }
+  
+  .ecology-page .hero-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-8);
+    text-align: center;
+  }
+  
+  .ecology-page .hero-title {
+    font-size: var(--font-size-3xl);
+  }
+  
+  .ecology-page .hero-subtitle {
+    font-size: var(--font-size-lg);
+  }
+  
+  .ecology-page .section-title {
+    font-size: var(--font-size-3xl);
+  }
+  
+  .ecology-page .sustainability-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .ecology-page .lifecycle-timeline::before {
+    left: var(--spacing-4);
+  }
+  
+  .ecology-page .lifecycle-phase {
+    flex-direction: row !important;
+    align-items: flex-start;
+  }
+  
+  .ecology-page .phase-number {
+    position: absolute;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    font-size: var(--font-size-base);
+  }
+  
+  .ecology-page .phase-content {
+    margin-left: var(--spacing-12);
+    margin-right: 0;
+  }
+  
+  .ecology-page .phase-meta {
+    flex-direction: column;
+    gap: var(--spacing-2);
+  }
+  
+  .ecology-page .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .ecology-page .initiatives-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .ecology-page .container {
+    padding: 0 var(--spacing-3);
+  }
+  
+  .ecology-page section {
+    padding: var(--spacing-12) 0;
+  }
+  
+  .ecology-page .hero-title {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .ecology-page .section-title {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .ecology-page .sustainability-card {
+    padding: var(--spacing-6);
+  }
+  
+  .ecology-page .phase-content {
+    padding: var(--spacing-4);
+  }
+  
+  .ecology-page .benefit-card {
+    padding: var(--spacing-4);
+  }
+  
+  .ecology-page .initiative-content {
+    padding: var(--spacing-4);
+  }
+  
+  .ecology-page .metric-number {
+    font-size: var(--font-size-4xl);
+  }
+}
+
+/* Animation Enhancements - Scoped to ecology-page only */
+.ecology-page .sustainability-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.ecology-page .sustainability-card:nth-child(n+2) {
+  animation-delay: calc(0.1s * var(--index, 1));
+}
+
+.ecology-page .lifecycle-phase {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.ecology-page .lifecycle-phase:nth-child(even) {
+  animation-delay: 0.1s;
+}
+
+.ecology-page .benefit-card {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.ecology-page .initiative-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Accessibility Enhancements - Scoped to ecology-page only */
+.ecology-page *:focus {
+  outline: 2px solid var(--color-green);
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .ecology-page * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .ecology-page .sustainability-card,
+  .ecology-page .lifecycle-phase,
+  .ecology-page .benefit-card,
+  .ecology-page .initiative-card {
+    animation: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .ecology-page .sustainability-card,
+  .ecology-page .phase-content,
+  .ecology-page .benefit-card,
+  .ecology-page .initiative-card,
+  .ecology-page .certification-card {
+    border: 2px solid var(--color-black);
+  }
+}
+
+/* Print styles */
+@media print {
+  .ecology-page .ecology-hero {
+    background: none;
+    margin-top: 0;
+  }
+  
+  .ecology-page .impact-section {
+    background: none;
+    color: var(--color-black);
+  }
+  
+  .ecology-page .sustainability-card,
+  .ecology-page .benefit-card,
+  .ecology-page .initiative-card {
+    box-shadow: none;
+    border: 1px solid var(--color-gray-300);
+  }
+}
