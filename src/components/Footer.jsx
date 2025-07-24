@@ -88,18 +88,18 @@ const Footer = ({ content }) => {
             <h3>{content.footer.certificates.title}</h3>
             <div className="certificates">
               <div className="certificate-item">
-                <img src="/images/certificates/iso-cert.png" alt="ISO Certificate" />
+                <img src="/images/sertifikat1.png" alt="ISO Certificate" />
                 <span>ISO 9001:2015</span>
               </div>
               <div className="certificate-item">
-                <img src="/images/certificates/ce-cert.png" alt="CE Certificate" />
+                <img src="/images/sertifikat2.png" alt="CE Certificate" />
                 <span>CE Marking</span>
               </div>
             </div>
             
             <div className="company-info">
               <div className="company-logo">
-                <img src="/images/logo/nissal-logo-white.svg" alt="Nissal" />
+                <img src="/images/logo-mtc.png" alt="Nissal" />
               </div>
               <p className="company-description">
                 Vrhunski aluminijumski sistemi za modernu gradnju. 

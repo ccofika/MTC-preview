@@ -202,7 +202,7 @@ const HomePage = () => {
       location: 'Beograd, Srbija',
       year: '2023',
       type: 'Komercijalni objekat',
-      image: '/images/placeholder/project-placeholder.jpg'
+      image: '/images/best-projects/project1.jpg'
     },
     {
       id: 2,
@@ -210,7 +210,7 @@ const HomePage = () => {
       location: 'Novi Sad, Srbija',
       year: '2023',
       type: 'Stambeni objekat',
-      image: '/images/placeholder/project-placeholder.jpg'
+      image: '/images/best-projects/project2.jpg'
     },
     {
       id: 3,
@@ -218,7 +218,7 @@ const HomePage = () => {
       location: 'Pirot, Srbija',
       year: '2022',
       type: 'Industrijski objekat',
-      image: '/images/placeholder/project-placeholder.jpg'
+      image: '/images/best-projects/project3.jpg'
     }
   ];
 
@@ -228,21 +228,21 @@ const HomePage = () => {
       name: 'Marko Petrović',
       company: 'ABC Gradnja d.o.o.',
       text: 'Nissal je naš pouzdan partner već 5 godina. Kvalitet njihovih proizvoda je izuzetan, a servis uvek na visokom nivou.',
-      image: '/images/placeholder/person-placeholder.jpg'
+      image: '/images/placeholder/billgates.jpg'
     },
     {
       id: 2,
       name: 'Ana Jovanović',
       company: 'Projektni biro Delta',
       text: 'Profesionalnost tima Nissal-a se ogleda u svakom projektu. Uvek isporuče u roku i prema specifikaciji.',
-      image: '/images/placeholder/person-placeholder.jpg'
+      image: '/images/placeholder/sydneysweeny.jpg'
     },
     {
       id: 3,
-      name: 'Stefan Nikolić',
+      name: 'Ilija Musković',
       company: 'NK Invest',
       text: 'Inovativna rešenja koja predlažu uvek prevazilaze naša očekivanja. Preporučujem svima.',
-      image: '/images/placeholder/person-placeholder.jpg'
+      image: '/images/placeholder/elonmusk.jpg'
     }
   ];
 
@@ -291,21 +291,21 @@ const HomePage = () => {
           <div className="values-grid">
             <div className="value-card">
               <div className="value-icon">
-                <img src="/images/icons/quality-icon.svg" alt="Quality" />
+                <img src="/images/icons/quality.png" alt="Quality" />
               </div>
               <h3>{currentContent.values.quality.title}</h3>
               <p>{currentContent.values.quality.description}</p>
             </div>
             <div className="value-card">
               <div className="value-icon">
-                <img src="/images/icons/innovation-icon.svg" alt="Innovation" />
+                <img src="/images/icons/idea.png" alt="Innovation" />
               </div>
               <h3>{currentContent.values.innovation.title}</h3>
               <p>{currentContent.values.innovation.description}</p>
             </div>
             <div className="value-card">
               <div className="value-icon">
-                <img src="/images/icons/support-icon.svg" alt="Support" />
+                <img src="/images/icons/customer-support.png" alt="Support" />
               </div>
               <h3>{currentContent.values.experience.title}</h3>
               <p>{currentContent.values.experience.description}</p>
@@ -318,46 +318,58 @@ const HomePage = () => {
       <section className="products-overview">
         <div className="container">
           <h2 className="section-title">{currentContent.products.title}</h2>
-          <div className="products-grid">
-            <div className="product-card">
+          <div className="product-slideshow">
+            <div className="product-slide">
               <div className="product-image">
-                <img src="/images/placeholder/product-placeholder.jpg" alt="Window Systems" />
+                <img src="/images/product4.jpg" alt="Window Systems" />
+                <div className="product-overlay">
+                  <div className="product-details">
+                    <h3>{currentContent.products.windows.title}</h3>
+                    <p>{currentContent.products.windows.description}</p>
+                    <button className="btn btn-primary">Vidi više</button>
+                  </div>
+                </div>
               </div>
-              <div className="product-content">
-                <h3>{currentContent.products.windows.title}</h3>
-                <p>{currentContent.products.windows.description}</p>
-                <button className="btn btn-outline">Saznaj više</button>
-              </div>
+              <h3 className="product-title">{currentContent.products.windows.title}</h3>
             </div>
-            <div className="product-card">
+            <div className="product-slide">
               <div className="product-image">
-                <img src="/images/placeholder/product-placeholder.jpg" alt="Door Systems" />
+                <img src="/images/product1.jpg" alt="Door Systems" />
+                <div className="product-overlay">
+                  <div className="product-details">
+                    <h3>{currentContent.products.doors.title}</h3>
+                    <p>{currentContent.products.doors.description}</p>
+                    <button className="btn btn-primary">Vidi više</button>
+                  </div>
+                </div>
               </div>
-              <div className="product-content">
-                <h3>{currentContent.products.doors.title}</h3>
-                <p>{currentContent.products.doors.description}</p>
-                <button className="btn btn-outline">Saznaj više</button>
-              </div>
+              <h3 className="product-title">{currentContent.products.doors.title}</h3>
             </div>
-            <div className="product-card">
+            <div className="product-slide">
               <div className="product-image">
-                <img src="/images/placeholder/product-placeholder.jpg" alt="Facade Systems" />
+                <img src="/images/product2.jpg" alt="Facade Systems" />
+                <div className="product-overlay">
+                  <div className="product-details">
+                    <h3>{currentContent.products.facades.title}</h3>
+                    <p>{currentContent.products.facades.description}</p>
+                    <button className="btn btn-primary">Vidi više</button>
+                  </div>
+                </div>
               </div>
-              <div className="product-content">
-                <h3>{currentContent.products.facades.title}</h3>
-                <p>{currentContent.products.facades.description}</p>
-                <button className="btn btn-outline">Saznaj više</button>
-              </div>
+              <h3 className="product-title">{currentContent.products.facades.title}</h3>
             </div>
-            <div className="product-card">
+            <div className="product-slide">
               <div className="product-image">
-                <img src="/images/placeholder/product-placeholder.jpg" alt="Industrial Profiles" />
+                <img src="/images/product3.jpg" alt="Industrial Profiles" />
+                <div className="product-overlay">
+                  <div className="product-details">
+                    <h3>{currentContent.products.industrial.title}</h3>
+                    <p>{currentContent.products.industrial.description}</p>
+                    <button className="btn btn-primary">Vidi više</button>
+                  </div>
+                </div>
               </div>
-              <div className="product-content">
-                <h3>{currentContent.products.industrial.title}</h3>
-                <p>{currentContent.products.industrial.description}</p>
-                <button className="btn btn-outline">Saznaj više</button>
-              </div>
+              <h3 className="product-title">{currentContent.products.industrial.title}</h3>
             </div>
           </div>
         </div>

@@ -84,42 +84,42 @@ const AboutPage = () => {
             position: 'Generalni direktor',
             department: 'Rukovodstvo',
             bio: 'Više od 20 godina iskustva u industriji aluminijuma. Vodi kompaniju ka novim visinama.',
-            image: '/images/team/ceo.jpg'
+            image: '/images/about/team2.jpg'
           },
           {
             name: 'Ana Jovanović',
             position: 'Tehnički direktor',
             department: 'Rukovodstvo', 
             bio: 'Ekspert za tehnička rešenja sa dugogodišnjim iskustvom u razvoju proizvoda.',
-            image: '/images/team/cto.jpg'
+            image: '/images/about/team1.jpg'
           },
           {
             name: 'Stefan Nikolić',
             position: 'Šef proizvodnje',
             department: 'Proizvodnja',
             bio: 'Odgovoran za kvalitet proizvodnje i optimizaciju proizvodnih procesa.',
-            image: '/images/team/production.jpg'
+            image: '/images/about/team3.jpg'
           },
           {
             name: 'Milica Stojanović',
             position: 'Šef dizajna',
             department: 'Dizajn',
             bio: 'Kreativni um koji dizajnira inovativna i funkcionalna rešenja.',
-            image: '/images/team/design.jpg'
+            image: '/images/about/team5.jpg'
           },
           {
             name: 'Nikola Mitrović',
             position: 'Šef prodaje',
             department: 'Prodaja',
             bio: 'Gradi dugoročne partnerske odnose sa klijentima širom regiona.',
-            image: '/images/team/sales.jpg'
+            image: '/images/about/team4.jpg'
           },
           {
             name: 'Jelena Radić',
             position: 'Šef servisa',
             department: 'Servis',
             bio: 'Osigurava vrhunsku podršku i servis za sve naše proizvode.',
-            image: '/images/team/service.jpg'
+            image: '/images/about/team6.jpg'
           }
         ]
       },
@@ -168,22 +168,22 @@ const AboutPage = () => {
           {
             name: 'ISO 9001:2015',
             description: 'Sistem managementa kvaliteta',
-            image: '/images/certificates/iso-9001.png'
+            image: '/images/sertifikat1.png'
           },
           {
             name: 'CE Marking',
             description: 'Usklađenost sa EU standardima',
-            image: '/images/certificates/ce-marking.png'
+            image: '/images/sertifikat2.png'
           },
           {
             name: 'SRPS ISO 14001',
             description: 'Sistem upravljanja životnom sredinom',
-            image: '/images/certificates/iso-14001.png'
+            image: '/images/sertifikat3.png'
           },
           {
             name: 'OHSAS 18001',
             description: 'Bezbednost i zdravlje na radu',
-            image: '/images/certificates/ohsas.png'
+            image: '/images/sertifikat4.png'
           }
         ],
         qualityControl: {
@@ -201,10 +201,10 @@ const AboutPage = () => {
         suppliers: {
           title: 'Ključni dobavljači',
           companies: [
-            { name: 'Hydro Aluminium', logo: '/images/partners/hydro.png' },
-            { name: 'Schüco', logo: '/images/partners/schuco.png' },
-            { name: 'KÖMMERLING', logo: '/images/partners/kommerling.png' },
-            { name: 'Technal', logo: '/images/partners/technal.png' }
+            { name: 'Hydro Aluminium', logo: '/images/partner1.png' },
+            { name: 'Schüco', logo: '/images/partner2.png' },
+            { name: 'KÖMMERLING', logo: '/images/partner3.jpg' },
+            { name: 'Technal', logo: '/images/partner4.png' }
           ]
         },
         institutions: {
@@ -497,7 +497,7 @@ const AboutPage = () => {
               <p className="hero-subtitle">{currentContent.hero.subtitle}</p>
             </div>
             <div className="hero-image">
-              <img src="/images/about/company-hero.jpg" alt="Nissal Company" />
+              <img src="/images/about/about-hero.jpg" alt="Nissal Company" />
             </div>
           </div>
         </div>
