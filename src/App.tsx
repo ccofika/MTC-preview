@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 
 import theme from './styles/theme';
 import HomePage from './pages/HomePage';
+import ProductsPage from './pages/ProductsPage';
 import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutPage';
 import EcologyPage from './pages/EcologyPage';
@@ -27,6 +28,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/home" element={<HomePage />} />
+                <Route path="/products" element={<ProductsPage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/services" element={<ServicesPage />} />
                 <Route path="/ecology" element={<EcologyPage />} />

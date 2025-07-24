@@ -427,6 +427,86 @@
   color: var(--primary-color);
 }
 
+/* Form Status Messages - Scoped to contact-page only */
+.contact-page .form-status {
+  padding: var(--spacing-4);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-6);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  animation: slideInDown 0.3s ease-out;
+}
+
+.contact-page .form-status.success {
+  background-color: rgba(40, 167, 69, 0.1);
+  border: 1px solid rgba(40, 167, 69, 0.3);
+  color: var(--color-success);
+}
+
+.contact-page .form-status.error {
+  background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  color: var(--color-error);
+}
+
+.contact-page .status-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.contact-page .status-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.contact-page .status-message {
+  margin: 0;
+  font-weight: 500;
+  flex: 1;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading States - Scoped to contact-page only */
+.contact-page .loading-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  justify-content: center;
+}
+
+.contact-page .loading-spinner {
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.contact-page .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 /* Button Styles - Scoped to contact-page only */
 .contact-page .btn {
   display: inline-flex;

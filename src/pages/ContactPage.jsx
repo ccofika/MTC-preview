@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './ContactPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { contactService } from '../services/contactService';
 
 const ContactPage = () => {
   const [language, setLanguage] = useState('SR');
@@ -19,6 +20,9 @@ const ContactPage = () => {
     consent: false
   });
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', null
+  const [submitMessage, setSubmitMessage] = useState('');
 
   const toggleLanguage = () => {
     setLanguage(language === 'SR' ? 'EN' : 'SR');
@@ -32,10 +36,73 @@ const ContactPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Form submission logic here
-    console.log('Form submitted:', formData);
+    
+    // Validate required fields
+    if (!formData.firstName || !formData.lastName || !formData.email || 
+        !formData.phone || !formData.inquiryType || !formData.subject || 
+        !formData.message || !formData.consent) {
+      setSubmitStatus('error');
+      setSubmitMessage(language === 'SR' ? 
+        'Molimo popunite sva obavezna polja i potvrdite saglasnost.' : 
+        'Please fill in all required fields and confirm consent.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    setSubmitMessage('');
+
+    try {
+      // Create FormData for file upload
+      const submitData = new FormData();
+      
+      // Append all form fields
+      Object.keys(formData).forEach(key => {
+        if (key === 'attachment' && formData[key]) {
+          submitData.append('attachment', formData[key]);
+        } else if (key !== 'attachment') {
+          submitData.append(key, formData[key]);
+        }
+      });
+
+      // Submit to backend
+      const response = await contactService.submitContactForm(submitData);
+
+      if (response.success) {
+        setSubmitStatus('success');
+        setSubmitMessage(language === 'SR' ? 
+          'Hvala vam! Vaša poruka je uspešno poslata. Odgovoriće vam u najkraćem roku.' : 
+          'Thank you! Your message has been sent successfully. We will respond as soon as possible.');
+        
+        // Reset form
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          company: '',
+          position: '',
+          inquiryType: '',
+          subject: '',
+          message: '',
+          attachment: null,
+          consent: false
+        });
+      } else {
+        throw new Error(response.message || 'Submission failed');
+      }
+
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setSubmitStatus('error');
+      setSubmitMessage(language === 'SR' ? 
+        'Dogodila se greška prilikom slanja poruke. Molimo pokušajte ponovo.' : 
+        'An error occurred while sending the message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const toggleFaq = (index) => {
@@ -383,6 +450,26 @@ const ContactPage = () => {
             </div>
             
             <form className="contact-form" onSubmit={handleSubmit}>
+              {/* Status Messages */}
+              {submitStatus && (
+                <div className={`form-status ${submitStatus}`}>
+                  <div className="status-icon">
+                    {submitStatus === 'success' ? (
+                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    ) : (
+                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                        <line x1="15" y1="9" x2="9" y2="15" stroke="currentColor" strokeWidth="2"/>
+                        <line x1="9" y1="9" x2="15" y2="15" stroke="currentColor" strokeWidth="2"/>
+                      </svg>
+                    )}
+                  </div>
+                  <p className="status-message">{submitMessage}</p>
+                </div>
+              )}
+
               <div className="form-grid">
                 <div className="form-group">
                   <label htmlFor="firstName">{currentContent.form.fields.firstName} *</label>
@@ -521,8 +608,44 @@ const ContactPage = () => {
                 </div>
 
                 <div className="form-group full-width">
-                  <button type="submit" className="btn btn-primary btn-lg">
-                    {currentContent.form.submit}
+                  <button 
+                    type="submit" 
+                    className="btn btn-primary btn-lg" 
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <span className="loading-content">
+                        <svg className="loading-spinner" viewBox="0 0 24 24">
+                          <circle 
+                            cx="12" 
+                            cy="12" 
+                            r="10" 
+                            stroke="currentColor" 
+                            strokeWidth="2" 
+                            fill="none" 
+                            strokeLinecap="round" 
+                            strokeDasharray="31.416" 
+                            strokeDashoffset="31.416"
+                          >
+                            <animate 
+                              attributeName="stroke-dasharray" 
+                              dur="2s" 
+                              values="0 31.416;15.708 15.708;0 31.416" 
+                              repeatCount="indefinite"
+                            />
+                            <animate 
+                              attributeName="stroke-dashoffset" 
+                              dur="2s" 
+                              values="0;-15.708;-31.416" 
+                              repeatCount="indefinite"
+                            />
+                          </circle>
+                        </svg>
+                        {language === 'SR' ? 'Šalje se...' : 'Sending...'}
+                      </span>
+                    ) : (
+                      currentContent.form.submit
+                    )}
                   </button>
                 </div>
               </div>
