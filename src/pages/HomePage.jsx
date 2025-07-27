@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './HomePage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { projectService } from '../services/projectService';
+import { productService } from '../services/productService';
 
 const HomePage = () => {
   const [language, setLanguage] = useState('SR');
+  const [projects, setProjects] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [projectsLoading, setProjectsLoading] = useState(true);
+  const [productsLoading, setProductsLoading] = useState(true);
+  const [projectsError, setProjectsError] = useState(null);
+  const [productsError, setProductsError] = useState(null);
 
   const toggleLanguage = () => {
     setLanguage(language === 'SR' ? 'EN' : 'SR');
@@ -195,32 +203,57 @@ const HomePage = () => {
 
   const currentContent = content[language];
 
-  const projects = [
-    {
-      id: 1,
-      title: 'Poslovni centar Belgrade Plaza',
-      location: 'Beograd, Srbija',
-      year: '2023',
-      type: 'Komercijalni objekat',
-      image: '/images/best-projects/project1.jpg'
-    },
-    {
-      id: 2,
-      title: 'Stambeni kompleks River Park',
-      location: 'Novi Sad, Srbija',
-      year: '2023',
-      type: 'Stambeni objekat',
-      image: '/images/best-projects/project2.jpg'
-    },
-    {
-      id: 3,
-      title: 'Fabrika Michelin',
-      location: 'Pirot, Srbija',
-      year: '2022',
-      type: 'Industrijski objekat',
-      image: '/images/best-projects/project3.jpg'
-    }
-  ];
+  // Fetch latest projects
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setProjectsLoading(true);
+        setProjectsError(null);
+        const response = await projectService.getProjects({
+          limit: 3,
+          sortBy: 'completionDate',
+          sortOrder: 'desc'
+        });
+        
+        if (response.success && response.data.projects) {
+          setProjects(response.data.projects);
+        } else {
+          setProjectsError('Failed to fetch projects');
+        }
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+        setProjectsError(error.message || 'Failed to fetch projects');
+      } finally {
+        setProjectsLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  // Fetch featured products
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setProductsLoading(true);
+        setProductsError(null);
+        const response = await productService.getProducts({ limit: 4 });
+        
+        if (response.success && response.data.products) {
+          setProducts(response.data.products);
+        } else {
+          setProductsError('Failed to fetch products');
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setProductsError(error.message || 'Failed to fetch products');
+      } finally {
+        setProductsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const testimonials = [
     {
@@ -318,60 +351,50 @@ const HomePage = () => {
       <section className="products-overview">
         <div className="container">
           <h2 className="section-title">{currentContent.products.title}</h2>
-          <div className="product-slideshow">
-            <div className="product-slide">
-              <div className="product-image">
-                <img src="/images/product4.jpg" alt="Window Systems" />
-                <div className="product-overlay">
-                  <div className="product-details">
-                    <h3>{currentContent.products.windows.title}</h3>
-                    <p>{currentContent.products.windows.description}</p>
-                    <button className="btn btn-primary">Vidi više</button>
+          
+          {productsLoading ? (
+            <div className="loading-skeleton">
+              <div className="product-slideshow">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="product-slide skeleton">
+                    <div className="product-image skeleton-image"></div>
+                    <div className="skeleton-title"></div>
                   </div>
-                </div>
+                ))}
               </div>
-              <h3 className="product-title">{currentContent.products.windows.title}</h3>
             </div>
-            <div className="product-slide">
-              <div className="product-image">
-                <img src="/images/product1.jpg" alt="Door Systems" />
-                <div className="product-overlay">
-                  <div className="product-details">
-                    <h3>{currentContent.products.doors.title}</h3>
-                    <p>{currentContent.products.doors.description}</p>
-                    <button className="btn btn-primary">Vidi više</button>
+          ) : productsError ? (
+            <div className="error-state">
+              <p>{productsError}</p>
+              <button className="btn btn-primary" onClick={() => window.location.reload()}>
+                {language === 'SR' ? 'Pokušaj ponovo' : 'Try Again'}
+              </button>
+            </div>
+          ) : (
+            <div className="product-slideshow">
+              {products.map(product => (
+                <div key={product._id} className="product-slide">
+                  <div className="product-image">
+                    <img 
+                      src={product.gallery?.[0]?.url || '/images/placeholder/product-placeholder.jpg'} 
+                      alt={product.title}
+                      loading="lazy"
+                    />
+                    <div className="product-overlay">
+                      <div className="product-details">
+                        <h3>{product.title}</h3>
+                        <p>{product.description?.substring(0, 100)}...</p>
+                        <button className="btn btn-primary">
+                          {language === 'SR' ? 'Vidi više' : 'View More'}
+                        </button>
+                      </div>
+                    </div>
                   </div>
+                  <h3 className="product-title">{product.title}</h3>
                 </div>
-              </div>
-              <h3 className="product-title">{currentContent.products.doors.title}</h3>
+              ))}
             </div>
-            <div className="product-slide">
-              <div className="product-image">
-                <img src="/images/product2.jpg" alt="Facade Systems" />
-                <div className="product-overlay">
-                  <div className="product-details">
-                    <h3>{currentContent.products.facades.title}</h3>
-                    <p>{currentContent.products.facades.description}</p>
-                    <button className="btn btn-primary">Vidi više</button>
-                  </div>
-                </div>
-              </div>
-              <h3 className="product-title">{currentContent.products.facades.title}</h3>
-            </div>
-            <div className="product-slide">
-              <div className="product-image">
-                <img src="/images/product3.jpg" alt="Industrial Profiles" />
-                <div className="product-overlay">
-                  <div className="product-details">
-                    <h3>{currentContent.products.industrial.title}</h3>
-                    <p>{currentContent.products.industrial.description}</p>
-                    <button className="btn btn-primary">Vidi više</button>
-                  </div>
-                </div>
-              </div>
-              <h3 className="product-title">{currentContent.products.industrial.title}</h3>
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
@@ -407,21 +430,49 @@ const HomePage = () => {
             <h2 className="section-title">{currentContent.recentProjects.title}</h2>
             <button className="btn btn-outline">{currentContent.recentProjects.viewAll}</button>
           </div>
-          <div className="projects-slider">
-            {projects.map(project => (
-              <div key={project.id} className="project-slide">
-                <div className="project-image">
-                  <img src={project.image} alt={project.title} />
-                  <div className="project-overlay">
-                    <h3>{project.title}</h3>
-                    <p>{project.location}</p>
-                    <span className="project-year">{project.year}</span>
-                    <span className="project-type">{project.type}</span>
+          
+          {projectsLoading ? (
+            <div className="loading-skeleton">
+              <div className="projects-slider">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className="project-slide skeleton">
+                    <div className="project-image skeleton-image">
+                      <div className="skeleton-overlay"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : projectsError ? (
+            <div className="error-state">
+              <p>{projectsError}</p>
+              <button className="btn btn-primary" onClick={() => window.location.reload()}>
+                {language === 'SR' ? 'Pokušaj ponovo' : 'Try Again'}
+              </button>
+            </div>
+          ) : (
+            <div className="projects-slider">
+              {projects.map(project => (
+                <div key={project._id} className="project-slide">
+                  <div className="project-image">
+                    <img 
+                      src={project.gallery?.[0]?.url || '/images/placeholder/project-placeholder.jpg'} 
+                      alt={project.title}
+                      loading="lazy"
+                    />
+                    <div className="project-overlay">
+                      <h3>{project.title}</h3>
+                      <p>{project.location}</p>
+                      <span className="project-year">
+                        {new Date(project.completionDate).getFullYear()}
+                      </span>
+                      <span className="project-type">{project.category}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

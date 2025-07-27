@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './ProductsPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -138,8 +139,8 @@ const ProductsPage = () => {
         contact: 'Kontakt'
       },
       hero: {
-        title: 'Naši proizvodi',
-        subtitle: 'Visokokvalitetni aluminijumski profili i sistemi za sve vaše potrebe'
+        title: 'Naši aluminijumski sistemi',
+        subtitle: 'Vrhunski aluminijumski profili i sistemi za moderne arhitektonske rešenja'
       },
       filters: {
         title: 'Filteri',
@@ -164,21 +165,21 @@ const ProductsPage = () => {
         }
       },
       products: {
-        loading: 'Učitavaju se proizvodi...',
-        error: 'Greška pri učitavanju proizvoda',
-        noProducts: 'Nisu pronađeni proizvodi',
+        loading: 'Učitavaju se aluminijumski sistemi...',
+        error: 'Greška pri učitavanju aluminijumskih sistema',
+        noProducts: 'Nisu pronađeni aluminijumski sistemi',
         tryDifferentFilters: 'Pokušajte sa drugim filterima',
-        viewDetails: 'Pogledaj detalje',
+        viewDetails: 'Pogledaj specifikacije',
         requestQuote: 'Zatraži ponudu',
-        inStock: 'Na stanju',
-        outOfStock: 'Nema na stanju',
-        pieces: 'kom',
-        catalogNumber: 'Katalog br.'
+        inStock: 'Dostupno',
+        outOfStock: 'Trenutno nedostupno',
+        pieces: 'm',
+        catalogNumber: 'Sistem br.'
       },
       pagination: {
         showing: 'Prikaz',
         of: 'od',
-        products: 'proizvoda',
+        products: 'sistema',
         page: 'Strana',
         previous: 'Prethodna',
         next: 'Sledeća'
@@ -220,8 +221,8 @@ const ProductsPage = () => {
         contact: 'Contact'
       },
       hero: {
-        title: 'Our Products',
-        subtitle: 'High-quality aluminum profiles and systems for all your needs'
+        title: 'Our Aluminum Systems',
+        subtitle: 'Premium aluminum profiles and systems for modern architectural solutions'
       },
       filters: {
         title: 'Filters',
@@ -246,21 +247,21 @@ const ProductsPage = () => {
         }
       },
       products: {
-        loading: 'Loading products...',
-        error: 'Error loading products',
-        noProducts: 'No products found',
+        loading: 'Loading aluminum systems...',
+        error: 'Error loading aluminum systems',
+        noProducts: 'No aluminum systems found',
         tryDifferentFilters: 'Try different filters',
-        viewDetails: 'View Details',
+        viewDetails: 'View Specifications',
         requestQuote: 'Request Quote',
-        inStock: 'In Stock',
-        outOfStock: 'Out of Stock',
-        pieces: 'pcs',
-        catalogNumber: 'Catalog No.'
+        inStock: 'Available',
+        outOfStock: 'Currently Unavailable',
+        pieces: 'm',
+        catalogNumber: 'System No.'
       },
       pagination: {
         showing: 'Showing',
         of: 'of',
-        products: 'products',
+        products: 'systems',
         page: 'Page',
         previous: 'Previous',
         next: 'Next'
@@ -580,9 +581,12 @@ const ProductsPage = () => {
                           </div>
 
                           <div className="product-actions">
-                            <button className="btn btn-outline btn-sm">
+                            <Link 
+                              to={`/products/${product._id}`} 
+                              className="btn btn-outline btn-sm"
+                            >
                               {currentContent.products.viewDetails}
-                            </button>
+                            </Link>
                             <button className="btn btn-primary btn-sm">
                               {currentContent.products.requestQuote}
                             </button>

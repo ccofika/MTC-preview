@@ -56,7 +56,7 @@ const Header = ({ language, onLanguageToggle, content }) => {
               <li><Link to="/" className={location.pathname === '/' || location.pathname === '/home' ? 'active' : ''}>{content.nav.home}</Link></li>
               <li><Link to="/products" className={location.pathname === '/products' ? 'active' : ''}>{content.nav.products}</Link></li>
               <li><Link to="/services" className={location.pathname === '/services' ? 'active' : ''}>{content.nav.services}</Link></li>
-              <li><a href="#projects">{content.nav.projects}</a></li>
+              <li><Link to="/projekti" className={location.pathname === '/projekti' ? 'active' : ''}>{content.nav.projects}</Link></li>
               <li><Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>{content.nav.about}</Link></li>
               <li><Link to="/ecology" className={location.pathname === '/ecology' ? 'active' : ''}>{content.nav.ecology}</Link></li>
               <li><Link to="/contact" className={location.pathname === '/contact' ? 'active' : ''}>{content.nav.contact}</Link></li>
@@ -140,9 +140,13 @@ const Header = ({ language, onLanguageToggle, content }) => {
               </Link>
             </li>
             <li>
-              <a href="#projects" onClick={() => setIsMobileMenuOpen(false)}>
+              <Link 
+                to="/projekti" 
+                className={location.pathname === '/projekti' ? 'active' : ''}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 {content.nav.projects}
-              </a>
+              </Link>
             </li>
             <li>
               <Link 

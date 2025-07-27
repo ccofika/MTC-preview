@@ -10,24 +10,29 @@
     "eject": "react-scripts eject",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "intro:preview": "remotion preview src/intro-video/Root.tsx",
+    "intro:render": "remotion render src/intro-video/Root.tsx NissalIntro intro-video.mp4"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.20.1",
-    "axios": "^1.6.2",
-    "react-query": "^3.39.3",
-    "react-hook-form": "^7.48.2",
-    "react-hot-toast": "^2.4.1",
-    "framer-motion": "^10.16.16",
-    "styled-components": "^6.1.1",
-    "@mui/material": "^5.14.19",
-    "@mui/icons-material": "^5.14.19",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.19",
+    "@mui/material": "^5.14.19",
+    "@remotion/cli": "^4.0.327",
+    "@remotion/player": "^4.0.327",
+    "axios": "^1.6.2",
+    "framer-motion": "^10.16.16",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-helmet-async": "^1.3.0",
+    "react-hook-form": "^7.48.2",
+    "react-hot-toast": "^2.4.1",
     "react-intersection-observer": "^9.5.3",
+    "react-query": "^3.39.3",
+    "react-router-dom": "^6.20.1",
+    "remotion": "^4.0.327",
+    "styled-components": "^6.1.1",
     "swiper": "^11.0.5"
   },
   "devDependencies": {
@@ -46,7 +51,11 @@
       "last 1 safari version"
     ]
   },
-  "keywords": ["react", "typescript", "frontend"],
+  "keywords": [
+    "react",
+    "typescript",
+    "frontend"
+  ],
   "author": "NISSAL Team",
   "license": "MIT"
 }

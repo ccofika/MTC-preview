@@ -1,0 +1,494 @@
+/* ProductManager.css - Fully scoped to prevent conflicts */
+
+/* Modal Overlay */
+.product-manager {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 1000;
+  padding: 2rem;
+  isolation: isolate;
+}
+
+/* Modal Content Container */
+.product-manager .product-manager-content {
+  background: #ffffff;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.25);
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Header */
+.product-manager .product-manager-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 1.5rem;
+  border-bottom: 1px solid #E9ECEF;
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 10;
+}
+
+.product-manager .product-manager-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0a0a0a;
+  margin: 0;
+}
+
+.product-manager .close-btn {
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  color: #6C757D;
+  transition: all 0.3s ease;
+}
+
+.product-manager .close-btn:hover {
+  background: #F1F3F4;
+  color: #0a0a0a;
+}
+
+.product-manager .close-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Tabs */
+.product-manager .product-manager-tabs {
+  display: flex !important;
+  border-bottom: 1px solid #E9ECEF;
+  background: #F8F9FA;
+}
+
+.product-manager .tab-btn {
+  background: transparent;
+  border: none;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6C757D;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.product-manager .tab-btn:hover {
+  color: #0a0a0a;
+  background: #ffffff;
+}
+
+.product-manager .tab-btn.active {
+  color: #FF6B35;
+  background: #ffffff;
+  border-bottom-color: #FF6B35;
+}
+
+/* Error Message */
+.product-manager .error-message {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem;
+  padding: 1rem;
+  margin: 1rem 1.5rem;
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.2);
+  border-radius: 0.375rem;
+  color: #bd2130;
+  font-size: 0.875rem;
+}
+
+.product-manager .error-message svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Products List */
+.product-manager .products-list {
+  padding: 1.5rem;
+}
+
+.product-manager .loading-state {
+  text-align: center;
+  padding: 3rem;
+  color: #6C757D;
+  font-size: 1.125rem;
+}
+
+.product-manager .products-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+  gap: 1.5rem;
+}
+
+.product-manager .product-item {
+  border: 1px solid #E9ECEF;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: #ffffff;
+}
+
+.product-manager .product-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.product-manager .product-image {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.product-manager .product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-manager .product-info {
+  padding: 1rem;
+}
+
+.product-manager .product-info h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0a0a0a;
+  margin: 0 0 0.5rem 0;
+}
+
+.product-manager .product-info p {
+  font-size: 0.875rem;
+  color: #6C757D;
+  margin: 0.25rem 0;
+}
+
+.product-manager .product-actions {
+  display: flex !important;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-top: 1px solid #E9ECEF;
+}
+
+.product-manager .edit-btn,
+.product-manager .delete-btn {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border: 1px solid #DEE2E6;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.product-manager .edit-btn {
+  background: #ffffff;
+  color: #FF6B35;
+  border-color: #FF6B35;
+}
+
+.product-manager .edit-btn:hover {
+  background: #FF6B35;
+  color: #ffffff;
+}
+
+.product-manager .delete-btn {
+  background: #ffffff;
+  color: #DC3545;
+  border-color: #DC3545;
+}
+
+.product-manager .delete-btn:hover {
+  background: #DC3545;
+  color: #ffffff;
+}
+
+/* Form Styles */
+.product-manager .product-form {
+  padding: 1.5rem;
+  max-width: none;
+}
+
+.product-manager .form-section {
+  margin-bottom: 2rem;
+}
+
+.product-manager .form-section h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0a0a0a;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #FF6B35;
+}
+
+.product-manager .form-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+  gap: 1rem;
+}
+
+.product-manager .form-group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem;
+}
+
+.product-manager .form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #0a0a0a;
+}
+
+.product-manager .form-group input,
+.product-manager .form-group select,
+.product-manager .form-group textarea {
+  padding: 0.75rem;
+  border: 1px solid #DEE2E6;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #ffffff;
+}
+
+.product-manager .form-group input:focus,
+.product-manager .form-group select:focus,
+.product-manager .form-group textarea:focus {
+  outline: none;
+  border-color: #FF6B35;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.product-manager .form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.product-manager .form-help {
+  font-size: 0.75rem;
+  color: #6C757D;
+  margin-top: 0.25rem;
+}
+
+.product-manager .checkbox-group label {
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.product-manager .checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+/* File Input */
+.product-manager .file-input {
+  border: 2px dashed #DEE2E6 !important;
+  padding: 1.5rem !important;
+  text-align: center;
+  cursor: pointer;
+  background: #F8F9FA !important;
+}
+
+.product-manager .file-input:hover {
+  border-color: #FF6B35 !important;
+  background: rgba(255, 107, 53, 0.05) !important;
+}
+
+/* Dynamic Input Groups */
+.product-manager .color-input-group,
+.product-manager .size-input-group,
+.product-manager .measurement-input-group {
+  display: flex !important;
+  gap: 0.5rem;
+  align-items: end;
+  margin-bottom: 1rem;
+}
+
+.product-manager .color-input-group input[type="color"] {
+  width: 60px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid #DEE2E6;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+.product-manager .add-btn {
+  background: #FF6B35;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.product-manager .add-btn:hover {
+  background: #E55A2B;
+}
+
+/* Added Items */
+.product-manager .added-items {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem;
+}
+
+.product-manager .color-item,
+.product-manager .size-item,
+.product-manager .measurement-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: #F1F3F4;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.product-manager .color-preview {
+  width: 20px;
+  height: 20px;
+  border-radius: 0.125rem;
+  border: 1px solid #DEE2E6;
+}
+
+.product-manager .remove-btn {
+  background: #DC3545;
+  color: #ffffff;
+  border: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 700;
+  transition: all 0.15s ease;
+}
+
+.product-manager .remove-btn:hover {
+  background: #bd2130;
+  transform: scale(1.1);
+}
+
+/* Form Actions */
+.product-manager .form-actions {
+  display: flex !important;
+  gap: 1rem;
+  justify-content: flex-end !important;
+  padding-top: 1.5rem;
+  border-top: 1px solid #E9ECEF;
+  margin-top: 1.5rem;
+}
+
+.product-manager .cancel-btn,
+.product-manager .submit-btn {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #DEE2E6;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.product-manager .cancel-btn {
+  background: #ffffff;
+  color: #6C757D;
+  border-color: #DEE2E6;
+}
+
+.product-manager .cancel-btn:hover {
+  background: #F1F3F4;
+  color: #0a0a0a;
+}
+
+.product-manager .submit-btn {
+  background: #FF6B35;
+  color: #ffffff;
+  border-color: #FF6B35;
+}
+
+.product-manager .submit-btn:hover:not(:disabled) {
+  background: #E55A2B;
+}
+
+.product-manager .submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .product-manager {
+    padding: 1rem;
+  }
+  
+  .product-manager .product-manager-content {
+    max-height: 95vh;
+  }
+  
+  .product-manager .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .product-manager .color-input-group,
+  .product-manager .size-input-group,
+  .product-manager .measurement-input-group {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  
+  .product-manager .products-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .product-manager .form-actions {
+    flex-direction: column !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-manager .product-manager-header {
+    padding: 1rem;
+  }
+  
+  .product-manager .product-form {
+    padding: 1rem;
+  }
+  
+  .product-manager .measurement-input-group {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.5rem;
+  }
+  
+  .product-manager .measurement-input-group .add-btn {
+    grid-column: 1 / -1;
+  }
+}
