@@ -1,7 +1,9 @@
 import React from 'react';
+import { useSiteSettings } from '../context/SiteSettingsContext';
 import './Footer.css';
 
 const Footer = ({ content }) => {
+  const { siteSettings } = useSiteSettings();
   return (
     <footer className="site-footer">
       <div className="container">
@@ -16,7 +18,7 @@ const Footer = ({ content }) => {
                     <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
-                <p>{content.footer.contact.address}</p>
+                <p>{siteSettings.companyAddress?.street}, {siteSettings.companyAddress?.city}</p>
               </div>
               
               <div className="contact-item">
@@ -25,7 +27,7 @@ const Footer = ({ content }) => {
                     <path d="M22 16.92V19.92C22 20.5 21.39 21 20.83 21C9.28 21 0 11.72 0 0.169999C0 0.649999 0.5 0 1 0H4C4.58 0 5.09 0.39 5.09 0.97C5.52 4.43 6.59 7.7 8.21 10.58C8.5 11.09 8.39 11.79 7.97 12.21L6.09 14.09C7.57 17.19 10.81 20.43 13.91 21.91L15.79 20.03C16.21 19.61 16.91 19.5 17.42 19.79C20.3 21.41 23.57 22.48 27.03 22.91C27.61 22.91 28 23.42 28 24V27C28 27.61 27.5 28.22 26.92 28.22Z" fill="currentColor"/>
                   </svg>
                 </div>
-                <a href="tel:+38111123456">{content.footer.contact.phone}</a>
+                <a href={`tel:${siteSettings.companyPhone}`}>{siteSettings.companyPhone}</a>
               </div>
               
               <div className="contact-item">
@@ -35,7 +37,7 @@ const Footer = ({ content }) => {
                     <path d="L22 6L12 13L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
-                <a href="mailto:info@nissal.rs">{content.footer.contact.email}</a>
+                <a href={`mailto:${siteSettings.companyEmail}`}>{siteSettings.companyEmail}</a>
               </div>
               
               <div className="contact-item">
@@ -45,7 +47,7 @@ const Footer = ({ content }) => {
                     <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
-                <p>{content.footer.contact.workingHours}</p>
+                <p>{siteSettings.workingHours?.weekdays}</p>
               </div>
             </div>
           </div>

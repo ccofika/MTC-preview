@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import ProductManager from '../components/ProductManager';
 import ProjectManager from '../components/ProjectManager';
+import AdminSettings from '../components/AdminSettings';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -10,6 +11,7 @@ const AdminDashboard = () => {
   const { adminUser, logout } = useAuth();
   const [showProductManager, setShowProductManager] = useState(false);
   const [showProjectManager, setShowProjectManager] = useState(false);
+  const [showAdminSettings, setShowAdminSettings] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -226,7 +228,10 @@ const AdminDashboard = () => {
               <p className="admin-card-description">
                 Konfiguriši sistem postavke, korisnicke naloge i sigurnosne opcije.
               </p>
-              <button className="admin-card-button">
+              <button 
+                className="admin-card-button"
+                onClick={() => setShowAdminSettings(true)}
+              >
                 Otvori postavke
               </button>
             </div>
@@ -295,6 +300,11 @@ const AdminDashboard = () => {
       {/* Project Manager Modal */}
       {showProjectManager && (
         <ProjectManager onClose={() => setShowProjectManager(false)} />
+      )}
+
+      {/* Admin Settings Modal */}
+      {showAdminSettings && (
+        <AdminSettings onClose={() => setShowAdminSettings(false)} />
       )}
     </div>
   );
