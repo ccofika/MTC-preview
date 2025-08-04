@@ -266,7 +266,7 @@
   border-color: var(--color-primary);
   background-color: var(--color-primary);
   color: var(--color-white);
-  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 2px 8px rgba(218, 89, 19, 0.3);
   transform: translateY(-2px);
 }
 
@@ -325,7 +325,7 @@
   border-color: var(--color-primary);
   background-color: var(--color-primary);
   color: var(--color-white);
-  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 2px 8px rgba(218, 89, 19, 0.3);
   transform: translateY(-2px);
   font-weight: 600;
   position: relative;

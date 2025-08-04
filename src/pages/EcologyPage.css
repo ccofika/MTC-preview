@@ -10,30 +10,30 @@
 
 /* CSS Variables - EcologyPage specific */
 .ecology-page {
-  --primary-color: #FF6B35;
-  --primary-light: #FF8559;
-  --primary-dark: #E55A2B;
-  --secondary-color: #2C3E50;
-  --secondary-light: #34495E;
-  --secondary-dark: #1B2631;
+  --primary-color: #da5913;
+  --primary-light: #ff7a3d;
+  --primary-dark: #b84a0f;
+  --secondary-color: #1d1d1b;
+  --secondary-light: #2d2d2b;
+  --secondary-dark: #0d0d0b;
   --accent-color: #E74C3C;
   --color-white: #FFFFFF;
-  --color-black: #0A0A0A;
+  --color-black: #1d1d1b;
   --color-gray-50: #F8F9FA;
   --color-gray-100: #F1F3F4;
   --color-gray-200: #E9ECEF;
   --color-gray-300: #DEE2E6;
   --color-gray-400: #CED4DA;
   --color-gray-500: #ADB5BD;
-  --color-gray-600: #6C757D;
-  --color-gray-700: #495057;
-  --color-gray-800: #343A40;
-  --color-gray-900: #212529;
+  --color-gray-600: #706f6f;
+  --color-gray-700: #5a5959;
+  --color-gray-800: #3a3939;
+  --color-gray-900: #1d1d1b;
   --color-success: #28A745;
   --color-warning: #FFC107;
-  --color-green: #10B981;
-  --color-green-light: #34D399;
-  --color-green-dark: #059669;
+  --color-green: #da5913;
+  --color-green-light: #ff7a3d;
+  --color-green-dark: #b84a0f;
   
   /* Typography */
   --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -68,7 +68,7 @@
   --shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  --shadow-green: 0 4px 14px 0 rgba(16, 185, 129, 0.39);
+  --shadow-green: 0 4px 14px 0 rgba(218, 89, 19, 0.39);
   
   /* Border radius */
   --radius-sm: 0.125rem;
@@ -150,7 +150,7 @@
 .ecology-page .ecology-hero {
   margin-top: 80px;
   padding: var(--spacing-24) 0;
-  background: linear-gradient(135deg, #f0fdf4 0%, var(--color-white) 100%);
+  background: linear-gradient(135deg, #fef7f0 0%, var(--color-white) 100%);
   position: relative;
   overflow: hidden;
 }
@@ -162,7 +162,7 @@
   right: -10%;
   width: 50%;
   height: 100%;
-  background: linear-gradient(45deg, transparent 0%, rgba(16, 185, 129, 0.05) 100%);
+  background: linear-gradient(45deg, transparent 0%, rgba(218, 89, 19, 0.05) 100%);
   transform: skewX(-15deg);
 }
 
@@ -227,7 +227,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.03), transparent);
+  background: linear-gradient(90deg, transparent, rgba(218, 89, 19, 0.03), transparent);
   transition: left var(--transition-slow);
 }
 
@@ -396,7 +396,7 @@
 }
 
 .ecology-page .phase-impact {
-  background-color: rgba(16, 185, 129, 0.1);
+  background-color: rgba(218, 89, 19, 0.1);
   color: var(--color-green-dark);
 }
 
@@ -541,7 +541,7 @@
 }
 
 .ecology-page .initiative-impact {
-  background-color: rgba(16, 185, 129, 0.1);
+  background-color: rgba(218, 89, 19, 0.1);
   color: var(--color-green-dark);
   padding: var(--spacing-3) var(--spacing-4);
   border-radius: var(--radius-lg);

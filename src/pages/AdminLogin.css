@@ -15,22 +15,22 @@
 
 /* CSS Variables - Admin specific */
 .admin-login-page {
-  --admin-primary: #FF6B35;
-  --admin-primary-light: #FF8559;
-  --admin-primary-dark: #E55A2B;
-  --admin-secondary: #2C3E50;
+  --admin-primary: #da5913;
+  --admin-primary-light: #ff7a3d;
+  --admin-primary-dark: #b84a0f;
+  --admin-secondary: #1d1d1b;
   --admin-white: #FFFFFF;
-  --admin-black: #0A0A0A;
+  --admin-black: #1d1d1b;
   --admin-gray-50: #F8F9FA;
   --admin-gray-100: #F1F3F4;
   --admin-gray-200: #E9ECEF;
   --admin-gray-300: #DEE2E6;
   --admin-gray-400: #CED4DA;
   --admin-gray-500: #ADB5BD;
-  --admin-gray-600: #6C757D;
-  --admin-gray-700: #495057;
-  --admin-gray-800: #343A40;
-  --admin-gray-900: #212529;
+  --admin-gray-600: #706f6f;
+  --admin-gray-700: #5a5959;
+  --admin-gray-800: #3a3939;
+  --admin-gray-900: #1d1d1b;
   --admin-error: #DC3545;
   --admin-success: #28A745;
   --admin-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
@@ -180,7 +180,7 @@
 .admin-login-page .admin-form-input:focus {
   outline: none;
   border-color: var(--admin-primary);
-  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+  box-shadow: 0 0 0 3px rgba(218, 89, 19, 0.1);
 }
 
 .admin-login-page .admin-form-input::placeholder {
@@ -209,7 +209,7 @@
 .admin-login-page .admin-login-button:hover:not(:disabled) {
   background-color: var(--admin-primary-dark);
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px 0 rgba(255, 107, 53, 0.39);
+  box-shadow: 0 4px 14px 0 rgba(218, 89, 19, 0.39);
 }
 
 .admin-login-page .admin-login-button:active {

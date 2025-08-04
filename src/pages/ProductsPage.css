@@ -10,25 +10,25 @@
 
 /* CSS Variables - ProductsPage specific */
 .products-page {
-  --primary-color: #FF6B35;
-  --primary-light: #FF8559;
-  --primary-dark: #E55A2B;
-  --secondary-color: #2C3E50;
-  --secondary-light: #34495E;
-  --secondary-dark: #1B2631;
+  --primary-color: #da5913;
+  --primary-light: #ff7a3d;
+  --primary-dark: #b84a0f;
+  --secondary-color: #1d1d1b;
+  --secondary-light: #2d2d2b;
+  --secondary-dark: #0d0d0b;
   --accent-color: #E74C3C;
   --color-white: #FFFFFF;
-  --color-black: #0A0A0A;
+  --color-black: #1d1d1b;
   --color-gray-50: #F8F9FA;
   --color-gray-100: #F1F3F4;
   --color-gray-200: #E9ECEF;
   --color-gray-300: #DEE2E6;
   --color-gray-400: #CED4DA;
   --color-gray-500: #ADB5BD;
-  --color-gray-600: #6C757D;
-  --color-gray-700: #495057;
-  --color-gray-800: #343A40;
-  --color-gray-900: #212529;
+  --color-gray-600: #706f6f;
+  --color-gray-700: #5a5959;
+  --color-gray-800: #3a3939;
+  --color-gray-900: #1d1d1b;
   --color-success: #28A745;
   --color-error: #DC3545;
   --color-warning: #FFC107;
@@ -65,7 +65,7 @@
   --shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  --shadow-primary: 0 4px 14px 0 rgba(255, 107, 53, 0.39);
+  --shadow-primary: 0 4px 14px 0 rgba(218, 89, 19, 0.39);
   
   /* Border radius */
   --radius-sm: 0.125rem;
@@ -145,7 +145,7 @@
   right: -10%;
   width: 50%;
   height: 100%;
-  background: linear-gradient(45deg, transparent 0%, rgba(255, 107, 53, 0.03) 100%);
+  background: linear-gradient(45deg, transparent 0%, rgba(218, 89, 19, 0.03) 100%);
   transform: skewX(-15deg);
 }
 
@@ -224,7 +224,7 @@
 }
 
 .products-page .clear-filters-btn:hover {
-  background-color: rgba(255, 107, 53, 0.1);
+  background-color: rgba(218, 89, 19, 0.1);
 }
 
 /* Filter Groups */
@@ -258,7 +258,7 @@
 .products-page .price-input:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+  box-shadow: 0 0 0 3px rgba(218, 89, 19, 0.1);
 }
 
 /* Color Filters */

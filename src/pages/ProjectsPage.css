@@ -22,7 +22,7 @@
   right: -10%;
   width: 50%;
   height: 100%;
-  background: linear-gradient(45deg, transparent 0%, rgba(255, 107, 53, 0.03) 100%);
+  background: linear-gradient(45deg, transparent 0%, rgba(218, 89, 19, 0.03) 100%);
   transform: skewX(-15deg);
 }
 
@@ -38,7 +38,7 @@
   font-weight: 700;
   margin-bottom: 1rem;
   font-family: 'Inter', sans-serif;
-  color: #0A0A0A;
+  color: #1d1d1b;
 }
 
 .projects-page .hero-subtitle {
@@ -46,7 +46,7 @@
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
-  color: #6C757D;
+  color: #706f6f;
 }
 
 /* Container */
@@ -88,10 +88,10 @@
 .sidebar-section h3 {
   font-size: 1rem;
   font-weight: 600;
-  color: #0A0A0A;
+  color: #1d1d1b;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid #FF6B35;
+  border-bottom: 2px solid #da5913;
 }
 
 /* Search Form */
@@ -110,8 +110,8 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #FF6B35;
-  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+  border-color: #da5913;
+  box-shadow: 0 0 0 3px rgba(218, 89, 19, 0.1);
 }
 
 .search-btn {
@@ -123,12 +123,12 @@
   border: none;
   padding: 0.25rem;
   cursor: pointer;
-  color: #6C757D;
+  color: #706f6f;
   transition: color 0.3s ease;
 }
 
 .search-btn:hover {
-  color: #FF6B35;
+  color: #da5913;
 }
 
 .search-btn svg {
@@ -150,8 +150,8 @@
 
 .filter-select:focus {
   outline: none;
-  border-color: #FF6B35;
-  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+  border-color: #da5913;
+  box-shadow: 0 0 0 3px rgba(218, 89, 19, 0.1);
 }
 
 /* Clear Filters Button */
@@ -159,7 +159,7 @@
   width: 100%;
   padding: 0.75rem;
   background: #F8F9FA;
-  color: #6C757D;
+  color: #706f6f;
   border: 1px solid #DEE2E6;
   border-radius: 0.5rem;
   font-size: 0.875rem;
@@ -170,7 +170,7 @@
 
 .clear-filters-btn:hover {
   background: #E9ECEF;
-  color: #495057;
+  color: #5a5959;
 }
 
 /* Main Content */
@@ -196,7 +196,7 @@
   width: 40px;
   height: 40px;
   border: 3px solid #E9ECEF;
-  border-top: 3px solid #FF6B35;
+  border-top: 3px solid #da5913;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 1rem;
@@ -208,7 +208,7 @@
 }
 
 .loading-state p {
-  color: #6C757D;
+  color: #706f6f;
   font-size: 1.125rem;
 }
 
@@ -230,18 +230,18 @@
 }
 
 .error-state h3 {
-  color: #0A0A0A;
+  color: #1d1d1b;
   margin-bottom: 0.5rem;
 }
 
 .error-state p {
-  color: #6C757D;
+  color: #706f6f;
   margin-bottom: 1.5rem;
 }
 
 .retry-btn {
   padding: 0.75rem 1.5rem;
-  background: #FF6B35;
+  background: #da5913;
   color: white;
   border: none;
   border-radius: 0.5rem;
@@ -251,7 +251,7 @@
 }
 
 .retry-btn:hover {
-  background: #E55A2B;
+  background: #b84a0f;
 }
 
 /* Empty State */
@@ -272,12 +272,12 @@
 }
 
 .empty-state h3 {
-  color: #0A0A0A;
+  color: #1d1d1b;
   margin-bottom: 0.5rem;
 }
 
 .empty-state p {
-  color: #6C757D;
+  color: #706f6f;
   margin-bottom: 1.5rem;
 }
 
@@ -291,7 +291,7 @@
 .results-info h2 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #0A0A0A;
+  color: #1d1d1b;
   margin: 0;
 }
 
@@ -344,7 +344,7 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: #FF6B35;
+  background: #da5913;
   color: white;
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -373,7 +373,7 @@
 
 .project-category {
   background: #F8F9FA;
-  color: #FF6B35;
+  color: #da5913;
   padding: 0.25rem 0.75rem;
   border-radius: 0.375rem;
   font-size: 0.75rem;
@@ -383,20 +383,20 @@
 }
 
 .project-date {
-  color: #6C757D;
+  color: #706f6f;
   font-size: 0.875rem;
 }
 
 .project-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #0A0A0A;
+  color: #1d1d1b;
   margin-bottom: 0.75rem;
   line-height: 1.4;
 }
 
 .project-description {
-  color: #6C757D;
+  color: #706f6f;
   line-height: 1.6;
   margin-bottom: 1rem;
 }
@@ -407,7 +407,7 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: #6C757D;
+  color: #706f6f;
   margin-bottom: 0.5rem;
 }
 
@@ -436,7 +436,7 @@
   gap: 0.5rem;
   padding: 0.75rem 1rem;
   background: white;
-  color: #6C757D;
+  color: #706f6f;
   border: 1px solid #DEE2E6;
   border-radius: 0.5rem;
   font-size: 0.875rem;
@@ -447,7 +447,7 @@
 
 .pagination-btn:hover:not(:disabled) {
   background: #F8F9FA;
-  color: #0A0A0A;
+  color: #1d1d1b;
 }
 
 .pagination-btn:disabled {
@@ -473,7 +473,7 @@
   align-items: center;
   justify-content: center;
   background: white;
-  color: #6C757D;
+  color: #706f6f;
   border: 1px solid #DEE2E6;
   border-radius: 0.5rem;
   font-size: 0.875rem;
@@ -484,17 +484,17 @@
 
 .pagination-number:hover {
   background: #F8F9FA;
-  color: #0A0A0A;
+  color: #1d1d1b;
 }
 
 .pagination-number.active {
-  background: #FF6B35;
+  background: #da5913;
   color: white;
-  border-color: #FF6B35;
+  border-color: #da5913;
 }
 
 .pagination-dots {
-  color: #6C757D;
+  color: #706f6f;
   font-weight: 500;
   padding: 0 0.5rem;
 }

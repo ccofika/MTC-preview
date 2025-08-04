@@ -28,13 +28,13 @@
 }
 
 .breadcrumb a {
-  color: #6C757D;
+  color: #706f6f;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .breadcrumb a:hover {
-  color: #FF6B35;
+  color: #da5913;
 }
 
 .breadcrumb-separator {
@@ -42,7 +42,7 @@
 }
 
 .breadcrumb-current {
-  color: #0A0A0A;
+  color: #1d1d1b;
   font-weight: 500;
 }
 
@@ -66,7 +66,7 @@
   width: 40px;
   height: 40px;
   border: 3px solid #E9ECEF;
-  border-top: 3px solid #FF6B35;
+  border-top: 3px solid #da5913;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 1rem;
@@ -78,7 +78,7 @@
 }
 
 .loading-state p {
-  color: #6C757D;
+  color: #706f6f;
   font-size: 1.125rem;
 }
 
@@ -90,12 +90,12 @@
 }
 
 .error-state h2 {
-  color: #0A0A0A;
+  color: #1d1d1b;
   margin-bottom: 0.5rem;
 }
 
 .error-state p {
-  color: #6C757D;
+  color: #706f6f;
   margin-bottom: 1.5rem;
 }
 
@@ -115,24 +115,24 @@
 }
 
 .retry-btn {
-  background: #FF6B35;
+  background: #da5913;
   color: white;
   border: none;
 }
 
 .retry-btn:hover {
-  background: #E55A2B;
+  background: #b84a0f;
 }
 
 .back-btn {
   background: #F8F9FA;
-  color: #6C757D;
+  color: #706f6f;
   border: 1px solid #DEE2E6;
 }
 
 .back-btn:hover {
   background: #E9ECEF;
-  color: #495057;
+  color: #5a5959;
   text-decoration: none;
 }
 
@@ -155,7 +155,7 @@
 
 .project-category {
   background: #F8F9FA;
-  color: #FF6B35;
+  color: #da5913;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   font-size: 0.875rem;
@@ -168,7 +168,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #FF6B35;
+  background: #da5913;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
@@ -184,7 +184,7 @@
 .project-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #0A0A0A;
+  color: #1d1d1b;
   margin-bottom: 1.5rem;
   line-height: 1.2;
   font-family: 'Inter', sans-serif;
@@ -205,7 +205,7 @@
 .detail-label {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #6C757D;
+  color: #706f6f;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -213,7 +213,7 @@
 .detail-value {
   font-size: 1rem;
   font-weight: 500;
-  color: #0A0A0A;
+  color: #1d1d1b;
 }
 
 /* Image Gallery */
@@ -331,7 +331,7 @@
 }
 
 .thumbnail.active {
-  border-color: #FF6B35;
+  border-color: #da5913;
 }
 
 .thumbnail img {
@@ -353,14 +353,14 @@
 .project-description h2 {
   font-size: 1.75rem;
   font-weight: 600;
-  color: #0A0A0A;
+  color: #1d1d1b;
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
-  border-bottom: 2px solid #FF6B35;
+  border-bottom: 2px solid #da5913;
 }
 
 .description-content p {
-  color: #495057;
+  color: #5a5959;
   line-height: 1.7;
   margin-bottom: 1.25rem;
   font-size: 1.05rem;
@@ -383,7 +383,7 @@
 .project-tags h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #0A0A0A;
+  color: #1d1d1b;
   margin-bottom: 1rem;
 }
 
@@ -395,7 +395,7 @@
 
 .tag {
   background: #F8F9FA;
-  color: #495057;
+  color: #5a5959;
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
   font-size: 0.875rem;
@@ -416,10 +416,10 @@
 .related-projects h2 {
   font-size: 1.75rem;
   font-weight: 600;
-  color: #0A0A0A;
+  color: #1d1d1b;
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
-  border-bottom: 2px solid #FF6B35;
+  border-bottom: 2px solid #da5913;
 }
 
 .related-projects-grid {
@@ -468,20 +468,20 @@
 .related-project-content h3 {
   font-size: 1rem;
   font-weight: 600;
-  color: #0A0A0A;
+  color: #1d1d1b;
   margin-bottom: 0.5rem;
   line-height: 1.4;
 }
 
 .related-project-category {
-  color: #FF6B35;
+  color: #da5913;
   font-size: 0.875rem;
   font-weight: 500;
   margin-bottom: 0.25rem;
 }
 
 .related-project-date {
-  color: #6C757D;
+  color: #706f6f;
   font-size: 0.875rem;
   margin: 0;
 }
@@ -498,7 +498,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: #FF6B35;
+  background: #da5913;
   color: white;
   text-decoration: none;
   border-radius: 0.5rem;
@@ -507,7 +507,7 @@
 }
 
 .back-to-projects:hover {
-  background: #E55A2B;
+  background: #b84a0f;
   text-decoration: none;
   color: white;
   transform: translateY(-2px);

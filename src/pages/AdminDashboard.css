@@ -11,22 +11,22 @@
 
 /* CSS Variables - Admin Dashboard specific */
 .admin-dashboard-page {
-  --admin-primary: #FF6B35;
-  --admin-primary-light: #FF8559;
-  --admin-primary-dark: #E55A2B;
-  --admin-secondary: #2C3E50;
+  --admin-primary: #da5913;
+  --admin-primary-light: #ff7a3d;
+  --admin-primary-dark: #b84a0f;
+  --admin-secondary: #1d1d1b;
   --admin-white: #FFFFFF;
-  --admin-black: #0A0A0A;
+  --admin-black: #1d1d1b;
   --admin-gray-50: #F8F9FA;
   --admin-gray-100: #F1F3F4;
   --admin-gray-200: #E9ECEF;
   --admin-gray-300: #DEE2E6;
   --admin-gray-400: #CED4DA;
   --admin-gray-500: #ADB5BD;
-  --admin-gray-600: #6C757D;
-  --admin-gray-700: #495057;
-  --admin-gray-800: #343A40;
-  --admin-gray-900: #212529;
+  --admin-gray-600: #706f6f;
+  --admin-gray-700: #5a5959;
+  --admin-gray-800: #3a3939;
+  --admin-gray-900: #1d1d1b;
   --admin-success: #28A745;
   --admin-warning: #FFC107;
   --admin-danger: #DC3545;

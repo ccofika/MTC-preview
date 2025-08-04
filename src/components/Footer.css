@@ -2,21 +2,21 @@
 
 /* CSS Variables for Footer */
 .site-footer {
-  --primary-color: #FF6B35;
-  --primary-light: #FF8559;
-  --primary-dark: #E55A2B;
-  --secondary-color: #2C3E50;
-  --secondary-light: #34495E;
-  --secondary-dark: #1B2631;
+  --primary-color: #da5913;
+  --primary-light: #ff7a3d;
+  --primary-dark: #b84a0f;
+  --secondary-color: #1d1d1b;
+  --secondary-light: #2d2d2b;
+  --secondary-dark: #0d0d0b;
   --color-white: #FFFFFF;
-  --color-black: #0A0A0A;
+  --color-black: #1d1d1b;
   --color-gray-100: #F1F3F4;
   --color-gray-200: #E9ECEF;
   --color-gray-300: #DEE2E6;
   --color-gray-400: #CED4DA;
   --color-gray-500: #ADB5BD;
-  --color-gray-600: #6C757D;
-  --color-gray-700: #495057;
+  --color-gray-600: #706f6f;
+  --color-gray-700: #5a5959;
   
   /* Typography */
   --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -248,7 +248,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+  background: linear-gradient(90deg, transparent, rgba(218, 89, 19, 0.1), transparent);
   transition: left var(--transition-normal);
 }
 
@@ -264,10 +264,10 @@
 
 .site-footer .social-link:hover {
   color: var(--primary-color);
-  background: rgba(255, 107, 53, 0.1);
+  background: rgba(218, 89, 19, 0.1);
   border-color: var(--primary-color);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+  box-shadow: 0 4px 12px rgba(218, 89, 19, 0.2);
 }
 
 .site-footer .social-link.facebook:hover {
@@ -510,7 +510,7 @@
 }
 
 .site-footer .social-link:focus {
-  background: rgba(255, 107, 53, 0.1);
+  background: rgba(218, 89, 19, 0.1);
   border-color: var(--primary-color);
 }
 

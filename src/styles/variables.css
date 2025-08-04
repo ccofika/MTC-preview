@@ -2,25 +2,25 @@
 
 :root {
   /* Primary Colors */
-  --color-primary: #FF6B35;
-  --color-primary-light: #FF8559;
-  --color-primary-dark: #E55A2B;
+  --color-primary: #da5913;
+  --color-primary-light: #ff7a3d;
+  --color-primary-dark: #b84a0f;
   --color-primary-50: rgba(255, 107, 53, 0.05);
   --color-primary-100: rgba(255, 107, 53, 0.1);
   --color-primary-200: rgba(255, 107, 53, 0.2);
   --color-primary-300: rgba(255, 107, 53, 0.3);
   
   /* Secondary Colors */
-  --color-secondary: #2C3E50;
-  --color-secondary-light: #34495E;
-  --color-secondary-dark: #1B2631;
+  --color-secondary: #1d1d1b;
+  --color-secondary-light: #2d2d2b;
+  --color-secondary-dark: #0d0d0b;
   
   /* Accent Colors */
   --color-accent: #E74C3C;
   
   /* Neutral Colors */
   --color-white: #ffffff;
-  --color-black: #0a0a0a;
+  --color-black: #1d1d1b;
   
   /* Gray Scale */
   --color-gray-50: #F8F9FA;
@@ -29,10 +29,10 @@
   --color-gray-300: #DEE2E6;
   --color-gray-400: #CED4DA;
   --color-gray-500: #ADB5BD;
-  --color-gray-600: #6C757D;
-  --color-gray-700: #495057;
-  --color-gray-800: #343A40;
-  --color-gray-900: #212529;
+  --color-gray-600: #706f6f;
+  --color-gray-700: #5a5959;
+  --color-gray-800: #3a3939;
+  --color-gray-900: #1d1d1b;
   
   /* Semantic Colors */
   --color-success: #28A745;
@@ -150,7 +150,7 @@
   --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
   
   /* Colored Shadows */
-  --shadow-primary: 0 4px 14px 0 rgba(255, 107, 53, 0.39);
+  --shadow-primary: 0 4px 14px 0 rgba(218, 89, 19, 0.39);
   --shadow-secondary: 0 4px 14px 0 rgba(44, 62, 80, 0.39);
   
   /* Transitions */

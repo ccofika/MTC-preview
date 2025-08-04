@@ -20,6 +20,7 @@ import ServicesPage from './pages/ServicesPage';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import ScrollToTop from './components/ScrollToTop';
 import './styles/App.css';
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const AppContent = () => {
   return (
     <Router>
       <div className="App">
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />

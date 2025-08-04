@@ -187,7 +187,7 @@ export const NissalIntro: React.FC<NissalIntroProps> = ({ brandName, tagline }) 
       style={{
         width: '100%',
         height: '100%',
-        backgroundColor: '#0a0a0a',
+        backgroundColor: '#1d1d1b',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -208,7 +208,7 @@ export const NissalIntro: React.FC<NissalIntroProps> = ({ brandName, tagline }) 
           right: 0,
           bottom: 0,
           background: `
-            radial-gradient(circle at 25% 25%, rgba(255, 107, 53, 0.06) 0%, transparent 50%),
+            radial-gradient(circle at 25% 25%, rgba(218, 89, 19, 0.06) 0%, transparent 50%),
             radial-gradient(circle at 75% 75%, rgba(29, 78, 216, 0.04) 0%, transparent 50%),
             linear-gradient(135deg, rgba(15, 23, 42, 0.2) 0%, transparent 50%, rgba(15, 23, 42, 0.2) 100%)
           `,
@@ -225,8 +225,8 @@ export const NissalIntro: React.FC<NissalIntroProps> = ({ brandName, tagline }) 
           right: 0,
           bottom: 0,
           backgroundImage: `
-            linear-gradient(rgba(255, 107, 53, 0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 107, 53, 0.02) 1px, transparent 1px)
+            linear-gradient(rgba(218, 89, 19, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(218, 89, 19, 0.02) 1px, transparent 1px)
           `,
           backgroundSize: `${width * 0.05}px ${height * 0.05}px`,
           transform: `translate(${Math.sin(frame * 0.01) * 15}px, ${Math.cos(frame * 0.015) * 10}px)`,
@@ -289,7 +289,7 @@ export const NissalIntro: React.FC<NissalIntroProps> = ({ brandName, tagline }) 
             y1={line.startY}
             x2={line.endX}
             y2={line.endY}
-            stroke="rgba(255, 107, 53, 0.6)"
+            stroke="rgba(218, 89, 19, 0.6)"
             strokeWidth={line.strokeWidth}
             opacity={line.opacity}
             filter="url(#lineGlow)"
@@ -313,7 +313,7 @@ export const NissalIntro: React.FC<NissalIntroProps> = ({ brandName, tagline }) 
           height={height * 0.1}
           viewBox="0 0 320 80"
           style={{
-            filter: `drop-shadow(0 ${height * 0.008}px ${height * 0.03}px rgba(255, 107, 53, 0.4))`,
+            filter: `drop-shadow(0 ${height * 0.008}px ${height * 0.03}px rgba(218, 89, 19, 0.4))`,
           }}
         >
           <defs>
@@ -324,8 +324,8 @@ export const NissalIntro: React.FC<NissalIntroProps> = ({ brandName, tagline }) 
               <stop offset="100%" stopColor="#94a3b8" />
             </linearGradient>
             <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#ff6b35" />
-              <stop offset="50%" stopColor="#ff8f65" />
+              <stop offset="0%" stopColor="#da5913" />
+              <stop offset="50%" stopColor="#ff7a3d" />
               <stop offset="100%" stopColor="#ffa726" />
             </linearGradient>
             <filter id="logoGlow">
@@ -378,7 +378,7 @@ export const NissalIntro: React.FC<NissalIntroProps> = ({ brandName, tagline }) 
             backgroundClip: 'text',
             letterSpacing: `${-width * 0.006}px`,
             lineHeight: '0.9',
-            filter: `drop-shadow(0 0 ${height * 0.025 * brandGlow}px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 ${height * 0.05 * brandGlow}px rgba(255, 107, 53, 0.4))`,
+            filter: `drop-shadow(0 0 ${height * 0.025 * brandGlow}px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 ${height * 0.05 * brandGlow}px rgba(218, 89, 19, 0.4))`,
             transform: `perspective(1000px) rotateX(${(1-typographyReveal) * 15}deg) scale(${brandGlow})`,
             transformOrigin: 'center center',
             willChange: 'transform, filter',
@@ -392,13 +392,13 @@ export const NissalIntro: React.FC<NissalIntroProps> = ({ brandName, tagline }) 
           style={{
             fontSize: `${Math.min(width * 0.025, height * 0.04)}px`,
             fontWeight: '400',
-            color: '#ff6b35',
+            color: '#da5913',
             margin: `${height * 0.04}px 0 0 0`,
             letterSpacing: `${width * 0.003}px`,
             textTransform: 'uppercase',
             opacity: laserDrawing,
             transform: `translateY(${(1-laserDrawing) * height * 0.02}px)`,
-            textShadow: `0 0 ${height * 0.012}px rgba(255, 107, 53, 0.8), 0 0 ${height * 0.025}px rgba(255, 107, 53, 0.4)`,
+            textShadow: `0 0 ${height * 0.012}px rgba(218, 89, 19, 0.8), 0 0 ${height * 0.025}px rgba(218, 89, 19, 0.4)`,
             willChange: 'transform, opacity',
             overflow: 'hidden',
             whiteSpace: 'nowrap',
@@ -431,17 +431,17 @@ export const NissalIntro: React.FC<NissalIntroProps> = ({ brandName, tagline }) 
               key={text}
               style={{
                 padding: `${height * 0.012}px ${width * 0.018}px`,
-                background: 'rgba(255, 107, 53, 0.1)',
-                border: '2px solid rgba(255, 107, 53, 0.4)',
+                background: 'rgba(218, 89, 19, 0.1)',
+                border: '2px solid rgba(218, 89, 19, 0.4)',
                 borderRadius: `${height * 0.025}px`,
                 fontSize: `${Math.min(width * 0.012, height * 0.018)}px`,
                 fontWeight: '700',
-                color: '#ff6b35',
+                color: '#da5913',
                 letterSpacing: `${width * 0.001}px`,
                 transform: `translateY(${(1-indicatorProgress) * height * 0.08}px) scale(${indicatorProgress * bounceScale})`,
                 opacity: indicatorProgress,
                 backdropFilter: 'blur(10px)',
-                boxShadow: `0 ${height * 0.008}px ${height * 0.02}px rgba(255, 107, 53, 0.3), 0 0 ${height * 0.015}px rgba(255, 107, 53, 0.2)`,
+                boxShadow: `0 ${height * 0.008}px ${height * 0.02}px rgba(218, 89, 19, 0.3), 0 0 ${height * 0.015}px rgba(218, 89, 19, 0.2)`,
                 willChange: 'transform, opacity',
               }}
             >
@@ -459,7 +459,7 @@ export const NissalIntro: React.FC<NissalIntroProps> = ({ brandName, tagline }) 
           left: 0,
           right: 0,
           bottom: 0,
-          background: `radial-gradient(circle at center, rgba(255, 107, 53, ${homepageTransition * 0.2}) 0%, rgba(10, 10, 10, ${homepageTransition}) 70%)`,
+          background: `radial-gradient(circle at center, rgba(218, 89, 19, ${homepageTransition * 0.2}) 0%, rgba(29, 29, 27, ${homepageTransition}) 70%)`,
           opacity: homepageTransition,
           pointerEvents: 'none',
           zIndex: 100,
@@ -474,7 +474,7 @@ export const NissalIntro: React.FC<NissalIntroProps> = ({ brandName, tagline }) 
             left: '50%',
             width: `${width * 0.7}px`,
             height: `${height * 0.5}px`,
-            background: 'radial-gradient(ellipse, rgba(255, 107, 53, 0.12) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, rgba(218, 89, 19, 0.12) 0%, transparent 70%)',
             transform: 'translate(-50%, -50%)',
             opacity: Math.min(1, (cinematicScale - 1) * 12),
             pointerEvents: 'none',
@@ -492,7 +492,7 @@ export const NissalIntro: React.FC<NissalIntroProps> = ({ brandName, tagline }) 
           right: `${width * 0.03}px`,
           width: `${Math.min(width * 0.025, height * 0.04)}px`,
           height: `${Math.min(width * 0.025, height * 0.04)}px`,
-          border: `${Math.max(1, width * 0.001)}px solid rgba(255, 107, 53, 0.4)`,
+          border: `${Math.max(1, width * 0.001)}px solid rgba(218, 89, 19, 0.4)`,
           borderRadius: `${width * 0.002}px`,
           opacity: technicalLinesProgress * 0.7,
           transform: `rotate(${frame * 0.3}deg)`,
@@ -506,7 +506,7 @@ export const NissalIntro: React.FC<NissalIntroProps> = ({ brandName, tagline }) 
           left: `${width * 0.03}px`,
           width: `${Math.min(width * 0.025, height * 0.04)}px`,
           height: `${Math.min(width * 0.025, height * 0.04)}px`,
-          border: `${Math.max(1, width * 0.001)}px solid rgba(255, 107, 53, 0.4)`,
+          border: `${Math.max(1, width * 0.001)}px solid rgba(218, 89, 19, 0.4)`,
           borderRadius: `${width * 0.002}px`,
           opacity: technicalLinesProgress * 0.7,
           transform: `rotate(${-frame * 0.2}deg)`,
