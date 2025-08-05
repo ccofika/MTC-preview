@@ -90,12 +90,12 @@ const Footer = ({ content }) => {
             <h3>{content.footer.certificates.title}</h3>
             <div className="certificates">
               <div className="certificate-item">
-                <img src="/images/sertifikat1.png" alt="ISO Certificate" />
-                <span>ISO 9001:2015</span>
+                <img src="/images/sertifikat1.png" alt={content.footer.certificates?.iso || 'ISO Certificate'} />
+                <span>{content.footer.certificates?.iso || 'ISO 9001:2015'}</span>
               </div>
               <div className="certificate-item">
-                <img src="/images/sertifikat2.png" alt="CE Certificate" />
-                <span>CE Marking</span>
+                <img src="/images/sertifikat2.png" alt={content.footer.certificates?.ce || 'CE Certificate'} />
+                <span>{content.footer.certificates?.ce || 'CE Marking'}</span>
               </div>
             </div>
             
@@ -104,8 +104,7 @@ const Footer = ({ content }) => {
                 <img src="/images/logo-mtc.png" alt="Nissal" />
               </div>
               <p className="company-description">
-                Vrhunski aluminijumski sistemi za modernu gradnju. 
-                Kvalitet, inovacija i pouzdanost od 2008. godine.
+                {content.footer.company?.description || 'Vrhunski aluminijumski sistemi za modernu gradnju. Kvalitet, inovacija i pouzdanost od 2008. godine.'}
               </p>
             </div>
           </div>
@@ -114,12 +113,12 @@ const Footer = ({ content }) => {
         <div className="footer-bottom">
           <div className="footer-bottom-content">
             <p className="copyright">
-              &copy; 2024 Nissal d.o.o. Sva prava zadržana.
+              {content.footer.copyright || '© 2024 Nissal d.o.o. Sva prava zadržana.'}
             </p>
             <div className="footer-bottom-links">
-              <a href="#privacy">Politika privatnosti</a>
-              <a href="#terms">Uslovi korišćenja</a>
-              <a href="#cookies">Cookies</a>
+              <a href="#privacy">{content.footer.legal?.privacy || 'Politika privatnosti'}</a>
+              <a href="#terms">{content.footer.legal?.terms || 'Uslovi korišćenja'}</a>
+              <a href="#cookies">{content.footer.legal?.cookies || 'Cookies'}</a>
             </div>
           </div>
         </div>

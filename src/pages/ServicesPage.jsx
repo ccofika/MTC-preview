@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import './ServicesPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import useLanguage from '../hooks/useLanguage';
 
 const ServicesPage = () => {
-  const [language, setLanguage] = useState('SR');
-
-  const toggleLanguage = () => {
-    setLanguage(language === 'SR' ? 'EN' : 'SR');
-  };
+  const { language, changeLanguage } = useLanguage();
 
   const content = {
     SR: {
@@ -105,9 +102,14 @@ const ServicesPage = () => {
             description: 'Na sve izvršene radove montaže i instalacije'
           },
           {
-            title: 'Servisna podrška',
-            value: 'Doživotna',
-            description: 'Kontinuirana tehnička podrška i održavanje'
+            title: 'Servis delova',  
+            value: '15+ godina',
+            description: 'Dugoročna dostupnost rezervnih delova'
+          },
+          {
+            title: 'Tehnička podrška',
+            value: '24/7',
+            description: 'Uvek dostupna tehnička podrška'
           }
         ]
       },
@@ -226,14 +228,19 @@ const ServicesPage = () => {
             description: 'Depending on system type and usage conditions'
           },
           {
-            title: 'Work Warranty',
+            title: 'Installation Warranty',
             value: '2 years',
-            description: 'On all performed assembly and installation work'
+            description: 'Complete warranty on work quality'
           },
           {
-            title: 'Service Support',
-            value: 'Lifetime',
-            description: 'Continuous technical support and maintenance'
+            title: 'Parts Service',  
+            value: '15+ years',
+            description: 'Long-term availability of spare parts'
+          },
+          {
+            title: 'Technical Support',
+            value: '24/7',
+            description: 'Always available technical support'
           }
         ]
       },
@@ -262,6 +269,143 @@ const ServicesPage = () => {
           title: 'Certificates and Partners'
         }
       }
+    },
+    DE: {
+      nav: {
+        home: 'Startseite',
+        products: 'Produkte',
+        services: 'Dienstleistungen',
+        projects: 'Projekte',
+        about: 'Über uns',
+        ecology: 'Ökologie',
+        contact: 'Kontakt'
+      },
+      hero: {
+        title: 'Kompletter Service von der Idee bis zur Realisierung',
+        subtitle: 'Wir bieten umfassende Unterstützung in allen Phasen Ihres Projekts'
+      },
+      services: {
+        title: 'Unsere Dienstleistungen',
+        items: [
+          {
+            id: 1,
+            title: 'Beratung und Projektierung',
+            description: 'Fachberatung, technische Analyse und Projekterstellung nach Ihren Bedürfnissen',
+            process: ['Analyse', 'Vorschlag', 'Projekt'],
+            buttonText: 'Beratung vereinbaren',
+            icon: 'design'
+          },
+          {
+            id: 2,
+            title: 'Maßanfertigung',
+            description: 'Individuelle Lösungen angepasst an spezifische Projektanforderungen',
+            process: ['Spezifikation', 'Fertigung', 'Kontrolle'],
+            buttonText: 'Angebot anfordern',
+            icon: 'production'
+          },
+          {
+            id: 3,
+            title: 'Einbau und Montage',
+            description: 'Professionelle Montage durch zertifizierte Techniker mit langjähriger Erfahrung',
+            process: ['Vorbereitung', 'Montage', 'Prüfung'],
+            buttonText: 'Mehr erfahren',
+            icon: 'installation'
+          },
+          {
+            id: 4,
+            title: 'Service und Wartung',
+            description: 'Regelmäßige Wartung, Reparaturen und Ersatzteilservice für langlebige Systeme',
+            process: ['Überprüfung', 'Diagnose', 'Lösung'],
+            buttonText: 'Service anrufen',
+            icon: 'service'
+          },
+          {
+            id: 5,
+            title: 'Schulung und Support',
+            description: 'Schulungen für ordnungsgemäße Bedienung und Wartung von Aluminiumsystemen',
+            process: ['Analyse', 'Schulung', 'Zertifikat'],
+            buttonText: 'Schulung buchen',
+            icon: 'education'
+          },
+          {
+            id: 6,
+            title: 'Technischer Support',
+            description: '24/7 technischer Support für alle unsere Produkte und Problemlösungen',
+            process: ['Kontakt', 'Diagnose', 'Lösung'],
+            buttonText: 'Kontaktieren',
+            icon: 'support'
+          }
+        ]
+      },
+      workflow: {
+        title: 'Arbeitsprozess',
+        subtitle: 'Wie unsere Zusammenarbeit funktioniert',
+        steps: [
+          { number: 1, title: 'Beratung', description: 'Gespräch über Bedürfnisse und Anforderungen' },
+          { number: 2, title: 'Vermessung', description: 'Präzise Vermessung des Objekts' },
+          { number: 3, title: 'Angebot', description: 'Detailliertes Angebot mit Spezifikationen' },
+          { number: 4, title: 'Fertigung', description: 'Herstellung der Produkte nach Projektvorgaben' },
+          { number: 5, title: 'Einbau', description: 'Professionelle Montage' },
+          { number: 6, title: 'Service', description: 'Kontinuierliche Unterstützung' }
+        ]
+      },
+      guarantees: {
+        title: 'Unsere Garantien',
+        subtitle: 'Zuverlässigkeit, die Sie erwarten können',
+        items: [
+          {
+            title: 'Produktgarantie',
+            value: '5-10 Jahre',
+            description: 'Je nach Systemtyp und Nutzungsbedingungen'
+          },
+          {
+            title: 'Montagegarantie',
+            value: '2 Jahre',
+            description: 'Vollständige Garantie auf Arbeitsqualität'
+          },
+          {
+            title: 'Ersatzteilservice',  
+            value: '15+ Jahre',
+            description: 'Langfristige Verfügbarkeit von Ersatzteilen'
+          },
+          {
+            title: 'Technischer Support',
+            value: '24/7',
+            description: 'Jederzeit verfügbare technische Unterstützung'
+          }
+        ]
+      },
+      cta: {
+        title: 'Bereit für Ihr nächstes Projekt?',
+        subtitle: 'Kontaktieren Sie uns für ein kostenloses Beratungsgespräch',
+        primaryButton: 'Beratung vereinbaren',
+        secondaryButton: 'Angebot anfordern'
+      },
+      footer: {
+        contact: {
+          title: 'Kontaktinformationen',
+          address: 'Industriezone bb, 11000 Belgrad',
+          phone: '+381 11 123 4567',
+          email: 'info@nissal.rs',
+          workingHours: 'Mo-Fr: 08:00-16:00'
+        },
+        quickLinks: {
+          title: 'Schnelllinks',
+          products: 'Produkte',
+          services: 'Dienstleistungen',
+          projects: 'Projekte',
+          contact: 'Kontakt'
+        },
+        social: {
+          title: 'Folgen Sie uns',
+          facebook: 'Facebook',
+          instagram: 'Instagram',
+          linkedin: 'LinkedIn'
+        },
+        certificates: {
+          title: 'Zertifikate und Partner'
+        }
+      }
     }
   };
 
@@ -272,7 +416,7 @@ const ServicesPage = () => {
       {/* Header Section */}
       <Header 
         language={language} 
-        onLanguageToggle={toggleLanguage} 
+        onLanguageChange={changeLanguage} 
         content={currentContent} 
       />
 

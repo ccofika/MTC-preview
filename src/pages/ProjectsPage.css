@@ -49,8 +49,8 @@
   color: #706f6f;
 }
 
-/* Container */
-.container {
+/* Container - Scoped to projects page only to avoid conflicts with header */
+.projects-page .container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 1.5rem;
@@ -561,7 +561,7 @@
 }
 
 @media (max-width: 480px) {
-  .container {
+  .projects-page .container {
     padding: 0 1rem;
   }
   

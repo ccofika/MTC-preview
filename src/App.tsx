@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { HelmetProvider } from 'react-helmet-async';
@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 
 import theme from './styles/theme';
 import { SiteSettingsProvider } from './context/SiteSettingsContext';
+import { IntroLoader } from './components/IntroLoader.tsx';
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -26,9 +27,28 @@ import './styles/App.css';
 const queryClient = new QueryClient();
 
 const AppContent = () => {
+  const [showIntro, setShowIntro] = useState(true);
+
+  useEffect(() => {
+    // Check if user has seen the intro in this session
+    const hasSeenIntro = sessionStorage.getItem('hasSeenIntro');
+    
+    // Show intro on first visit or refresh (when sessionStorage is empty)
+    if (hasSeenIntro) {
+      setShowIntro(false);
+    }
+  }, []);
+
+  const handleIntroComplete = () => {
+    // Mark that user has seen the intro for this session
+    sessionStorage.setItem('hasSeenIntro', 'true');
+    setShowIntro(false);
+  };
+
   return (
     <Router>
       <div className="App">
+        <IntroLoader show={showIntro} onComplete={handleIntroComplete} />
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomePage />} />

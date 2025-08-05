@@ -3,9 +3,10 @@ import './ContactPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { contactService } from '../services/contactService';
+import useLanguage from '../hooks/useLanguage';
 
 const ContactPage = () => {
-  const [language, setLanguage] = useState('SR');
+  const { language, changeLanguage } = useLanguage();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -24,9 +25,6 @@ const ContactPage = () => {
   const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', null
   const [submitMessage, setSubmitMessage] = useState('');
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'SR' ? 'EN' : 'SR');
-  };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked, files } = e.target;
@@ -46,7 +44,8 @@ const ContactPage = () => {
       setSubmitStatus('error');
       setSubmitMessage(language === 'SR' ? 
         'Molimo popunite sva obavezna polja i potvrdite saglasnost.' : 
-        'Please fill in all required fields and confirm consent.');
+        language === 'EN' ? 'Please fill in all required fields and confirm consent.' :
+        'Bitte füllen Sie alle erforderlichen Felder aus und bestätigen Sie die Zustimmung.');
       return;
     }
 
@@ -74,7 +73,8 @@ const ContactPage = () => {
         setSubmitStatus('success');
         setSubmitMessage(language === 'SR' ? 
           'Hvala vam! Vaša poruka je uspešno poslata. Odgovoriće vam u najkraćem roku.' : 
-          'Thank you! Your message has been sent successfully. We will respond as soon as possible.');
+          language === 'EN' ? 'Thank you! Your message has been sent successfully. We will respond as soon as possible.' :
+          'Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet. Wir werden so schnell wie möglich antworten.');
         
         // Reset form
         setFormData({
@@ -98,8 +98,9 @@ const ContactPage = () => {
       console.error('Form submission error:', error);
       setSubmitStatus('error');
       setSubmitMessage(language === 'SR' ? 
-        'Dogodila se greška prilikom slanja poruke. Molimo pokušajte ponovo.' : 
-        'An error occurred while sending the message. Please try again.');
+        'Došlo je do greške pri slanju poruke. Molimo pokušajte ponovo.' : 
+        language === 'EN' ? 'An error occurred while sending the message. Please try again.' :
+        'Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.');
     } finally {
       setIsSubmitting(false);
     }
@@ -363,6 +364,133 @@ const ContactPage = () => {
           title: 'Certificates and Partners'
         }
       }
+    },
+    DE: {
+      nav: {
+        home: 'Startseite',
+        products: 'Produkte',
+        services: 'Dienstleistungen',
+        projects: 'Projekte',
+        about: 'Über uns',
+        ecology: 'Ökologie',
+        contact: 'Kontakt'
+      },
+      hero: {
+        title: 'Kontaktieren Sie uns',
+        subtitle: 'Wir sind bereit, Ihnen bei Ihrem nächsten Aluminiumsystem-Projekt zu helfen'
+      },
+      contactInfo: {
+        title: 'Kontaktinformationen',
+        address: {
+          title: 'Adresse',
+          street: 'Industriezone bb',
+          city: '11000 Belgrad',
+          country: 'Serbien'
+        },
+        phone: {
+          title: 'Telefon/E-Mail',
+          main: '+381 11 123 4567',
+          sales: '+381 11 123 4568',
+          service: '+381 11 123 4569',
+          email: 'info@nissal.rs'
+        },
+        workingHours: {
+          title: 'Arbeitszeiten',
+          weekdays: 'Montag-Freitag: 08:00-16:00',
+          saturday: 'Samstag: 08:00-12:00',
+          sunday: 'Sonntag: Geschlossen'
+        }
+      },
+      form: {
+        title: 'Senden Sie uns eine Nachricht',
+        subtitle: 'Füllen Sie das Formular aus und wir werden uns in Kürze bei Ihnen melden',
+        fields: {
+          firstName: 'Vorname',
+          lastName: 'Nachname',
+          email: 'E-Mail-Adresse',
+          phone: 'Telefonnummer',
+          company: 'Unternehmen (optional)',
+          position: 'Position (optional)',
+          inquiryType: 'Art der Anfrage',
+          subject: 'Betreff',
+          message: 'Nachricht',
+          attachment: 'Datei anhängen (optional)',
+          consent: 'Ich stimme der Verarbeitung meiner persönlichen Daten zu'
+        },
+        inquiryTypes: {
+          general: 'Allgemeine Anfrage',
+          quote: 'Angebotanfrage',
+          service: 'Technische Unterstützung',
+          complaint: 'Beschwerde'
+        },
+        submit: 'Nachricht senden'
+      },
+      map: {
+        title: 'Finden Sie uns',
+        navigation: 'Wegbeschreibung anzeigen'
+      },
+      faq: {
+        title: 'Häufig gestellte Fragen',
+        items: [
+          {
+            question: 'Wie lange dauert die Bearbeitung einer Anfrage?',
+            answer: 'Wir antworten in der Regel innerhalb von 24 Stunden auf alle Anfragen. Bei komplexeren technischen Fragen kann es bis zu 48 Stunden dauern.'
+          },
+          {
+            question: 'Bieten Sie kostenlose Beratung an?',
+            answer: 'Ja, wir bieten kostenlose Erstberatung für alle Projekte an. Unsere Experten können Ihnen bei der Auswahl der richtigen Aluminiumsysteme helfen.'
+          },
+          {
+            question: 'Welche Zahlungsmethoden akzeptieren Sie?',
+            answer: 'Wir akzeptieren Banküberweisungen, Kreditkarten und können auch individuelle Zahlungspläne für größere Projekte arrangieren.'
+          },
+          {
+            question: 'Liefern Sie auch außerhalb Serbiens?',
+            answer: 'Ja, wir liefern in die gesamte Region des Balkans und darüber hinaus. Kontaktieren Sie uns für spezifische Informationen zu Ihrem Standort.'
+          },
+          {
+            question: 'Wie erhalte ich ein Angebot?',
+            answer: 'Sie können ein Angebot anfordern, indem Sie unser Kontaktformular ausfüllen oder uns direkt anrufen. Wir benötigen einige Details zu Ihrem Projekt, um ein genaues Angebot zu erstellen.'
+          },
+          {
+            question: 'Welche Garantie bieten Sie auf Ihre Produkte?',
+            answer: 'Wir bieten eine 5-10-jährige Garantie auf Produkte, je nach Systemtyp. Die Arbeitsgarantie beträgt 2 Jahre.'
+          },
+          {
+            question: 'Bieten Sie auch Installation an?',
+            answer: 'Ja, wir haben ein Team zertifizierter Techniker, die eine professionelle Installation aller unserer Produkte durchführen.'
+          },
+          {
+            question: 'Haben Sie einen Ausstellungsraum?',
+            answer: 'Ja, wir haben einen Ausstellungsraum an unserem Standort, wo Sie Muster aller unserer Produkte und Systeme sehen können.'
+          }
+        ]
+      },
+      footer: {
+        contact: {
+          title: 'Kontaktinformationen',
+          address: 'Industriezone bb, 11000 Belgrad',
+          phone: '+381 11 123 4567',
+          email: 'info@nissal.rs',
+          workingHours: 'Mo-Fr: 08:00-16:00'
+        },
+        quickLinks: {
+          title: 'Schnelllinks',
+          products: 'Produkte',
+          services: 'Dienstleistungen',
+          projects: 'Projekte',
+          contact: 'Kontakt'
+        },
+        social: {
+          title: 'Folgen Sie uns',
+          facebook: 'Facebook',
+          instagram: 'Instagram',
+          linkedin: 'LinkedIn'
+        },
+        certificates: {
+          title: 'Zertifikate und Partner'
+        }
+      }
     }
   };
 
@@ -373,7 +501,7 @@ const ContactPage = () => {
       {/* Header Section */}
       <Header 
         language={language} 
-        onLanguageToggle={toggleLanguage} 
+        onLanguageChange={changeLanguage} 
         content={currentContent} 
       />
 
@@ -641,7 +769,7 @@ const ContactPage = () => {
                             />
                           </circle>
                         </svg>
-                        {language === 'SR' ? 'Šalje se...' : 'Sending...'}
+                        {language === 'SR' ? 'Šalje se...' : language === 'EN' ? 'Sending...' : 'Wird gesendet...'}
                       </span>
                     ) : (
                       currentContent.form.submit

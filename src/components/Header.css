@@ -76,12 +76,12 @@
   box-sizing: border-box;
 }
 
-/* Container */
+/* Container - High specificity to prevent page CSS conflicts */
 .site-header .container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-4);
+  width: 100% !important;
+  max-width: 1400px !important; /* Increased from 1200px to give more space */
+  margin: 0 auto !important;
+  padding: 0 var(--spacing-4) !important;
 }
 
 /* Header Content Layout */
@@ -91,6 +91,15 @@
   justify-content: space-between;
   padding: var(--spacing-4) 0;
   min-height: 80px;
+  gap: var(--spacing-4); /* Add gap between sections */
+}
+
+/* Desktop Navigation Container */
+.site-header .main-navigation {
+  flex: 1; /* Take available space */
+  display: flex;
+  justify-content: center; /* Center the navigation */
+  max-width: none; /* Remove max-width constraints */
 }
 
 /* Logo Styles */
@@ -123,7 +132,9 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: var(--spacing-8);
+  gap: var(--spacing-6); /* Reduced from spacing-8 to spacing-6 for tighter spacing */
+  flex-wrap: nowrap; /* Prevent wrapping */
+  white-space: nowrap; /* Prevent text wrapping within navigation items */
 }
 
 .site-header .desktop-nav li {
@@ -134,13 +145,14 @@
   text-decoration: none;
   color: var(--color-gray-700);
   font-weight: 500;
-  font-size: var(--font-size-base);
-  padding: var(--spacing-2) var(--spacing-3);
+  font-size: 0.95rem; /* Slightly smaller font to save space */
+  padding: var(--spacing-2) var(--spacing-2); /* Reduced horizontal padding */
   border-radius: var(--radius-md);
   transition: all var(--transition-fast);
   position: relative;
   display: block;
   cursor: pointer;
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
 /* Desktop Navigation Hover & Active States */
@@ -172,7 +184,8 @@
 .site-header .desktop-actions {
   display: flex;
   align-items: center;
-  gap: var(--spacing-6);
+  gap: var(--spacing-8); /* Increased gap to push contact info further right */
+  margin-left: auto; /* Push to the right side */
 }
 
 /* Language Switcher */
@@ -189,9 +202,27 @@
   color: var(--color-gray-700);
   cursor: pointer;
   transition: all var(--transition-fast);
-  font-size: var(--font-size-base);
-  min-width: 50px;
+  font-size: 0.9rem; /* Slightly smaller to fit flag + text */
+  min-width: 70px; /* Increased to accommodate flag + DE */
   font-family: var(--font-family-primary);
+}
+
+.site-header .language-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.site-header .language-btn .dropdown-arrow {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--transition-fast);
+}
+
+.site-header .language-btn.active .dropdown-arrow {
+  transform: rotate(180deg);
 }
 
 .site-header .language-btn:hover {
@@ -201,13 +232,108 @@
   box-shadow: 0 2px 8px rgba(255, 107, 53, 0.2);
 }
 
+/* Language Dropdown */
+.site-header .language-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  min-width: 180px;
+  overflow: hidden;
+  animation: dropdownFadeIn 0.2s ease-out;
+}
+
+.site-header .language-dropdown.mobile-dropdown {
+  right: auto;
+  left: 0;
+  min-width: 160px;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.site-header .language-option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  width: 100%;
+  padding: var(--spacing-3) var(--spacing-4);
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.site-header .language-option:last-child {
+  border-bottom: none;
+}
+
+.site-header .language-option:hover {
+  background-color: var(--color-gray-50);
+  color: var(--primary-color);
+}
+
+.site-header .language-option.active {
+  background-color: rgba(255, 107, 53, 0.1);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.site-header .language-option .flag {
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+.site-header .language-option .name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.site-header .language-option .code {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-gray-600);
+  background: var(--color-gray-100);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.site-header .language-option.active .code {
+  background: var(--primary-color);
+  color: var(--color-white);
+}
+
+/* Mobile language dropdown adjustments */
+.site-header .mobile-language-switcher .language-option .code {
+  display: none;
+}
+
 /* Contact Info */
 .site-header .contact-info {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-1);
-  font-size: var(--font-size-sm);
+  font-size: 0.8rem; /* Slightly smaller font to save space */
   color: var(--color-gray-600);
+  margin-left: var(--spacing-4); /* Add left margin to separate from language switcher */
+  flex-shrink: 0; /* Prevent shrinking */
+  min-width: 140px; /* Ensure minimum width for contact info */
 }
 
 .site-header .contact-info .phone,
@@ -500,30 +626,79 @@
 
 /* Responsive Breakpoints */
 
-/* Large Desktop (1200px+) */
-@media (min-width: 1200px) {
-  .site-header .container {
-    padding: 0 var(--spacing-6);
-  }
-  
+/* Critical breakpoint for German long words */
+@media (max-width: 1350px) and (min-width: 1200px) {
   .site-header .desktop-nav ul {
-    gap: var(--spacing-10);
-  }
-}
-
-/* Desktop/Tablet (769px - 1199px) */
-@media (max-width: 1199px) and (min-width: 769px) {
-  .site-header .desktop-nav ul {
-    gap: var(--spacing-6);
+    gap: var(--spacing-3); /* Very tight spacing for German */
   }
   
   .site-header .desktop-nav a {
-    font-size: var(--font-size-sm);
-    padding: var(--spacing-2);
+    font-size: 0.88rem; /* Optimized for German text */
+    padding: var(--spacing-1) var(--spacing-2);
   }
   
   .site-header .contact-info {
     font-size: 0.75rem;
+    min-width: 115px;
+  }
+  
+  .site-header .desktop-actions {
+    gap: var(--spacing-5);
+  }
+}
+
+/* Specific breakpoint for navigation wrapping issues */
+@media (max-width: 1199px) and (min-width: 1000px) {
+  .site-header .desktop-nav ul {
+    gap: var(--spacing-4); /* Very tight spacing */
+  }
+  
+  .site-header .desktop-nav a {
+    font-size: 0.85rem; /* Smaller font */
+    padding: var(--spacing-1); /* Minimal padding */
+  }
+  
+  .site-header .contact-info {
+    font-size: 0.7rem;
+    min-width: 110px;
+  }
+}
+
+/* Large screens - extra room for German text */
+@media (min-width: 1400px) {
+  .site-header .container {
+    max-width: 1600px;
+    padding: 0 var(--spacing-6);
+  }
+  
+  .site-header .desktop-nav ul {
+    gap: var(--spacing-8); /* More space on large screens */
+  }
+  
+  .site-header .desktop-nav a {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+}
+
+/* Desktop/Tablet (769px - 1399px) */
+@media (max-width: 1399px) and (min-width: 769px) {
+  .site-header .desktop-nav ul {
+    gap: var(--spacing-5); /* Even tighter spacing for medium screens */
+  }
+  
+  .site-header .desktop-nav a {
+    font-size: 0.9rem; /* Smaller font on medium screens */
+    padding: var(--spacing-1) var(--spacing-2); /* Reduced padding */
+  }
+  
+  .site-header .contact-info {
+    font-size: 0.75rem;
+    min-width: 120px;
+  }
+  
+  .site-header .desktop-actions {
+    gap: var(--spacing-6);
   }
 }
 

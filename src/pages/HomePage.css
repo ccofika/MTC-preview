@@ -82,8 +82,21 @@
   box-sizing: border-box;
 }
 
-/* Container */
-.home-page .container {
+/* Container - IMPORTANT: Don't use .container for page content as it conflicts with header */
+/* Use .page-container instead for page content to avoid header conflicts */
+.home-page .page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-4);
+}
+
+/* Keep .container only for backwards compatibility with existing content */
+.home-page .hero .container,
+.home-page .values .container,
+.home-page .products-overview .container,
+.home-page .stats .container,
+.home-page .recent-projects .container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -787,7 +800,12 @@
 }
 
 @media (max-width: 480px) {
-  .home-page .container {
+  .home-page .hero .container,
+  .home-page .values .container,
+  .home-page .products-overview .container,
+  .home-page .stats .container,
+  .home-page .recent-projects .container,
+  .home-page .page-container {
     padding: 0 var(--spacing-3);
   }
   

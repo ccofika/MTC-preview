@@ -2,10 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
 
-const Header = ({ language, onLanguageToggle, content }) => {
+const Header = ({ language, onLanguageChange, content }) => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+
+  // Language options
+  const languageOptions = [
+    { code: 'SR', name: 'Srpski', flag: '🇷🇸' },
+    { code: 'EN', name: 'English', flag: '🇺🇸' },
+    { code: 'DE', name: 'Deutsch', flag: '🇩🇪' }
+  ];
+
+  // Handle language selection
+  const handleLanguageSelect = (languageCode) => {
+    onLanguageChange(languageCode);
+    setIsLanguageDropdownOpen(false);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isLanguageDropdownOpen && !event.target.closest('.language-switcher')) {
+        setIsLanguageDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isLanguageDropdownOpen]);
 
   // Handle scroll events for header styling
   useEffect(() => {
@@ -57,8 +83,8 @@ const Header = ({ language, onLanguageToggle, content }) => {
               <li><Link to="/products" className={location.pathname === '/products' ? 'active' : ''}>{content.nav.products}</Link></li>
               <li><Link to="/services" className={location.pathname === '/services' ? 'active' : ''}>{content.nav.services}</Link></li>
               <li><Link to="/projekti" className={location.pathname === '/projekti' ? 'active' : ''}>{content.nav.projects}</Link></li>
-              <li><Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>{content.nav.about}</Link></li>
               <li><Link to="/ecology" className={location.pathname === '/ecology' ? 'active' : ''}>{content.nav.ecology}</Link></li>
+              <li><Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>{content.nav.about}</Link></li>
               <li><Link to="/contact" className={location.pathname === '/contact' ? 'active' : ''}>{content.nav.contact}</Link></li>
             </ul>
           </nav>
@@ -66,9 +92,31 @@ const Header = ({ language, onLanguageToggle, content }) => {
           {/* Desktop Header Actions */}
           <div className="header-actions desktop-actions">
             <div className="language-switcher">
-              <button onClick={onLanguageToggle} className="language-btn">
-                {language}
+              <button 
+                onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+                className={`language-btn ${isLanguageDropdownOpen ? 'active' : ''}`}
+                aria-expanded={isLanguageDropdownOpen}
+              >
+                {languageOptions.find(lang => lang.code === language)?.flag} {language}
+                <svg className="dropdown-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </button>
+              {isLanguageDropdownOpen && (
+                <div className="language-dropdown">
+                  {languageOptions.map(option => (
+                    <button
+                      key={option.code}
+                      onClick={() => handleLanguageSelect(option.code)}
+                      className={`language-option ${language === option.code ? 'active' : ''}`}
+                    >
+                      <span className="flag">{option.flag}</span>
+                      <span className="name">{option.name}</span>
+                      <span className="code">{option.code}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="contact-info">
               <span className="phone">+381 11 123 4567</span>
@@ -78,9 +126,29 @@ const Header = ({ language, onLanguageToggle, content }) => {
 
           {/* Mobile Actions */}
           <div className="mobile-actions">
-            <button onClick={onLanguageToggle} className="language-btn mobile-lang-btn">
-              {language}
-            </button>
+            <div className="language-switcher mobile-language-switcher">
+              <button 
+                onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+                className={`language-btn mobile-lang-btn ${isLanguageDropdownOpen ? 'active' : ''}`}
+                aria-expanded={isLanguageDropdownOpen}
+              >
+                {languageOptions.find(lang => lang.code === language)?.flag} {language}
+              </button>
+              {isLanguageDropdownOpen && (
+                <div className="language-dropdown mobile-dropdown">
+                  {languageOptions.map(option => (
+                    <button
+                      key={option.code}
+                      onClick={() => handleLanguageSelect(option.code)}
+                      className={`language-option ${language === option.code ? 'active' : ''}`}
+                    >
+                      <span className="flag">{option.flag}</span>
+                      <span className="name">{option.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
             
             {/* Hamburger Menu Button */}
             <button 
@@ -150,20 +218,20 @@ const Header = ({ language, onLanguageToggle, content }) => {
             </li>
             <li>
               <Link 
-                to="/about" 
-                className={location.pathname === '/about' ? 'active' : ''}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {content.nav.about}
-              </Link>
-            </li>
-            <li>
-              <Link 
                 to="/ecology" 
                 className={location.pathname === '/ecology' ? 'active' : ''}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {content.nav.ecology}
+              </Link>
+            </li>
+            <li>
+              <Link 
+                to="/about" 
+                className={location.pathname === '/about' ? 'active' : ''}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {content.nav.about}
               </Link>
             </li>
             <li>

@@ -3,11 +3,12 @@ import { useParams, Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { projectService } from '../services/projectService';
+import useLanguage from '../hooks/useLanguage';
 import './ProjectDetailPage.css';
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
-  const [language, setLanguage] = useState('SR');
+  const { language, changeLanguage } = useLanguage();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -78,9 +79,6 @@ const ProjectDetailPage = () => {
     );
   };
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'SR' ? 'EN' : 'SR');
-  };
 
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowLeft') {
@@ -169,6 +167,42 @@ const ProjectDetailPage = () => {
           title: 'Certificates & Partners'
         }
       }
+    },
+    DE: {
+      nav: {
+        home: 'Startseite',
+        products: 'Produkte',
+        services: 'Dienstleistungen',
+        projects: 'Projekte',
+        about: 'Über uns',
+        ecology: 'Ökologie',
+        contact: 'Kontakt'
+      },
+      footer: {
+        contact: {
+          title: 'Kontaktinformationen',
+          address: 'Industriezone bb, 11000 Belgrad',
+          phone: '+381 11 123 4567',
+          email: 'info@nissal.rs',
+          workingHours: 'Mo-Fr: 08:00-16:00'
+        },
+        quickLinks: {
+          title: 'Schnelllinks',
+          products: 'Produkte',
+          services: 'Dienstleistungen',
+          projects: 'Projekte',
+          contact: 'Kontakt'
+        },
+        social: {
+          title: 'Folgen Sie uns',
+          facebook: 'Facebook',
+          instagram: 'Instagram',
+          linkedin: 'LinkedIn'
+        },
+        certificates: {
+          title: 'Zertifikate & Partner'
+        }
+      }
     }
   };
 
@@ -179,7 +213,7 @@ const ProjectDetailPage = () => {
       <div className="project-detail-page">
         <Header 
           language={language} 
-          onLanguageToggle={toggleLanguage} 
+          onLanguageChange={changeLanguage} 
           content={currentContent} 
         />
         <div className="container">
@@ -198,7 +232,7 @@ const ProjectDetailPage = () => {
       <div className="project-detail-page">
         <Header 
           language={language} 
-          onLanguageToggle={toggleLanguage} 
+          onLanguageChange={changeLanguage} 
           content={currentContent} 
         />
         <div className="container">
@@ -229,7 +263,7 @@ const ProjectDetailPage = () => {
     <div className="project-detail-page">
       <Header 
         language={language} 
-        onLanguageToggle={toggleLanguage} 
+        onLanguageChange={changeLanguage} 
         content={currentContent} 
       />
       

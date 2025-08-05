@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import './AboutPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import useLanguage from '../hooks/useLanguage';
 
 const AboutPage = () => {
-  const [language, setLanguage] = useState('SR');
-
-  const toggleLanguage = () => {
-    setLanguage(language === 'SR' ? 'EN' : 'SR');
-  };
+  const { language, changeLanguage } = useLanguage();
 
   const content = {
     SR: {
@@ -474,6 +471,219 @@ const AboutPage = () => {
           title: 'Certificates and Partners'
         }
       }
+    },
+    DE: {
+      nav: {
+        home: 'Startseite',
+        products: 'Produkte',
+        services: 'Dienstleistungen',
+        projects: 'Projekte',
+        about: 'Über uns',
+        ecology: 'Ökologie',
+        contact: 'Kontakt'
+      },
+      hero: {
+        title: 'Über die Firma Nissal',
+        subtitle: 'Ihr zuverlässiger Partner für Aluminiumsysteme'
+      },
+      timeline: {
+        title: 'Unsere Geschichte',
+        events: [
+          {
+            year: '2008',
+            title: 'Firmengründung',
+            description: 'Die Firma Nissal wurde mit Fokus auf Aluminiumprofile gegründet.'
+          },
+          {
+            year: '2012',
+            title: 'Produktionserweiterung',
+            description: 'Anschaffung neuer Maschinen und Erweiterung der Produktionskapazitäten.'
+          },
+          {
+            year: '2015',
+            title: 'ISO-Zertifizierung',
+            description: 'Erhalt des ISO 9001:2015 Qualitätszertifikats.'
+          },
+          {
+            year: '2018',
+            title: 'Regionale Expansion',
+            description: 'Eröffnung von Niederlassungen in der Region und neue Partner.'
+          },
+          {
+            year: '2020',
+            title: 'Digitale Transformation',
+            description: 'Implementierung moderner Technologien und Systeme.'
+          },
+          {
+            year: '2024',
+            title: 'Marktführer',
+            description: 'Wir sind einer der führenden Hersteller in der Region geworden.'
+          }
+        ]
+      },
+      mission: {
+        title: 'Mission, Vision, Werte',
+        mission: {
+          title: 'Mission',
+          description: 'Wir produzieren hochwertige Aluminiumsysteme, die den Anforderungen des modernen Bauwesens entsprechen und bieten innovative Lösungen und kontinuierliche Unterstützung für unsere Kunden.'
+        },
+        vision: {
+          title: 'Vision',
+          description: 'Der führende Hersteller von Aluminiumsystemen in der Region zu sein, anerkannt für Innovation, Qualität und Zuverlässigkeit, und zur nachhaltigen Entwicklung des Bauwesens beizutragen.'
+        },
+        values: {
+          title: 'Werte',
+          description: 'Qualität, Innovation, Ehrlichkeit, Verantwortung gegenüber Kunden und Umwelt, Teamarbeit und kontinuierliche Verbesserung sind die Grundlagen unserer Geschäftsphilosophie.'
+        }
+      },
+      team: {
+        title: 'Unser Team',
+        subtitle: 'Professionelles Team, das das Herz unseres Unternehmens bildet',
+        members: [
+          {
+            name: 'Marko Petrović',
+            position: 'Geschäftsführer',
+            department: 'Management',
+            bio: 'Über 20 Jahre Erfahrung in der Aluminiumindustrie. Führt das Unternehmen zu neuen Höhen.',
+            image: '/images/about/team2.jpg'
+          },
+          {
+            name: 'Ana Jovanović',
+            position: 'Technischer Direktor',
+            department: 'Management',
+            bio: 'Expertin für technische Lösungen mit langjähriger Erfahrung in der Produktentwicklung.',
+            image: '/images/about/team1.jpg'
+          },
+          {
+            name: 'Stefan Nikolić',
+            position: 'Produktionsleiter',
+            department: 'Produktion',
+            bio: 'Verantwortlich für Produktionsqualität und Optimierung der Produktionsprozesse.',
+            image: '/images/about/team3.jpg'
+          },
+          {
+            name: 'Milica Stojanović',
+            position: 'Designleiterin',
+            department: 'Design',
+            bio: 'Kreativer Kopf, der innovative und funktionale Lösungen entwirft.',
+            image: '/images/about/team5.jpg'
+          },
+          {
+            name: 'Nikola Mitrović',
+            position: 'Vertriebsleiter',
+            department: 'Vertrieb',
+            bio: 'Baut langfristige Partnerschaften mit Kunden in der ganzen Region auf.',
+            image: '/images/about/team4.jpg'
+          },
+          {
+            name: 'Jelena Radić',
+            position: 'Serviceleiterin',
+            department: 'Service',
+            bio: 'Sorgt für erstklassigen Support und Service für alle unsere Produkte.',
+            image: '/images/about/team6.jpg'
+          }
+        ]
+      },
+      facility: {
+        title: 'Fabrik und Kapazitäten',
+        location: {
+          title: 'Standort',
+          address: 'Industriezone bb, 11000 Belgrad, Serbien'
+        },
+        specs: [
+          {
+            title: 'Produktionsfläche',
+            value: '5.000 m²',
+            icon: 'building'
+          },
+          {
+            title: 'Lagerfläche',
+            value: '2.000 m²',
+            icon: 'warehouse'
+          },
+          {
+            title: 'Tageskapazität',
+            value: '500 m Profile',
+            icon: 'production'
+          },
+          {
+            title: 'Monatsproduktion',
+            value: '15.000 m',
+            icon: 'monthly'
+          }
+        ]
+      },
+      certifications: {
+        title: 'Zertifikate und Standards',
+        items: [
+          {
+            name: 'ISO 9001:2015',
+            description: 'Qualitätsmanagementsystem',
+            image: '/images/sertifikat1.png'
+          },
+          {
+            name: 'CE Kennzeichnung',
+            description: 'Europäische Konformität',
+            image: '/images/sertifikat2.png'
+          },
+          {
+            name: 'Green Building',
+            description: 'Nachhaltiges Bauen',
+            image: '/images/sertifikat3.png'
+          },
+          {
+            name: 'REACH',
+            description: 'Chemikalienverordnung',
+            image: '/images/sertifikat4.png'
+          }
+        ]
+      },
+      partnerships: {
+        title: 'Partnerschaften',
+        suppliers: {
+          title: 'Hauptlieferanten',
+          companies: [
+            { name: 'Hydro Aluminium', logo: '/images/partner1.png' },
+            { name: 'Schüco', logo: '/images/partner2.png' },
+            { name: 'KÖMMERLING', logo: '/images/partner3.jpg' },
+            { name: 'Technal', logo: '/images/partner4.png' }
+          ]
+        },
+        institutions: {
+          title: 'Mitgliedschaft in Institutionen',
+          organizations: [
+            'Handelskammer Serbien',
+            'Aluminiumhersteller-Verband',
+            'Green Building Council Serbia',
+            'Europäischer Aluminium-Verband'
+          ]
+        }
+      },
+      footer: {
+        contact: {
+          title: 'Kontaktinformationen',
+          address: 'Industriezone bb, 11000 Belgrad',
+          phone: '+381 11 123 4567',
+          email: 'info@nissal.rs',
+          workingHours: 'Mo-Fr: 08:00-16:00'
+        },
+        quickLinks: {
+          title: 'Schnelllinks',
+          products: 'Produkte',
+          services: 'Dienstleistungen',
+          projects: 'Projekte',
+          contact: 'Kontakt'
+        },
+        social: {
+          title: 'Folgen Sie uns',
+          facebook: 'Facebook',
+          instagram: 'Instagram',
+          linkedin: 'LinkedIn'
+        },
+        certificates: {
+          title: 'Zertifikate und Partner'
+        }
+      }
     }
   };
 
@@ -484,7 +694,7 @@ const AboutPage = () => {
       {/* Header Section */}
       <Header 
         language={language} 
-        onLanguageToggle={toggleLanguage} 
+        onLanguageChange={changeLanguage} 
         content={currentContent} 
       />
 

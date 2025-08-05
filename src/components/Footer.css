@@ -97,6 +97,8 @@
 /* Footer Section Base */
 .site-footer .footer-section {
   position: relative;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .site-footer .footer-section h3 {
@@ -161,6 +163,9 @@
   text-decoration: none;
   transition: color var(--transition-fast);
   line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .site-footer .contact-item a:hover {
@@ -192,6 +197,10 @@
   display: inline-block;
   padding: var(--spacing-2) 0;
   position: relative;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
 }
 
 .site-footer .footer-links-list a::before {
@@ -354,6 +363,9 @@
   color: var(--color-gray-400);
   line-height: 1.6;
   margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 /* Footer Bottom */
@@ -387,6 +399,9 @@
   text-decoration: none;
   font-size: var(--font-size-sm);
   transition: color var(--transition-fast);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .site-footer .footer-bottom-links a:hover {
@@ -479,6 +494,16 @@
   .site-footer .footer-bottom-links {
     flex-direction: column;
     gap: var(--spacing-3);
+  }
+  
+  /* Enhanced text handling for longer German words on mobile */
+  .site-footer .footer-section h3 {
+    font-size: var(--font-size-base);
+    line-height: 1.4;
+  }
+  
+  .site-footer .social-link span {
+    font-size: var(--font-size-xs);
   }
 }
 

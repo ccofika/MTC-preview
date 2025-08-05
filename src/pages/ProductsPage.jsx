@@ -4,9 +4,10 @@ import './ProductsPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { productService } from '../services/productService';
+import useLanguage from '../hooks/useLanguage';
 
 const ProductsPage = () => {
-  const [language, setLanguage] = useState('SR');
+  const { language, changeLanguage } = useLanguage();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,9 +30,6 @@ const ProductsPage = () => {
     sortOrder: 'desc'
   });
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'SR' ? 'EN' : 'SR');
-  };
 
   // Fetch initial data
   useEffect(() => {
@@ -119,13 +117,7 @@ const ProductsPage = () => {
     });
   };
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('sr-RS', {
-      style: 'currency',
-      currency: price.currency || 'RSD',
-      minimumFractionDigits: 0
-    }).format(price.amount);
-  };
+  // Removed formatPrice function - price display is no longer needed
 
   const content = {
     SR: {
@@ -148,9 +140,7 @@ const ProductsPage = () => {
         allCategories: 'Sve kategorije',
         colors: 'Boje',
         sizes: 'Veličine',
-        priceRange: 'Opseg cena',
-        minPrice: 'Min. cena',
-        maxPrice: 'Maks. cena',
+        // Removed price range filters
         inStock: 'Samo na stanju',
         search: 'Pretraži proizvode...',
         clearFilters: 'Obriši filtere',
@@ -158,8 +148,7 @@ const ProductsPage = () => {
         sortOptions: {
           'createdAt-desc': 'Najnoviji',
           'createdAt-asc': 'Najstariji',
-          'price.amount-asc': 'Cena: rastućе',
-          'price.amount-desc': 'Cena: opadajuće',
+          // Removed price sorting options
           'title-asc': 'Naziv: A-Z',
           'title-desc': 'Naziv: Z-A'
         }
@@ -210,6 +199,85 @@ const ProductsPage = () => {
         }
       }
     },
+    DE: {
+      nav: {
+        home: 'Startseite',
+        products: 'Produkte',
+        services: 'Dienstleistungen', 
+        projects: 'Projekte',
+        about: 'Über uns',
+        ecology: 'Ökologie',
+        contact: 'Kontakt'
+      },
+      hero: {
+        title: 'Unsere Aluminiumprodukte',
+        subtitle: 'Hochwertige Lösungen für alle Ihre Bauprojekte'
+      },
+      filters: {
+        title: 'Filter',
+        category: 'Kategorie',
+        allCategories: 'Alle Kategorien',
+        colors: 'Farben',
+        sizes: 'Größen',
+        // Removed price range filters
+        inStock: 'Auf Lager',
+        search: 'Suchen...',
+        clearFilters: 'Filter löschen',
+        sortBy: 'Sortieren nach',
+        sortOptions: {
+          'createdAt-desc': 'Neueste',
+          'createdAt-asc': 'Älteste',
+          // Removed price sorting options
+          'title-asc': 'Name: A-Z',
+          'title-desc': 'Name: Z-A'
+        }
+      },
+      products: {
+        loading: 'Aluminiumsysteme werden geladen...',
+        error: 'Fehler beim Laden der Aluminiumsysteme',
+        noProducts: 'Keine Aluminiumsysteme gefunden',
+        tryDifferentFilters: 'Versuchen Sie andere Filter',
+        viewDetails: 'Spezifikationen ansehen',
+        requestQuote: 'Angebot anfordern',
+        inStock: 'Verfügbar',
+        outOfStock: 'Derzeit nicht verfügbar',
+        pieces: 'm',
+        catalogNumber: 'System Nr.'
+      },
+      pagination: {
+        showing: 'Zeige',
+        of: 'von',
+        products: 'Systeme',
+        page: 'Seite',
+        previous: 'Vorherige',
+        next: 'Nächste'
+      },
+      footer: {
+        contact: {
+          title: 'Kontaktinformationen',
+          address: 'Industriezone bb, 11000 Belgrad',
+          phone: '+381 11 123 4567',
+          email: 'info@nissal.rs',
+          workingHours: 'Mo-Fr: 08:00-16:00'
+        },
+        quickLinks: {
+          title: 'Schnelllinks',
+          products: 'Produkte',
+          services: 'Dienstleistungen',
+          projects: 'Projekte',
+          contact: 'Kontakt'
+        },
+        social: {
+          title: 'Folgen Sie uns',
+          facebook: 'Facebook',
+          instagram: 'Instagram',
+          linkedin: 'LinkedIn'
+        },
+        certificates: {
+          title: 'Zertifikate und Partner'
+        }
+      }
+    },
     EN: {
       nav: {
         home: 'Home',
@@ -230,9 +298,7 @@ const ProductsPage = () => {
         allCategories: 'All Categories',
         colors: 'Colors',
         sizes: 'Sizes',
-        priceRange: 'Price Range',
-        minPrice: 'Min. Price',
-        maxPrice: 'Max. Price',
+        // Removed price range filters
         inStock: 'In Stock Only',
         search: 'Search products...',
         clearFilters: 'Clear Filters',
@@ -240,8 +306,7 @@ const ProductsPage = () => {
         sortOptions: {
           'createdAt-desc': 'Newest',
           'createdAt-asc': 'Oldest',
-          'price.amount-asc': 'Price: Low to High',
-          'price.amount-desc': 'Price: High to Low',
+          // Removed price sorting options
           'title-asc': 'Name: A-Z',
           'title-desc': 'Name: Z-A'
         }
@@ -301,7 +366,7 @@ const ProductsPage = () => {
       {/* Header Section */}
       <Header 
         language={language} 
-        onLanguageToggle={toggleLanguage} 
+        onLanguageChange={changeLanguage} 
         content={currentContent} 
       />
 
@@ -405,26 +470,7 @@ const ProductsPage = () => {
                   </div>
                 )}
 
-                {/* Price Range */}
-                <div className="filter-group">
-                  <label className="filter-label">{currentContent.filters.priceRange}</label>
-                  <div className="price-range-inputs">
-                    <input
-                      type="number"
-                      className="price-input"
-                      placeholder={currentContent.filters.minPrice}
-                      value={filters.minPrice}
-                      onChange={(e) => handleFilterChange('minPrice', e.target.value)}
-                    />
-                    <input
-                      type="number"
-                      className="price-input"
-                      placeholder={currentContent.filters.maxPrice}
-                      value={filters.maxPrice}
-                      onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
-                    />
-                  </div>
-                </div>
+                {/* Price Range removed */}
 
                 {/* In Stock Filter */}
                 <div className="filter-group">
@@ -563,14 +609,10 @@ const ProductsPage = () => {
                           </div>
 
                           <div className="product-footer">
-                            <div className="product-price">
-                              {formatPrice(product.price)}
-                            </div>
-                            
                             <div className="product-stock">
                               {product.availability.inStock ? (
                                 <span className="in-stock">
-                                  {currentContent.products.inStock} ({product.availability.quantity} {currentContent.products.pieces})
+                                  {currentContent.products.inStock}
                                 </span>
                               ) : (
                                 <span className="out-of-stock">

@@ -170,6 +170,88 @@ export const productService = {
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Failed to delete product');
     }
+  },
+
+  // Get all products for admin (including hidden)
+  getAllProductsForAdmin: async (filters = {}, token) => {
+    try {
+      const params = new URLSearchParams();
+      
+      Object.keys(filters).forEach(key => {
+        if (filters[key] !== undefined && filters[key] !== null && filters[key] !== '') {
+          params.append(key, filters[key]);
+        }
+      });
+
+      const response = await productAPI.get(`/admin/all?${params}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to fetch products for admin');
+    }
+  },
+
+  // Hide product (admin)
+  hideProduct: async (productId, token) => {
+    try {
+      const response = await productAPI.patch(`/${productId}/hide`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to hide product');
+    }
+  },
+
+  // Show product (admin)
+  showProduct: async (productId, token) => {
+    try {
+      const response = await productAPI.patch(`/${productId}/show`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to show product');
+    }
+  },
+
+  // Upload catalog PDF (admin)
+  uploadCatalogPdf: async (productId, file, token) => {
+    try {
+      const formData = new FormData();
+      formData.append('catalogPdf', file);
+
+      const response = await productAPI.post(`/${productId}/catalog`, formData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to upload catalog PDF');
+    }
+  },
+
+  // Delete catalog PDF (admin)
+  deleteCatalogPdf: async (productId, token) => {
+    try {
+      const response = await productAPI.delete(`/${productId}/catalog`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to delete catalog PDF');
+    }
   }
 };
 

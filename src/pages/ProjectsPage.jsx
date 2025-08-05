@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { projectService } from '../services/projectService';
+import useLanguage from '../hooks/useLanguage';
 import './ProjectsPage.css';
 
 const ProjectsPage = () => {
-  const [language, setLanguage] = useState('SR');
+  const { language, changeLanguage } = useLanguage();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -85,9 +86,6 @@ const ProjectsPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'SR' ? 'EN' : 'SR');
-  };
 
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -178,6 +176,127 @@ const ProjectsPage = () => {
           title: 'Certificates & Partners'
         }
       }
+    },
+    DE: {
+      nav: {
+        home: 'Startseite',
+        products: 'Produkte',
+        services: 'Dienstleistungen',
+        projects: 'Projekte',
+        about: 'Über uns',
+        ecology: 'Ökologie',
+        contact: 'Kontakt'
+      },
+      hero: {
+        title: 'Unsere realisierten Projekte',
+        subtitle: 'Entdecken Sie eine Auswahl unserer erfolgreich abgeschlossenen Bauprojekte'
+      },
+      filters: {
+        title: 'Filter',
+        category: 'Kategorie',
+        allCategories: 'Alle Kategorien',
+        location: 'Standort',
+        allLocations: 'Alle Standorte',
+        year: 'Jahr',
+        allYears: 'Alle Jahre',
+        search: 'Projekte suchen...',
+        apply: 'Anwenden',
+        clear: 'Löschen'
+      },
+      sorting: {
+        sortBy: 'Sortieren nach',
+        name: 'Name',
+        date: 'Datum',
+        location: 'Standort',
+        category: 'Kategorie',
+        asc: 'Aufsteigend',
+        desc: 'Absteigend'
+      },
+      project: {
+        viewDetails: 'Details ansehen',
+        completed: 'Abgeschlossen',
+        inProgress: 'In Bearbeitung',
+        category: 'Kategorie',
+        location: 'Standort',
+        completionDate: 'Fertigstellungsdatum',
+        duration: 'Projektdauer',
+        client: 'Auftraggeber',
+        size: 'Projektgröße',
+        gallery: 'Bildergalerie',
+        specifications: 'Spezifikationen'
+      },
+      categories: {
+        residential: 'Wohngebäude',
+        commercial: 'Gewerbegebäude',
+        industrial: 'Industriegebäude',
+        institutional: 'Öffentliche Gebäude',
+        renovation: 'Renovierung',
+        facade: 'Fassadensanierung'
+      },
+      pagination: {
+        previous: 'Vorherige',
+        next: 'Nächste',
+        page: 'Seite',
+        of: 'von',
+        showing: 'Zeige',
+        to: 'bis',
+        projects: 'Projekte'
+      },
+      stats: {
+        title: 'Projektstatistiken',
+        totalProjects: 'Gesamtprojekte',
+        completedProjects: 'Abgeschlossene Projekte',
+        activeProjects: 'Aktive Projekte',
+        totalArea: 'Gesamtfläche (m²)'
+      },
+      testimonials: {
+        title: 'Was unsere Kunden sagen',
+        viewMore: 'Mehr Bewertungen'
+      },
+      cta: {
+        title: 'Haben Sie ein Projekt im Sinn?',
+        subtitle: 'Kontaktieren Sie uns für ein kostenloses Beratungsgespräch',
+        primaryButton: 'Projekt starten',
+        secondaryButton: 'Portfolio ansehen'
+      },
+      noResults: {
+        title: 'Keine Projekte gefunden',
+        description: 'Versuchen Sie andere Suchkriterien oder Filter',
+        clearFilters: 'Filter löschen'
+      },
+      error: {
+        title: 'Fehler beim Laden der Projekte',
+        retry: 'Erneut versuchen'
+      },
+      loading: {
+        projects: 'Projekte werden geladen...',
+        filters: 'Filter werden geladen...'
+      },
+      footer: {
+        contact: {
+          title: 'Kontaktinformationen',
+          address: 'Industriezone bb, 11000 Belgrad',
+          phone: '+381 11 123 4567',
+          email: 'info@nissal.rs',
+          workingHours: 'Mo-Fr: 08:00-16:00'
+        },
+        quickLinks: {
+          title: 'Schnelllinks',
+          products: 'Produkte',
+          services: 'Dienstleistungen',
+          projects: 'Projekte',
+          contact: 'Kontakt'
+        },
+        social: {
+          title: 'Folgen Sie uns',
+          facebook: 'Facebook',
+          instagram: 'Instagram',
+          linkedin: 'LinkedIn'
+        },
+        certificates: {
+          title: 'Zertifikate und Partner'
+        }
+      }
     }
   };
 
@@ -188,7 +307,7 @@ const ProjectsPage = () => {
       {/* Header Section */}
       <Header 
         language={language} 
-        onLanguageToggle={toggleLanguage} 
+        onLanguageChange={changeLanguage} 
         content={currentContent} 
       />
 

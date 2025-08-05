@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './EcologyPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import useLanguage from '../hooks/useLanguage';
 
 const EcologyPage = () => {
-  const [language, setLanguage] = useState('SR');
-
-  const toggleLanguage = () => {
-    setLanguage(language === 'SR' ? 'EN' : 'SR');
-  };
+  const { language, changeLanguage } = useLanguage();
 
   const content = {
     SR: {
@@ -482,6 +479,269 @@ const EcologyPage = () => {
           title: 'Certificates and Partners'
         }
       }
+    },
+    DE: {
+      nav: {
+        home: 'Startseite',
+        products: 'Produkte',
+        services: 'Dienstleistungen',
+        projects: 'Projekte',
+        about: 'Über uns',
+        ecology: 'Ökologie',
+        contact: 'Kontakt'
+      },
+      hero: {
+        title: 'Nachhaltige Produktion und Ökologie',
+        subtitle: 'Wir sind dem Umweltschutz durch verantwortungsvolle Herstellung von Aluminiumsystemen verpflichtet'
+      },
+      sustainability: {
+        title: 'Unser Nachhaltigkeitsansatz',
+        subtitle: 'Bei jedem Schritt unserer Produktion achten wir auf die Umweltauswirkungen',
+        pillars: [
+          {
+            title: 'Grüne Energie',
+            description: 'Wir nutzen erneuerbare Energiequellen in unserer Produktion und reduzieren den CO₂-Fußabdruck um 60%.',
+            icon: 'solar',
+            percentage: '85%',
+            label: 'erneuerbare Energie'
+          },
+          {
+            title: 'Materialrecycling',
+            description: 'Aluminium ist zu 100% recycelbar. Unsere Produkte können vollständig ohne Qualitätsverlust recycelt werden.',
+            icon: 'recycle',
+            percentage: '100%',
+            label: 'Recycelbarkeit'
+          },
+          {
+            title: 'Abfallreduzierung',
+            description: 'Wir haben den Produktionsprozess optimiert und den Abfall in den letzten drei Jahren um 45% reduziert.',
+            icon: 'waste',
+            percentage: '45%',
+            label: 'Abfallreduzierung'
+          },
+          {
+            title: 'Energieeffizienz',
+            description: 'Unsere Aluminiumsysteme tragen durch bessere Isolierung zur Energieeffizienz von Gebäuden bei.',
+            icon: 'efficiency',
+            percentage: '30%',
+            label: 'Energieeinsparung'
+          }
+        ]
+      },
+      lifecycle: {
+        title: 'Lebenszyklus von Aluminium',
+        subtitle: 'Aluminium ist eines der nachhaltigsten Materialien im Bauwesen',
+        phases: [
+          {
+            title: 'Produktion',
+            description: 'Verwendung sauberer Energie im Produktionsprozess',
+            duration: '1-2 Monate',
+            impact: 'Niedrige CO₂-Emissionen'
+          },
+          {
+            title: 'Transport',
+            description: 'Optimierte Logistikrouten zur Reduzierung des Transports',
+            duration: '1-7 Tage',
+            impact: 'Minimaler Kraftstoffverbrauch'
+          },
+          {
+            title: 'Installation',
+            description: 'Schnelle und effiziente Installation ohne schädliche Materialien',
+            duration: '1-3 Tage',
+            impact: 'Keine Emissionen während der Installation'
+          },
+          {
+            title: 'Nutzung',
+            description: 'Langlebigkeit von 50+ Jahren mit minimaler Wartung',
+            duration: '50+ Jahre',
+            impact: 'Energieeffizienz des Gebäudes'
+          },
+          {
+            title: 'Recycling',
+            description: 'Vollständiges Recycling ohne Verlust der Materialeigenschaften',
+            duration: 'Unendlich',
+            impact: '95% weniger Energie für Recycling'
+          }
+        ]
+      },
+      certifications: {
+        title: 'Umweltzertifikate',
+        subtitle: 'Wir sind stolz auf unsere internationalen Umweltschutzstandards',
+        items: [
+          {
+            name: 'ISO 14001:2015',
+            description: 'Umweltmanagementsystem',
+            year: '2018',
+            image: '/images/certificates/iso-14001.png'
+          },
+          {
+            name: 'LEED Zertifiziert',
+            description: 'Grünes Bauen und Energieeffizienz',
+            year: '2020',
+            image: '/images/certificates/leed.png'
+          },
+          {
+            name: 'BREEAM Excellent',
+            description: 'Premium-Umweltstandard für Gebäude',
+            year: '2021',
+            image: '/images/certificates/breeam.png'
+          },
+          {
+            name: 'Cradle to Cradle',
+            description: 'Materialkreislauf und nachhaltiges Design',
+            year: '2022',
+            image: '/images/certificates/c2c.png'
+          }
+        ]
+      },
+      initiatives: {
+        title: 'Unsere grünen Initiativen',
+        subtitle: 'Wir beteiligen uns aktiv an Umweltschutzprojekten',
+        projects: [
+          {
+            title: 'Baumpflanzungsprogramm',
+            description: 'Für jedes abgeschlossene Projekt pflanzen wir 10 Bäume in der lokalen Gemeinde.',
+            impact: '2,500 gepflanzte Bäume',
+            status: 'aktivno',
+            image: '/images/ecology/tree-planting.jpg'
+          },
+          {
+            title: 'Solarkraftwerk',
+            description: 'Wir haben ein Solarkraftwerk gebaut, das 70% unserer Energiebedürfnisse deckt.',
+            impact: '1,2 MW installierte Kapazität',
+            status: 'završeno',
+            image: '/images/ecology/solar-plant.jpg'
+          },
+          {
+            title: 'Recyclingprogramm',
+            description: 'Wir bieten kostenlosen Abtransport alter Aluminiumkonstruktionen zum Recycling.',
+            impact: '150 Tonnen recyceltes Aluminium',
+            status: 'aktivno',
+            image: '/images/ecology/recycling.jpg'
+          },
+          {
+            title: 'Mitarbeiterbildung',
+            description: 'Regelmäßige Schulung der Mitarbeiter zu Umweltstandards und ordnungsgemäßem Materialumgang.',
+            impact: '100% der Mitarbeiter geschult',
+            status: 'aktivno',
+            image: '/images/ecology/education.jpg'
+          }
+        ]
+      },
+      benefits: {
+        title: 'Ökologische Vorteile von Aluminium',
+        subtitle: 'Warum Aluminium die beste Wahl für nachhaltiges Bauen ist',
+        advantages: [
+          {
+            title: 'Langlebigkeit',
+            description: 'Aluminiumprofile halten über 50 Jahre ohne Korrosion oder Verschlechterung.',
+            benefit: '50+ Jahre'
+          },
+          {
+            title: 'Recycelbarkeit',
+            description: 'Kann unendlich oft ohne Qualitätsverlust recycelt werden.',
+            benefit: '100% Recycling'
+          },
+          {
+            title: 'Energieeffizienz',
+            description: 'Ausgezeichnete Wärmedämmung reduziert den Bedarf an Heizung und Kühlung.',
+            benefit: '30% Einsparungen'
+          },
+          {
+            title: 'Niedrige Emissionen',
+            description: 'Moderne Produktion nutzt erneuerbare Energien und saubere Technologien.',
+            benefit: '60% weniger CO₂'
+          },
+          {
+            title: 'Wartungsfrei',
+            description: 'Erfordert kein Streichen, Lackieren oder andere chemische Behandlungen.',
+            benefit: 'Null Chemikalien'
+          },
+          {
+            title: 'Leichtgewicht',
+            description: 'Leichtes Material reduziert strukturelle Belastung und Transport.',
+            benefit: '3x leichter als Stahl'
+          }
+        ]
+      },
+      impact: {
+        title: 'Unsere Umweltauswirkungen',
+        subtitle: 'Messbare Ergebnisse unseres Engagements für den Naturschutz',
+        metrics: [
+          {
+            value: '2,500',
+            unit: 'Tonnen CO₂',
+            description: 'Wir haben die Kohlenstoffemissionen im Jahr 2023 reduziert'
+          },
+          {
+            value: '850',
+            unit: 'MWh',
+            description: 'Erzeugt durch Solarpanels in unserer Fabrik'
+          },
+          {
+            value: '15,000',
+            unit: 'm³',
+            description: 'Wassereinsparungen durch Recycling und Reinigung'
+          },
+          {
+            value: '95%',
+            unit: 'Abfall',
+            description: 'erfolgreich recycelt oder wiederverwendet'
+          }
+        ]
+      },
+      future: {
+        title: 'Zukunftspläne',
+        subtitle: 'Unsere Verpflichtung für eine grünere Zukunft',
+        goals: [
+          {
+            title: 'Kohlenstoffneutralität bis 2030',
+            description: 'Vollständige Umstellung auf erneuerbare Energien und Kompensation aller Emissionen',
+            target: '2030'
+          },
+          {
+            title: 'Null Abfall bis 2028',
+            description: 'Implementierung einer Kreislaufwirtschaft ohne Abfall',
+            target: '2028'
+          },
+          {
+            title: 'Grüne Innovation',
+            description: 'Entwicklung neuer umweltfreundlicher Aluminiumlegierungen und Produktionstechniken',
+            target: '2026'  
+          }
+        ]
+      },
+      cta: {
+        title: 'Gemeinsam für eine nachhaltige Zukunft',
+        subtitle: 'Wählen Sie Nissal für umweltverantwortliche Aluminiumlösungen',
+        primaryButton: 'Mehr über Nachhaltigkeit',
+        secondaryButton: 'Kontakt aufnehmen'
+      },
+      footer: {
+        contact: {
+          title: 'Kontaktinformationen',
+          address: 'Industriezone bb, 11000 Belgrad',
+          phone: '+381 11 123 4567',
+          email: 'info@nissal.rs',
+          workingHours: 'Mo-Fr: 08:00-16:00'
+        },
+        quickLinks: {
+          title: 'Schnelllinks',
+          products: 'Produkte',
+          services: 'Dienstleistungen',
+          projects: 'Projekte',
+          contact: 'Kontakt'
+        },
+        social: {
+          title: 'Folgen Sie uns',
+          facebook: 'Facebook',
+          instagram: 'Instagram',
+          linkedin: 'LinkedIn'
+        },
+        certificates: {
+          title: 'Zertifikate und Partner'
+        }
+      }
     }
   };
 
@@ -492,7 +752,7 @@ const EcologyPage = () => {
       {/* Header Section */}
       <Header 
         language={language} 
-        onLanguageToggle={toggleLanguage} 
+        onLanguageChange={changeLanguage} 
         content={currentContent} 
       />
 

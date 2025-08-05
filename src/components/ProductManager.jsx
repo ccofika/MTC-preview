@@ -8,6 +8,9 @@ const ProductManager = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [showHidden, setShowHidden] = useState(false);
+  const [catalogPdfFile, setCatalogPdfFile] = useState(null);
+  const [uploadingCatalog, setUploadingCatalog] = useState(null);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -54,12 +57,16 @@ const ProductManager = ({ onClose }) => {
     if (activeTab === 'list') {
       fetchProducts();
     }
-  }, [activeTab]);
+  }, [activeTab, showHidden]);
 
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const response = await productService.getProducts({ limit: 50 });
+      const token = localStorage.getItem('adminToken');
+      const response = await productService.getAllProductsForAdmin({ 
+        limit: 50, 
+        includeHidden: showHidden.toString() 
+      }, token);
       setProducts(response.data.products || []);
     } catch (err) {
       setError('Greška pri učitavanju proizvoda');
@@ -264,6 +271,59 @@ const ProductManager = ({ onClose }) => {
     }
   };
 
+  const handleHideProduct = async (productId) => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      await productService.hideProduct(productId, token);
+      fetchProducts();
+    } catch (err) {
+      setError('Greška pri sakrivanju proizvoda');
+    }
+  };
+
+  const handleShowProduct = async (productId) => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      await productService.showProduct(productId, token);
+      fetchProducts();
+    } catch (err) {
+      setError('Greška pri prikazivanju proizvoda');
+    }
+  };
+
+  const handleCatalogUpload = async (productId, file) => {
+    if (!file) return;
+
+    console.log('Starting catalog upload:', { productId, fileName: file.name, fileType: file.type });
+    
+    setUploadingCatalog(productId);
+    try {
+      const token = localStorage.getItem('adminToken');
+      const result = await productService.uploadCatalogPdf(productId, file, token);
+      console.log('Upload successful:', result);
+      fetchProducts();
+    } catch (err) {
+      console.error('Upload error:', err);
+      setError('Greška pri otpremanju kataloga: ' + err.message);
+    } finally {
+      setUploadingCatalog(null);
+    }
+  };
+
+  const handleCatalogDelete = async (productId) => {
+    if (!window.confirm('Da li ste sigurni da želite da obrišete katalog?')) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('adminToken');
+      await productService.deleteCatalogPdf(productId, token);
+      fetchProducts();
+    } catch (err) {
+      setError('Greška pri brisanju kataloga');
+    }
+  };
+
   return (
     <div className="product-manager">
       <div className="product-manager-content">
@@ -304,28 +364,118 @@ const ProductManager = ({ onClose }) => {
 
       {activeTab === 'list' && (
         <div className="products-list">
+          {/* Filter Toggle */}
+          <div className="products-list-controls">
+            <label className="show-hidden-toggle">
+              <input
+                type="checkbox"
+                checked={showHidden}
+                onChange={(e) => setShowHidden(e.target.checked)}
+              />
+              Prikaži sakrivene proizvode
+            </label>
+          </div>
+
           {loading ? (
             <div className="loading-state">Učitavanje...</div>
           ) : (
             <div className="products-grid">
               {products.map(product => (
-                <div key={product._id} className="product-item">
+                <div key={product._id} className={`product-item ${product.isHidden ? 'hidden-product' : ''}`}>
                   <div className="product-image">
                     <img 
                       src={product.gallery?.[0]?.url || '/images/placeholder/product-placeholder.jpg'} 
                       alt={product.title}
                     />
+                    {product.isHidden && (
+                      <div className="hidden-overlay">
+                        <span>SAKRIVENO</span>
+                      </div>
+                    )}
                   </div>
                   <div className="product-info">
                     <h4>{product.title}</h4>
                     <p>{product.catalog.category}</p>
                     <p>Br: {product.catalog.catalogNumber}</p>
-                    <p>{product.price.amount} {product.price.currency}</p>
+                    <div className="product-status">
+                      {product.isHidden ? (
+                        <span className="status-hidden">Sakriveno sa sajta</span>
+                      ) : (
+                        <span className="status-visible">Prikazano na sajtu</span>
+                      )}
+                    </div>
                   </div>
+
+                  {/* Catalog Management */}
+                  <div className="catalog-management">
+                    <div className="catalog-status">
+                      {product.catalogPdf?.publicId ? (
+                        <div className="catalog-exists">
+                          <span>📋 Katalog: {product.catalogPdf.filename}</span>
+                          <div className="catalog-actions">
+                            <a 
+                              href={`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/products/${product._id}/catalog/download`}
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="view-catalog-btn"
+                            >
+                              Prikaži
+                            </a>
+                            <button 
+                              onClick={() => handleCatalogDelete(product._id)}
+                              className="delete-catalog-btn"
+                            >
+                              Obriši
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="catalog-upload">
+                          <span>📋 Nema kataloga</span>
+                          <input
+                            type="file"
+                            accept=".pdf"
+                            onChange={(e) => {
+                              if (e.target.files[0]) {
+                                handleCatalogUpload(product._id, e.target.files[0]);
+                              }
+                            }}
+                            disabled={uploadingCatalog === product._id}
+                            id={`catalog-${product._id}`}
+                            style={{ display: 'none' }}
+                          />
+                          <label 
+                            htmlFor={`catalog-${product._id}`}
+                            className={`upload-catalog-btn ${uploadingCatalog === product._id ? 'uploading' : ''}`}
+                          >
+                            {uploadingCatalog === product._id ? 'Otprema...' : 'Otpremi PDF'}
+                          </label>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
                   <div className="product-actions">
                     <button onClick={() => handleEdit(product)} className="edit-btn">
                       Uredi
                     </button>
+                    
+                    {product.isHidden ? (
+                      <button 
+                        onClick={() => handleShowProduct(product._id)} 
+                        className="show-btn"
+                      >
+                        Vrati
+                      </button>
+                    ) : (
+                      <button 
+                        onClick={() => handleHideProduct(product._id)} 
+                        className="hide-btn"
+                      >
+                        Sakrij
+                      </button>
+                    )}
+                    
                     <button onClick={() => handleDelete(product._id)} className="delete-btn">
                       Obriši
                     </button>

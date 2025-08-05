@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Player } from '@remotion/player';
-import { NissalIntro } from '../intro-video/components/NissalIntro';
+import React, { useEffect, useRef } from 'react';
+import introVideo from '../assets/intro-video.mp4';
 
 interface IntroLoaderProps {
   onComplete: () => void;
@@ -8,12 +7,14 @@ interface IntroLoaderProps {
 }
 
 export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete, show }) => {
-  const [playerRef, setPlayerRef] = useState<any>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (playerRef && show) {
+    if (videoRef.current && show) {
+      const video = videoRef.current;
+      
       // Auto-play when component mounts
-      playerRef.play();
+      video.play().catch(console.error);
       
       // Set up completion handler
       const handleEnded = () => {
@@ -22,13 +23,13 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete, show }) =>
         }, 300); // Small delay before calling onComplete
       };
 
-      playerRef.addEventListener('ended', handleEnded);
+      video.addEventListener('ended', handleEnded);
       
       return () => {
-        playerRef.removeEventListener('ended', handleEnded);
+        video.removeEventListener('ended', handleEnded);
       };
     }
-  }, [playerRef, onComplete, show]);
+  }, [onComplete, show]);
 
   if (!show) return null;
 
@@ -48,30 +49,20 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete, show }) =>
         transition: 'opacity 0.3s ease-out',
       }}
     >
-      <Player
-        ref={setPlayerRef}
-        component={NissalIntro}
-        durationInFrames={150}
-        compositionWidth={1920}
-        compositionHeight={1080}
-        fps={30}
+      <video
+        ref={videoRef}
         style={{
           width: '100vw',
           height: '100vh',
-          maxWidth: '100%',
-          maxHeight: '100%',
+          objectFit: 'cover',
         }}
-        inputProps={{
-          title: 'NISSAL',
-          subtitle: 'Aluminijumski sistemi'
-        }}
-        controls={false}
-        autoPlay={true}
-        loop={false}
-        showVolumeControls={false}
-        allowFullscreen={false}
-        spaceKeyToPlayOrPause={false}
-      />
+        muted
+        playsInline
+        preload="auto"
+      >
+        <source src={introVideo} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
     </div>
   );
 };

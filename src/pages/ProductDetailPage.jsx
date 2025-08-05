@@ -4,10 +4,11 @@ import './ProductDetailPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { productService } from '../services/productService';
+import useLanguage from '../hooks/useLanguage';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const [language, setLanguage] = useState('SR');
+  const { language, changeLanguage } = useLanguage();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,9 +18,6 @@ const ProductDetailPage = () => {
   const [selectedSize, setSelectedSize] = useState('');
   const [activeTab, setActiveTab] = useState('description');
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'SR' ? 'EN' : 'SR');
-  };
 
   // Function to determine if a color is light or dark
   const isLightColor = (hexColor) => {
@@ -104,16 +102,24 @@ const ProductDetailPage = () => {
     fetchProduct();
   }, [id]);
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('sr-RS', {
-      style: 'currency',
-      currency: price.currency || 'RSD',
-      minimumFractionDigits: 0
-    }).format(price.amount);
-  };
+  // Removed formatPrice function - price display is no longer needed
 
   const handleImageSelect = (index) => {
     setSelectedImageIndex(index);
+  };
+
+  const handleDownloadCatalog = () => {
+    if (product && product.catalogPdf && product.catalogPdf.publicId) {
+      // Use our backend download endpoint
+      const downloadUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/products/${product._id}/catalog/download`;
+      console.log('Opening PDF download URL:', downloadUrl);
+      window.open(downloadUrl, '_blank', 'noopener,noreferrer');
+    } else {
+      console.log('No catalog PDF available for product:', product);
+      alert(language === 'SR' ? 'Katalog nije dostupan za ovaj proizvod.' : 
+            language === 'EN' ? 'Catalog is not available for this product.' :
+            'Katalog ist für dieses Produkt nicht verfügbar.');
+    }
   };
 
   const handleColorSelect = (colorName) => {
@@ -157,7 +163,7 @@ const ProductDetailPage = () => {
         pieces: 'm',
         colors: 'Dostupne RAL boje',
         sizes: 'Dostupni profili',
-        price: 'Cena po metru',
+        // price: 'Cena po metru', // Removed price label
         requestQuote: 'Zatraži ponudu',
         addToCart: 'Dodaj u specifikaciju',
         downloadCatalog: 'Preuzmi tehnički katalog',
@@ -236,7 +242,7 @@ const ProductDetailPage = () => {
         pieces: 'm',
         colors: 'Available RAL Colors',
         sizes: 'Available Profiles',
-        price: 'Price per meter',
+        // price: 'Price per meter', // Removed price label
         requestQuote: 'Request Quote',
         addToCart: 'Add to Specification',
         downloadCatalog: 'Download Technical Catalog',
@@ -288,6 +294,85 @@ const ProductDetailPage = () => {
           title: 'Certificates and Partners'
         }
       }
+    },
+    DE: {
+      nav: {
+        home: 'Startseite',
+        products: 'Produkte',
+        services: 'Dienstleistungen',
+        projects: 'Projekte',
+        about: 'Über uns',
+        ecology: 'Ökologie',
+        contact: 'Kontakt'
+      },
+      breadcrumb: {
+        home: 'Startseite',
+        products: 'Aluminiumsysteme'
+      },
+      product: {
+        loading: 'Aluminiumsystem wird geladen...',
+        error: 'Fehler beim Laden des Aluminiumsystems',
+        notFound: 'Aluminiumsystem nicht gefunden',
+        backToProducts: 'Zurück zu Systemen',
+        catalogNumber: 'System Nr.',
+        category: 'Kategorie',
+        inStock: 'Verfügbar',
+        outOfStock: 'Derzeit nicht verfügbar',
+        pieces: 'm',
+        colors: 'Verfügbare RAL-Farben',
+        sizes: 'Verfügbare Profile',
+        // price: 'Preis pro Meter', // Removed price label
+        requestQuote: 'Angebot anfordern',
+        addToCart: 'Zur Spezifikation hinzufügen',
+        downloadCatalog: 'Technischen Katalog herunterladen',
+        shareProduct: 'System teilen'
+      },
+      tabs: {
+        description: 'Beschreibung',
+        specifications: 'Spezifikationen',
+        installation: 'Installation',
+        certificates: 'Zertifikate'
+      },
+      specifications: {
+        material: 'Aluminiumlegierung',
+        dimensions: 'Profilabmessungen',
+        weight: 'Gewicht pro Meter',
+        length: 'Standardlänge',
+        width: 'Profilbreite',
+        height: 'Profilhöhe',
+        measurements: 'Technische Spezifikation',
+        size: 'Profiltyp'
+      },
+      relatedProducts: {
+        title: 'Ähnliche Aluminiumsysteme',
+        viewAll: 'Alle Systeme anzeigen',
+        viewDetails: 'Spezifikationen'
+      },
+      footer: {
+        contact: {
+          title: 'Kontaktinformationen',
+          address: 'Industriezone bb, 11000 Belgrad',
+          phone: '+381 11 123 4567',
+          email: 'info@nissal.rs',
+          workingHours: 'Mo-Fr: 08:00-16:00'
+        },
+        quickLinks: {
+          title: 'Schnellzugriff',
+          products: 'Produkte',
+          services: 'Dienstleistungen',
+          projects: 'Projekte',
+          contact: 'Kontakt'
+        },
+        social: {
+          title: 'Folgen Sie uns',
+          facebook: 'Facebook',
+          instagram: 'Instagram',
+          linkedin: 'LinkedIn'
+        },
+        certificates: {
+          title: 'Zertifikate und Partner'
+        }
+      }
     }
   };
 
@@ -298,7 +383,7 @@ const ProductDetailPage = () => {
       <div className="product-detail-page">
         <Header 
           language={language} 
-          onLanguageToggle={toggleLanguage} 
+          onLanguageChange={changeLanguage} 
           content={currentContent} 
         />
         <div className="loading-container">
@@ -322,7 +407,7 @@ const ProductDetailPage = () => {
       <div className="product-detail-page">
         <Header 
           language={language} 
-          onLanguageToggle={toggleLanguage} 
+          onLanguageChange={changeLanguage} 
           content={currentContent} 
         />
         <div className="error-container">
@@ -344,7 +429,7 @@ const ProductDetailPage = () => {
       {/* Header Section */}
       <Header 
         language={language} 
-        onLanguageToggle={toggleLanguage} 
+        onLanguageChange={changeLanguage} 
         content={currentContent} 
       />
 
@@ -406,14 +491,12 @@ const ProductDetailPage = () => {
 
               <h1 className="product-title">{product.title}</h1>
               
-              <div className="product-price">
-                {formatPrice(product.price)}
-              </div>
+              {/* Removed product price display */}
 
               <div className="product-stock">
                 {product.availability.inStock ? (
                   <span className="in-stock">
-                    {currentContent.product.inStock} ({product.availability.quantity} {currentContent.product.pieces})
+                    {currentContent.product.inStock}
                   </span>
                 ) : (
                   <span className="out-of-stock">
@@ -474,8 +557,12 @@ const ProductDetailPage = () => {
                 <button className="btn btn-primary btn-lg">
                   {currentContent.product.requestQuote}
                 </button>
-                <button className="btn btn-outline btn-lg">
-                  {currentContent.product.downloadCatalog}
+                <button 
+                  className={`btn btn-outline btn-lg ${!product.catalogPdf?.publicId ? 'disabled' : ''}`}
+                  onClick={handleDownloadCatalog}
+                  disabled={!product.catalogPdf?.publicId}
+                >
+                  📋 {currentContent.product.downloadCatalog}
                 </button>
               </div>
 
@@ -531,7 +618,7 @@ const ProductDetailPage = () => {
                     <p>{product.description}</p>
                     {product.catalog.tags && product.catalog.tags.length > 0 && (
                       <div className="product-tags">
-                        <h4>{language === 'SR' ? 'Ključne reči:' : 'Keywords:'}</h4>
+                        <h4>{language === 'SR' ? 'Ključne reči:' : language === 'EN' ? 'Keywords:' : 'Schlüsselwörter:'}</h4>
                         <div className="tags">
                           {product.catalog.tags.map(tag => (
                             <span key={tag} className="tag">{tag}</span>
@@ -593,28 +680,28 @@ const ProductDetailPage = () => {
               {activeTab === 'installation' && (
                 <div className="tab-panel">
                   <div className="installation-content">
-                    <h4>{language === 'SR' ? 'Uputstvo za ugradnju aluminijumskog sistema' : 'Aluminum System Installation Guide'}</h4>
-                    <p>{language === 'SR' ? 'Detaljno uputstvo za profesionalnu ugradnju ovog aluminijumskog sistema.' : 'Detailed instructions for professional installation of this aluminum system.'}</p>
+                    <h4>{language === 'SR' ? 'Uputstvo za ugradnju aluminijumskog sistema' : language === 'EN' ? 'Aluminum System Installation Guide' : 'Aluminiumsystem-Installationsanleitung'}</h4>
+                    <p>{language === 'SR' ? 'Detaljno uputstvo za profesionalnu ugradnju ovog aluminijumskog sistema.' : language === 'EN' ? 'Detailed instructions for professional installation of this aluminum system.' : 'Detaillierte Anweisungen für die professionelle Installation dieses Aluminiumsystems.'}</p>
                     <div className="installation-steps">
                       <div className="step">
                         <div className="step-number">1</div>
                         <div className="step-content">
-                          <h5>{language === 'SR' ? 'Priprema i merenje' : 'Preparation and Measuring'}</h5>
-                          <p>{language === 'SR' ? 'Proverite sve aluminijumske profile i alate potrebne za ugradnju. Precizno izmerite otvore.' : 'Check all aluminum profiles and tools needed for installation. Measure openings precisely.'}</p>
+                          <h5>{language === 'SR' ? 'Priprema i merenje' : language === 'EN' ? 'Preparation and Measuring' : 'Vorbereitung und Vermessung'}</h5>
+                          <p>{language === 'SR' ? 'Proverite sve aluminijumske profile i alate potrebne za ugradnju. Precizno izmerite otvore.' : language === 'EN' ? 'Check all aluminum profiles and tools needed for installation. Measure openings precisely.' : 'Überprüfen Sie alle Aluminiumprofile und Werkzeuge, die für die Installation benötigt werden. Messen Sie Öffnungen präzise aus.'}</p>
                         </div>
                       </div>
                       <div className="step">
                         <div className="step-number">2</div>
                         <div className="step-content">
-                          <h5>{language === 'SR' ? 'Montaža rama' : 'Frame Assembly'}</h5>
-                          <p>{language === 'SR' ? 'Sastavljanje aluminijumskog rama prema tehničkoj specifikaciji.' : 'Assemble aluminum frame according to technical specifications.'}</p>
+                          <h5>{language === 'SR' ? 'Montaža rama' : language === 'EN' ? 'Frame Assembly' : 'Rahmenmontage'}</h5>
+                          <p>{language === 'SR' ? 'Sastavljanje aluminijumskog rama prema tehničkoj specifikaciji.' : language === 'EN' ? 'Assemble aluminum frame according to technical specifications.' : 'Montieren Sie den Aluminiumrahmen gemäß den technischen Spezifikationen.'}</p>
                         </div>
                       </div>
                       <div className="step">
                         <div className="step-number">3</div>
                         <div className="step-content">
-                          <h5>{language === 'SR' ? 'Ugradnja i podešavanje' : 'Installation and Adjustment'}</h5>
-                          <p>{language === 'SR' ? 'Ugradite sistem i podesi funkcionalnost prema standardima.' : 'Install the system and adjust functionality according to standards.'}</p>
+                          <h5>{language === 'SR' ? 'Ugradnja i podešavanje' : language === 'EN' ? 'Installation and Adjustment' : 'Installation und Einstellung'}</h5>
+                          <p>{language === 'SR' ? 'Ugradite sistem i podesi funkcionalnost prema standardima.' : language === 'EN' ? 'Install the system and adjust functionality according to standards.' : 'Installieren Sie das System und stellen Sie die Funktionalität gemäß den Standards ein.'}</p>
                         </div>
                       </div>
                     </div>
@@ -625,7 +712,7 @@ const ProductDetailPage = () => {
               {activeTab === 'certificates' && (
                 <div className="tab-panel">
                   <div className="certificates-content">
-                    <h4>{language === 'SR' ? 'Sertifikati i standardi' : 'Certificates and Standards'}</h4>
+                    <h4>{language === 'SR' ? 'Sertifikati i standardi' : language === 'EN' ? 'Certificates and Standards' : 'Zertifikate und Standards'}</h4>
                     <div className="certificates-grid">
                       <div className="certificate-item">
                         <img src="/images/sertifikat1.png" alt="ISO Certificate" />
@@ -637,15 +724,15 @@ const ProductDetailPage = () => {
                       <div className="certificate-item">
                         <img src="/images/sertifikat2.png" alt="CE Certificate" />
                         <div className="certificate-info">
-                          <h5>CE {language === 'SR' ? 'Označavanje' : 'Marking'}</h5>
-                          <p>{language === 'SR' ? 'Evropski standardi usaglašenosti' : 'European Conformity Standards'}</p>
+                          <h5>CE {language === 'SR' ? 'Označavanje' : language === 'EN' ? 'Marking' : 'Kennzeichnung'}</h5>
+                          <p>{language === 'SR' ? 'Evropski standardi usaglašenosti' : language === 'EN' ? 'European Conformity Standards' : 'Europäische Konformitätsstandards'}</p>
                         </div>
                       </div>
                       <div className="certificate-item">
                         <img src="/images/sertifikat3.png" alt="EN Standards" />
                         <div className="certificate-info">
                           <h5>EN 14351-1</h5>
-                          <p>{language === 'SR' ? 'Evropski standard za prozore i vrata' : 'European Standard for Windows and Doors'}</p>
+                          <p>{language === 'SR' ? 'Evropski standard za prozore i vrata' : language === 'EN' ? 'European Standard for Windows and Doors' : 'Europäischer Standard für Fenster und Türen'}</p>
                         </div>
                       </div>
                     </div>
@@ -679,7 +766,7 @@ const ProductDetailPage = () => {
                   </div>
                   <div className="product-info">
                     <h4 className="product-title">{relatedProduct.title}</h4>
-                    <div className="product-price">{formatPrice(relatedProduct.price)}</div>
+                    {/* Removed price from related products */}
                     <Link 
                       to={`/products/${relatedProduct._id}`} 
                       className="btn btn-outline btn-sm"

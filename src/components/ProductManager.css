@@ -395,6 +395,219 @@
   transform: scale(1.1);
 }
 
+/* Products List Controls */
+.product-manager .products-list-controls {
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #E9ECEF;
+}
+
+.product-manager .show-hidden-toggle {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #706f6f;
+  cursor: pointer;
+  user-select: none;
+}
+
+.product-manager .show-hidden-toggle input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Hidden Product Styling */
+.product-manager .product-item.hidden-product {
+  position: relative;
+  border: 2px solid #DC3545;
+  background: rgba(220, 53, 69, 0.02);
+}
+
+.product-manager .hidden-overlay {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: auto;
+  height: auto;
+  background: #DC3545;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 1rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.product-manager .hidden-overlay span {
+  background: transparent;
+  color: #ffffff;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Product Status */
+.product-manager .product-status {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #E9ECEF;
+}
+
+.product-manager .status-hidden {
+  color: #DC3545;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.product-manager .status-visible {
+  color: #28A745;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Catalog Management */
+.product-manager .catalog-management {
+  padding: 1rem;
+  border-top: 1px solid #E9ECEF;
+  background: #F8F9FA;
+}
+
+.product-manager .catalog-status {
+  font-size: 0.875rem;
+}
+
+.product-manager .catalog-exists {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem;
+}
+
+.product-manager .catalog-exists span {
+  color: #28A745;
+  font-weight: 500;
+}
+
+.product-manager .catalog-actions {
+  display: flex !important;
+  gap: 0.5rem;
+}
+
+.product-manager .view-catalog-btn,
+.product-manager .delete-catalog-btn {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid #DEE2E6;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.product-manager .view-catalog-btn {
+  background: #ffffff;
+  color: #da5913;
+  border-color: #da5913;
+}
+
+.product-manager .view-catalog-btn:hover {
+  background: #da5913;
+  color: #ffffff;
+}
+
+.product-manager .delete-catalog-btn {
+  background: #ffffff;
+  color: #DC3545;
+  border-color: #DC3545;
+}
+
+.product-manager .delete-catalog-btn:hover {
+  background: #DC3545;
+  color: #ffffff;
+}
+
+.product-manager .catalog-upload {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem;
+}
+
+.product-manager .catalog-upload span {
+  color: #706f6f;
+  font-weight: 500;
+}
+
+.product-manager .upload-catalog-btn {
+  padding: 0.5rem 1rem;
+  background: #da5913;
+  color: #ffffff;
+  border: 1px solid #da5913;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  display: inline-block;
+}
+
+.product-manager .upload-catalog-btn:hover:not(.uploading) {
+  background: #b84a0f;
+}
+
+.product-manager .upload-catalog-btn.uploading {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Hide/Show Buttons */
+.product-manager .hide-btn,
+.product-manager .show-btn {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border: 1px solid #DEE2E6;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.product-manager .hide-btn {
+  background: #ffffff;
+  color: #FFC107;
+  border-color: #FFC107;
+}
+
+.product-manager .hide-btn:hover {
+  background: #FFC107;
+  color: #1d1d1b;
+}
+
+.product-manager .show-btn {
+  background: #ffffff;
+  color: #28A745;
+  border-color: #28A745;
+}
+
+.product-manager .show-btn:hover {
+  background: #28A745;
+  color: #ffffff;
+}
+
 /* Form Actions */
 .product-manager .form-actions {
   display: flex !important;
@@ -470,6 +683,19 @@
   
   .product-manager .form-actions {
     flex-direction: column !important;
+  }
+  
+  .product-manager .catalog-actions {
+    flex-direction: column !important;
+  }
+  
+  .product-manager .product-actions {
+    flex-direction: column !important;
+    gap: 0.25rem;
+  }
+  
+  .product-manager .catalog-management {
+    padding: 0.75rem;
   }
 }
 

@@ -4,19 +4,16 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { projectService } from '../services/projectService';
 import { productService } from '../services/productService';
+import useLanguage from '../hooks/useLanguage';
 
 const HomePage = () => {
-  const [language, setLanguage] = useState('SR');
+  const { language, changeLanguage } = useLanguage();
   const [projects, setProjects] = useState([]);
   const [products, setProducts] = useState([]);
   const [projectsLoading, setProjectsLoading] = useState(true);
   const [productsLoading, setProductsLoading] = useState(true);
   const [projectsError, setProjectsError] = useState(null);
   const [productsError, setProductsError] = useState(null);
-
-  const toggleLanguage = () => {
-    setLanguage(language === 'SR' ? 'EN' : 'SR');
-  };
 
   const content = {
     SR: {
@@ -80,9 +77,6 @@ const HomePage = () => {
         title: 'Najnoviji projekti',
         viewAll: 'Pogledaj sve projekte'
       },
-      testimonials: {
-        title: 'Šta kažu naši klijenti'
-      },
       footer: {
         contact: {
           title: 'Kontakt informacije',
@@ -105,7 +99,18 @@ const HomePage = () => {
           linkedin: 'LinkedIn'
         },
         certificates: {
-          title: 'Sertifikati i partneri'
+          title: 'Sertifikati i partneri',
+          iso: 'ISO 9001:2015',
+          ce: 'CE označavanje'
+        },
+        company: {
+          description: 'Vrhunski aluminijumski sistemi za modernu gradnju. Kvalitet, inovacija i pouzdanost od 2008. godine.'
+        },
+        copyright: '© 2024 Nissal d.o.o. Sva prava zadržana.',
+        legal: {
+          privacy: 'Politika privatnosti',
+          terms: 'Uslovi korišćenja',
+          cookies: 'Cookies'
         }
       }
     },
@@ -170,9 +175,6 @@ const HomePage = () => {
         title: 'Latest projects',
         viewAll: 'View all projects'
       },
-      testimonials: {
-        title: 'What our clients say'
-      },
       footer: {
         contact: {
           title: 'Contact information',
@@ -195,7 +197,116 @@ const HomePage = () => {
           linkedin: 'LinkedIn'
         },
         certificates: {
-          title: 'Certificates and partners'
+          title: 'Certificates and partners',
+          iso: 'ISO 9001:2015',
+          ce: 'CE Marking'
+        },
+        company: {
+          description: 'Premium aluminum systems for modern construction. Quality, innovation and reliability since 2008.'
+        },
+        copyright: '© 2024 Nissal d.o.o. All rights reserved.',
+        legal: {
+          privacy: 'Privacy Policy',
+          terms: 'Terms of Use',
+          cookies: 'Cookies'
+        }
+      }
+    },
+    DE: {
+      nav: {
+        home: 'Startseite',
+        products: 'Produkte',
+        services: 'Dienstleistungen',
+        projects: 'Projekte',
+        about: 'Über uns',
+        ecology: 'Ökologie',
+        contact: 'Kontakt'
+      },
+      hero: {
+        title: 'Nissal – Weltweit anerkannte Aluminiumsysteme',
+        subtitle: 'Wir schaffen innovative Lösungen für modernes Bauen, die den Bedürfnissen von Planern und Investoren gerecht werden',
+        ctaPrimary: 'Produkte ansehen',
+        ctaSecondary: 'Angebot anfordern'
+      },
+      values: {
+        title: 'Unsere Kernwerte',
+        quality: {
+          title: 'Qualität und Zuverlässigkeit',
+          description: 'Wir fertigen nach höchsten Qualitätsstandards mit ISO- und CE-Zertifikaten'
+        },
+        innovation: {
+          title: 'Innovation und Technologie',
+          description: 'Wir verwenden neueste Produktionstechnologien und bieten maßgeschneiderte Lösungen'
+        },
+        experience: {
+          title: 'Erfahrung und Support',
+          description: 'Über 15 Jahre Erfahrung mit Expertenteam für Beratung und Unterstützung'
+        }
+      },
+      products: {
+        title: 'Unsere Aluminiumprofile',
+        windows: {
+          title: 'Fenstersysteme',
+          description: 'Hochwertige Aluminiumfenster für Wohn- und Geschäftsgebäude'
+        },
+        doors: {
+          title: 'Türsysteme',
+          description: 'Elegante und funktionale Lösungen für Eingangs- und Innentüren'
+        },
+        facades: {
+          title: 'Fassadensysteme',
+          description: 'Moderne Fassadenlösungen für Gewerbe- und Wohngebäude'
+        },
+        industrial: {
+          title: 'Industrieprofile',
+          description: 'Spezialisierte Profile für industrielle und technologische Anwendungen'
+        }
+      },
+      stats: {
+        title: 'Warum Nissal wählen',
+        projects: 'abgeschlossene Projekte',
+        experience: 'Jahre Erfahrung',
+        clients: 'zufriedene Kunden',
+        support: 'technischer Support'
+      },
+      recentProjects: {
+        title: 'Neueste Projekte',
+        viewAll: 'Alle Projekte ansehen'
+      },
+      footer: {
+        contact: {
+          title: 'Kontaktinformationen',
+          address: 'Industriezone bb, 11000 Belgrad',
+          phone: '+381 11 123 4567',
+          email: 'info@nissal.rs',
+          workingHours: 'Mo-Fr: 08:00-16:00'
+        },
+        quickLinks: {
+          title: 'Schnelllinks',
+          products: 'Produkte',
+          services: 'Dienstleistungen',
+          projects: 'Projekte',
+          contact: 'Kontakt'
+        },
+        social: {
+          title: 'Folgen Sie uns',
+          facebook: 'Facebook',
+          instagram: 'Instagram',
+          linkedin: 'LinkedIn'
+        },
+        certificates: {
+          title: 'Zertifikate und Partner',
+          iso: 'ISO 9001:2015',
+          ce: 'CE-Kennzeichnung'
+        },
+        company: {
+          description: 'Hochwertige Aluminiumsysteme für modernes Bauen. Qualität, Innovation und Zuverlässigkeit seit 2008.'
+        },
+        copyright: '© 2024 Nissal d.o.o. Alle Rechte vorbehalten.',
+        legal: {
+          privacy: 'Datenschutzrichtlinie',
+          terms: 'Nutzungsbedingungen',
+          cookies: 'Cookies'
         }
       }
     }
@@ -255,36 +366,13 @@ const HomePage = () => {
     fetchProducts();
   }, []);
 
-  const testimonials = [
-    {
-      id: 1,
-      name: 'Marko Petrović',
-      company: 'ABC Gradnja d.o.o.',
-      text: 'Nissal je naš pouzdan partner već 5 godina. Kvalitet njihovih proizvoda je izuzetan, a servis uvek na visokom nivou.',
-      image: '/images/placeholder/billgates.jpg'
-    },
-    {
-      id: 2,
-      name: 'Ana Jovanović',
-      company: 'Projektni biro Delta',
-      text: 'Profesionalnost tima Nissal-a se ogleda u svakom projektu. Uvek isporuče u roku i prema specifikaciji.',
-      image: '/images/placeholder/sydneysweeny.jpg'
-    },
-    {
-      id: 3,
-      name: 'Ilija Musković',
-      company: 'NK Invest',
-      text: 'Inovativna rešenja koja predlažu uvek prevazilaze naša očekivanja. Preporučujem svima.',
-      image: '/images/placeholder/elonmusk.jpg'
-    }
-  ];
 
   return (
     <div className="home-page">
       {/* Header Section */}
       <Header 
         language={language} 
-        onLanguageToggle={toggleLanguage} 
+        onLanguageChange={changeLanguage} 
         content={currentContent} 
       />
 
@@ -476,28 +564,6 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="testimonials">
-        <div className="container">
-          <h2 className="section-title">{currentContent.testimonials.title}</h2>
-          <div className="testimonials-slider">
-            {testimonials.map(testimonial => (
-              <div key={testimonial.id} className="testimonial-slide">
-                <div className="testimonial-content">
-                  <p className="testimonial-text">"{testimonial.text}"</p>
-                  <div className="testimonial-author">
-                    <img src={testimonial.image} alt={testimonial.name} />
-                    <div className="author-info">
-                      <h4>{testimonial.name}</h4>
-                      <span>{testimonial.company}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Footer Section */}
       <Footer content={currentContent} />
