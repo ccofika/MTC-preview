@@ -76,7 +76,7 @@ const HomePage = () => {
         support: 'tehnička podrška'
       },
       recentProjects: {
-        title: 'Najnoviji projekti',
+        title: 'Projekti',
         viewAll: 'Pogledaj sve projekte'
       },
       footer: {
@@ -509,30 +509,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Statistics Section */}
-      <section className="stats">
-        <div className="container">
-          <h2 className="section-title">{currentContent.stats.title}</h2>
-          <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-number">500+</div>
-              <div className="stat-label">{currentContent.stats.projects}</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-number">15+</div>
-              <div className="stat-label">{currentContent.stats.experience}</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-number">50+</div>
-              <div className="stat-label">{currentContent.stats.clients}</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-number">24/7</div>
-              <div className="stat-label">{currentContent.stats.support}</div>
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
       {/* Latest Projects Section */}
       <section className="recent-projects">

@@ -302,6 +302,20 @@ export const productService = {
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Failed to reorder gallery images');
     }
+  },
+
+  // Delete specific image from gallery (admin)
+  deleteImage: async (productId, imageIndex, token) => {
+    try {
+      const response = await productAPI.delete(`/${productId}/images/${imageIndex}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to delete image');
+    }
   }
 };
 

@@ -912,6 +912,14 @@
 
 .product-manager .image-controls {
   padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.product-manager .color-association {
+  display: flex;
+  flex-direction: column;
 }
 
 .product-manager .image-controls label {
@@ -956,6 +964,27 @@
   border-radius: 50%;
   border: 1px solid #ddd;
   flex-shrink: 0;
+}
+
+.product-manager .delete-image-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: flex-start;
+}
+
+.product-manager .delete-image-btn:hover {
+  background: #c82333;
+  transform: scale(1.05);
+}
+
+.product-manager .delete-image-btn:active {
+  transform: scale(0.95);
 }
 
 @media (max-width: 768px) {

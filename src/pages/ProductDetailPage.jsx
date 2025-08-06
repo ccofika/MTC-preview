@@ -18,7 +18,8 @@ const ProductDetailPage = () => {
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
   const [activeTab, setActiveTab] = useState('description');
-  const [currentImages, setCurrentImages] = useState([]);
+  const [imageLoading, setImageLoading] = useState(true);
+  const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
 
 
 
@@ -74,13 +75,11 @@ const ProductDetailPage = () => {
             setSelectedImageIndex(prev => 
               prev >= response.data.gallery.length ? 0 : prev
             );
+            setImageLoading(true); // Start loading the first image
           } else {
             setSelectedImageIndex(0);
           }
           
-          // Initialize images immediately
-          const galleryImages = response.data.gallery || [];
-          setCurrentImages(galleryImages);
           
           const initialColor = response.data.colors?.[0];
           if (initialColor) {
@@ -138,8 +137,6 @@ const ProductDetailPage = () => {
             if (selectedImageIndex >= newGalleryLength) {
               setSelectedImageIndex(0);
             }
-            
-            setCurrentImages(response.data.gallery || []);
           }
         }
       } catch (err) {
@@ -155,7 +152,7 @@ const ProductDetailPage = () => {
 
   // Load images for initially selected color (but not on initial load)
   useEffect(() => {
-    if (product && selectedColor && currentImages.length > 0) {
+    if (product && selectedColor && product.gallery && product.gallery.length > 0) {
       // Only update if we're changing color, not on initial load
       updateImagesForColor(selectedColor);
     }
@@ -179,33 +176,61 @@ const ProductDetailPage = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [product]);
 
-  // Function to get images based on selected color
+  // Function to jump to image based on selected color
   const updateImagesForColor = async (colorName) => {
     if (!product || !product.gallery) {
-      setCurrentImages([]);
       return;
     }
     
-    try {
-      const response = await productService.getImagesByColor(product._id, colorName);
-      if (response.success && response.data.images.length > 0) {
-        setCurrentImages(response.data.images);
-        setSelectedImageIndex(0); // Reset to first image when color changes
-      } else {
-        // Fallback to all images if no color-specific images
-        setCurrentImages(product.gallery);
-        setSelectedImageIndex(0);
+    // Find the first image associated with the selected color
+    const colorImageIndex = product.gallery.findIndex(img => img.colorAssociation === colorName);
+    
+    if (colorImageIndex !== -1) {
+      // Found an image for this color, jump to it
+      setSelectedImageIndex(colorImageIndex);
+    } else {
+      // No specific image for this color, find first generic image or stay at current
+      const genericImageIndex = product.gallery.findIndex(img => !img.colorAssociation);
+      if (genericImageIndex !== -1) {
+        setSelectedImageIndex(genericImageIndex);
       }
-    } catch (error) {
-      console.error('Error fetching images by color:', error);
-      // Fallback to all images
-      setCurrentImages(product.gallery);
-      setSelectedImageIndex(0);
+      // If no generic images either, keep current index (don't reset to 0)
     }
   };
 
   const handleImageSelect = (index) => {
     setSelectedImageIndex(index);
+    setImageLoading(true);
+  };
+
+  const handleImageLoad = (e) => {
+    setImageLoading(false);
+    const img = e.target;
+    setImageDimensions({
+      width: img.naturalWidth,
+      height: img.naturalHeight
+    });
+  };
+
+  const handleImageError = () => {
+    setImageLoading(false);
+    setImageDimensions({ width: 500, height: 500 }); // fallback dimensions
+  };
+
+  // Calculate adaptive height based on image aspect ratio
+  const getAdaptiveImageStyle = () => {
+    if (imageLoading || imageDimensions.width === 0 || imageDimensions.height === 0) {
+      return { height: '500px' }; // default height while loading
+    }
+
+    const containerWidth = 600; // max width for the image container
+    const aspectRatio = imageDimensions.height / imageDimensions.width;
+    const adaptiveHeight = Math.min(Math.max(containerWidth * aspectRatio, 300), 800); // min 300px, max 800px
+
+    return {
+      height: `${adaptiveHeight}px`,
+      objectFit: 'contain' // ensure full image is visible
+    };
   };
 
   const handlePrevImage = () => {
@@ -213,6 +238,7 @@ const ProductDetailPage = () => {
       setSelectedImageIndex(prev => 
         prev === 0 ? product.gallery.length - 1 : prev - 1
       );
+      setImageLoading(true);
     }
   };
 
@@ -221,6 +247,7 @@ const ProductDetailPage = () => {
       setSelectedImageIndex(prev => 
         prev === product.gallery.length - 1 ? 0 : prev + 1
       );
+      setImageLoading(true);
     }
   };
 
@@ -589,6 +616,18 @@ const ProductDetailPage = () => {
             <div className="product-images">
               <div className="main-image-container">
                 <div className="main-image">
+                  {imageLoading && (
+                    <div className="image-loading">
+                      <div className="loading-spinner">
+                        <svg viewBox="0 0 24 24">
+                          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" strokeDasharray="31.416" strokeDashoffset="31.416">
+                            <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
+                            <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/>
+                          </circle>
+                        </svg>
+                      </div>
+                    </div>
+                  )}
                   <img 
                     src={
                       product?.gallery?.[selectedImageIndex]?.url || 
@@ -598,7 +637,12 @@ const ProductDetailPage = () => {
                       product?.gallery?.[selectedImageIndex]?.alt || 
                       product?.title
                     }
+                    style={getAdaptiveImageStyle()}
+                    onLoad={handleImageLoad}
+                    onError={handleImageError}
+                    className={imageLoading ? 'loading' : ''}
                   />
+
                   {!product.availability.inStock && (
                     <div className="stock-overlay">
                       <span>{currentContent.product.outOfStock}</span>

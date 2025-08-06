@@ -434,6 +434,30 @@ const ProductManager = ({ onClose }) => {
     setDraggedIndex(null);
   };
 
+  const handleDeleteImage = async (imageIndex) => {
+    if (!editingProduct || !window.confirm('Da li ste sigurni da želite da obrišete ovu sliku?')) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('adminToken');
+      await productService.deleteImage(editingProduct._id, imageIndex, token);
+      
+      // Update local state
+      const updatedGallery = [...editingProduct.gallery];
+      updatedGallery.splice(imageIndex, 1);
+      
+      setEditingProduct(prev => ({
+        ...prev,
+        gallery: updatedGallery
+      }));
+
+      console.log('Image deleted successfully');
+    } catch (err) {
+      setError('Greška pri brisanju slike: ' + err.message);
+    }
+  };
+
   return (
     <div className="product-manager">
       <div className="product-manager-content">
@@ -721,19 +745,29 @@ const ProductManager = ({ onClose }) => {
                         <div className="image-position">#{index + 1}</div>
                       </div>
                       <div className="image-controls">
-                        <label>Vezuj za boju:</label>
-                        <select
-                          value={image.colorAssociation || ''}
-                          onChange={(e) => handleImageColorAssociation(index, e.target.value)}
-                          className="color-select"
+                        <div className="color-association">
+                          <label>Vezuj za boju:</label>
+                          <select
+                            value={image.colorAssociation || ''}
+                            onChange={(e) => handleImageColorAssociation(index, e.target.value)}
+                            className="color-select"
+                          >
+                            <option value="">Generička slika</option>
+                            {formData.colors.map(color => (
+                              <option key={color.name} value={color.name}>
+                                {color.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <button
+                          type="button"
+                          className="delete-image-btn"
+                          onClick={() => handleDeleteImage(index)}
+                          title="Obriši sliku"
                         >
-                          <option value="">Generička slika</option>
-                          {formData.colors.map(color => (
-                            <option key={color.name} value={color.name}>
-                              {color.name}
-                            </option>
-                          ))}
-                        </select>
+                          🗑️
+                        </button>
                       </div>
                       {image.colorAssociation && (
                         <div className="color-indicator">
