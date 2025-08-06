@@ -43,6 +43,10 @@ const ProductManager = ({ onClose }) => {
     dimensions: { length: '', width: '', height: '', weight: '' }
   });
 
+  // Drag and drop state
+  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [isReordering, setIsReordering] = useState(false);
+
   // Categories dropdown options
   const categoryOptions = [
     'Prozorski sistemi',
@@ -324,6 +328,112 @@ const ProductManager = ({ onClose }) => {
     }
   };
 
+  const handleImageColorAssociation = async (imageIndex, colorName) => {
+    if (!editingProduct) return;
+    
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await productService.associateImageWithColor(
+        editingProduct._id, 
+        imageIndex, 
+        colorName || null, 
+        token
+      );
+      
+      // Update the editing product with new data
+      setEditingProduct(response.data);
+      
+      // Show success message (optional)
+      console.log('Image-color association updated successfully');
+    } catch (err) {
+      setError('Greška pri vezivanju slike za boju: ' + err.message);
+    }
+  };
+
+  // Drag and drop handlers
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', index.toString());
+    setDraggedIndex(index);
+    
+    // Add visual feedback to the dragged element
+    setTimeout(() => {
+      e.target.style.opacity = '0.5';
+    }, 0);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = async (e, dropIndex) => {
+    e.preventDefault();
+    
+    const draggedIndexFromData = parseInt(e.dataTransfer.getData('text/plain'));
+    
+    if (draggedIndexFromData === dropIndex || draggedIndex === null) {
+      setDraggedIndex(null);
+      return;
+    }
+
+    try {
+      setIsReordering(true);
+      
+      // Create new gallery array with reordered images
+      const newGallery = [...editingProduct.gallery];
+      const draggedImage = newGallery[draggedIndexFromData];
+      
+      // Remove dragged image
+      newGallery.splice(draggedIndexFromData, 1);
+      
+      // Insert at new position
+      newGallery.splice(dropIndex, 0, draggedImage);
+      
+      // Update local state immediately for visual feedback
+      setEditingProduct(prev => ({
+        ...prev,
+        gallery: newGallery
+      }));
+
+      // Save new order to backend
+      const token = localStorage.getItem('adminToken');
+      const response = await productService.reorderGalleryImages(
+        editingProduct._id,
+        newGallery.map((img, idx) => ({ 
+          imageUrl: img.url, 
+          newPosition: idx,
+          colorAssociation: img.colorAssociation 
+        })),
+        token
+      );
+
+      // Update with response from server to ensure consistency
+      if (response.success) {
+        setEditingProduct(response.data);
+        console.log('Image order updated successfully');
+      }
+      
+    } catch (err) {
+      setError('Greška pri ažuriranju redosleda slika: ' + err.message);
+      // Revert local changes on error
+      fetchProducts();
+    } finally {
+      setIsReordering(false);
+      setDraggedIndex(null);
+    }
+  };
+
+  const handleDragEnd = (e) => {
+    // Reset visual feedback
+    e.target.style.opacity = '1';
+    setDraggedIndex(null);
+  };
+
   return (
     <div className="product-manager">
       <div className="product-manager-content">
@@ -576,6 +686,71 @@ const ProductManager = ({ onClose }) => {
               />
               <p className="form-help">Izaberite više slika (prva će biti glavna)</p>
             </div>
+
+            {/* Show existing images with drag & drop reordering and color association */}
+            {editingProduct && editingProduct.gallery && editingProduct.gallery.length > 0 && (
+              <div className="existing-images">
+                <h4>Postojeće slike</h4>
+                <p className="reorder-instruction">
+                  Prevucite slike da promenite redosled prikazivanja u galeriji
+                </p>
+                <div className={`images-grid-sortable ${isReordering ? 'loading' : ''}`}>
+                  {editingProduct.gallery.map((image, index) => (
+                    <div 
+                      key={`image-${index}`}
+                      className={`image-item-sortable ${draggedIndex === index ? 'dragging' : ''} ${isReordering ? 'reordering' : ''}`}
+                      draggable
+                      onDragStart={(e) => handleDragStart(e, index)}
+                      onDragOver={handleDragOver}
+                      onDragEnter={handleDragEnter}
+                      onDrop={(e) => handleDrop(e, index)}
+                      onDragEnd={handleDragEnd}
+                    >
+                      <div className="drag-handle">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8 6H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                          <path d="M8 12H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                          <path d="M8 18H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                          <path d="M3 6H3.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                          <path d="M3 12H3.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                          <path d="M3 18H3.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                        </svg>
+                      </div>
+                      <div className="image-preview">
+                        <img src={image.url} alt={image.alt || 'Product image'} />
+                        <div className="image-position">#{index + 1}</div>
+                      </div>
+                      <div className="image-controls">
+                        <label>Vezuj za boju:</label>
+                        <select
+                          value={image.colorAssociation || ''}
+                          onChange={(e) => handleImageColorAssociation(index, e.target.value)}
+                          className="color-select"
+                        >
+                          <option value="">Generička slika</option>
+                          {formData.colors.map(color => (
+                            <option key={color.name} value={color.name}>
+                              {color.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      {image.colorAssociation && (
+                        <div className="color-indicator">
+                          <span 
+                            className="color-dot"
+                            style={{ 
+                              backgroundColor: formData.colors.find(c => c.name === image.colorAssociation)?.hexCode || '#000' 
+                            }}
+                          ></span>
+                          <span>{image.colorAssociation}</span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Colors */}

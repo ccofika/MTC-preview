@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -7,6 +8,7 @@ import { productService } from '../services/productService';
 import useLanguage from '../hooks/useLanguage';
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const { language, changeLanguage } = useLanguage();
   const [projects, setProjects] = useState([]);
   const [products, setProducts] = useState([]);
@@ -384,8 +386,18 @@ const HomePage = () => {
               <h1 className="hero-title">{currentContent.hero.title}</h1>
               <p className="hero-subtitle">{currentContent.hero.subtitle}</p>
               <div className="hero-actions">
-                <button className="btn btn-primary">{currentContent.hero.ctaPrimary}</button>
-                <button className="btn btn-secondary">{currentContent.hero.ctaSecondary}</button>
+                <button 
+                  className="btn btn-primary"
+                  onClick={() => navigate('/products')}
+                >
+                  {currentContent.hero.ctaPrimary}
+                </button>
+                <button 
+                  className="btn btn-secondary"
+                  onClick={() => navigate('/contact')}
+                >
+                  {currentContent.hero.ctaSecondary}
+                </button>
               </div>
             </div>
             <div className="hero-image">
@@ -461,7 +473,12 @@ const HomePage = () => {
           ) : (
             <div className="product-slideshow">
               {products.map(product => (
-                <div key={product._id} className="product-slide">
+                <div 
+                  key={product._id} 
+                  className="product-slide"
+                  onClick={() => navigate(`/products/${product._id}`)}
+                  style={{ cursor: 'pointer' }}
+                >
                   <div className="product-image">
                     <img 
                       src={product.gallery?.[0]?.url || '/images/placeholder/product-placeholder.jpg'} 
@@ -472,7 +489,13 @@ const HomePage = () => {
                       <div className="product-details">
                         <h3>{product.title}</h3>
                         <p>{product.description?.substring(0, 100)}...</p>
-                        <button className="btn btn-primary">
+                        <button 
+                          className="btn btn-primary"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/products/${product._id}`);
+                          }}
+                        >
                           {language === 'SR' ? 'Vidi više' : 'View More'}
                         </button>
                       </div>
@@ -516,7 +539,12 @@ const HomePage = () => {
         <div className="container">
           <div className="section-header">
             <h2 className="section-title">{currentContent.recentProjects.title}</h2>
-            <button className="btn btn-outline">{currentContent.recentProjects.viewAll}</button>
+            <button 
+              className="btn btn-outline"
+              onClick={() => navigate('/projekti')}
+            >
+              {currentContent.recentProjects.viewAll}
+            </button>
           </div>
           
           {projectsLoading ? (
@@ -541,7 +569,12 @@ const HomePage = () => {
           ) : (
             <div className="projects-slider">
               {projects.map(project => (
-                <div key={project._id} className="project-slide">
+                <div 
+                  key={project._id} 
+                  className="project-slide"
+                  onClick={() => navigate(`/projekti/${project._id}`)}
+                  style={{ cursor: 'pointer' }}
+                >
                   <div className="project-image">
                     <img 
                       src={project.gallery?.[0]?.url || '/images/placeholder/project-placeholder.jpg'} 

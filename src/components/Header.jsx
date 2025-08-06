@@ -97,7 +97,7 @@ const Header = ({ language, onLanguageChange, content }) => {
                 className={`language-btn ${isLanguageDropdownOpen ? 'active' : ''}`}
                 aria-expanded={isLanguageDropdownOpen}
               >
-                {languageOptions.find(lang => lang.code === language)?.flag} {language}
+{languageOptions.find(lang => lang.code === language)?.name}
                 <svg className="dropdown-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -110,9 +110,7 @@ const Header = ({ language, onLanguageChange, content }) => {
                       onClick={() => handleLanguageSelect(option.code)}
                       className={`language-option ${language === option.code ? 'active' : ''}`}
                     >
-                      <span className="flag">{option.flag}</span>
                       <span className="name">{option.name}</span>
-                      <span className="code">{option.code}</span>
                     </button>
                   ))}
                 </div>
@@ -132,7 +130,7 @@ const Header = ({ language, onLanguageChange, content }) => {
                 className={`language-btn mobile-lang-btn ${isLanguageDropdownOpen ? 'active' : ''}`}
                 aria-expanded={isLanguageDropdownOpen}
               >
-                {languageOptions.find(lang => lang.code === language)?.flag} {language}
+{languageOptions.find(lang => lang.code === language)?.name}
               </button>
               {isLanguageDropdownOpen && (
                 <div className="language-dropdown mobile-dropdown">
@@ -142,7 +140,6 @@ const Header = ({ language, onLanguageChange, content }) => {
                       onClick={() => handleLanguageSelect(option.code)}
                       className={`language-option ${language === option.code ? 'active' : ''}`}
                     >
-                      <span className="flag">{option.flag}</span>
                       <span className="name">{option.name}</span>
                     </button>
                   ))}

@@ -131,28 +131,28 @@ const EcologyPage = () => {
             description: 'Za svaki završen projekat, sadimo 10 stabala u lokalnoj zajednici.',
             impact: '2,500 posađenih stabala',
             status: 'aktivno',
-            image: '/images/ecology/tree-planting.jpg'
+            image: '/images/placeholder/tree-planting.jpg'
           },
           {
             title: 'Solarna elektrana',
             description: 'Izgradili smo solarnu elektranu koja pokriva 70% naših energetskih potreba.',
             impact: '1.2 MW instalisan kapacitet',
             status: 'završeno',
-            image: '/images/ecology/solar-plant.jpg'
+            image: '/images/placeholder/solar-energy.png'
           },
           {
             title: 'Program za reciklažu',
             description: 'Besplatno preuzimamo stare aluminijumske konstrukcije za reciklažu.',
             impact: '150 tona recikliranog aluminijuma',
             status: 'aktivno',
-            image: '/images/ecology/recycling.jpg'
+            image: '/images/placeholder/recycling.jpg'
           },
           {
             title: 'Edukacija zaposlenih',
             description: 'Redovna obuka zaposlenih o ekološkim standardima i pravilnom rukovanju materijalom.',
             impact: '100% zaposlenih obučeno',
             status: 'aktivno',
-            image: '/images/ecology/education.jpg'
+            image: '/images/placeholder/worker-education.jpg'
           }
         ]
       },
@@ -367,28 +367,28 @@ const EcologyPage = () => {
             description: 'For every completed project, we plant 10 trees in the local community.',
             impact: '2,500 trees planted',
             status: 'active',
-            image: '/images/ecology/tree-planting.jpg'
+            image: '/images/placeholder/tree-planting.jpg'
           },
           {
             title: 'Solar Power Plant',
             description: 'We built a solar power plant that covers 70% of our energy needs.',
             impact: '1.2 MW installed capacity',
             status: 'completed',
-            image: '/images/ecology/solar-plant.jpg'
+            image: '/images/placeholder/solar-energy.png'
           },
           {
             title: 'Recycling Program',
             description: 'We provide free pickup of old aluminum structures for recycling.',
             impact: '150 tons of recycled aluminum',
             status: 'active',
-            image: '/images/ecology/recycling.jpg'
+            image: '/images/placeholder/recycling.jpg'
           },
           {
             title: 'Employee Education',
             description: 'Regular training of employees on environmental standards and proper material handling.',
             impact: '100% employees trained',
             status: 'active',
-            image: '/images/ecology/education.jpg'
+            image: '/images/placeholder/worker-education.jpg'
           }
         ]
       },
@@ -603,28 +603,28 @@ const EcologyPage = () => {
             description: 'Für jedes abgeschlossene Projekt pflanzen wir 10 Bäume in der lokalen Gemeinde.',
             impact: '2,500 gepflanzte Bäume',
             status: 'aktivno',
-            image: '/images/ecology/tree-planting.jpg'
+            image: '/images/placeholder/tree-planting.jpg'
           },
           {
             title: 'Solarkraftwerk',
             description: 'Wir haben ein Solarkraftwerk gebaut, das 70% unserer Energiebedürfnisse deckt.',
             impact: '1,2 MW installierte Kapazität',
             status: 'završeno',
-            image: '/images/ecology/solar-plant.jpg'
+            image: '/images/placeholder/solar-energy.png'
           },
           {
             title: 'Recyclingprogramm',
             description: 'Wir bieten kostenlosen Abtransport alter Aluminiumkonstruktionen zum Recycling.',
             impact: '150 Tonnen recyceltes Aluminium',
             status: 'aktivno',
-            image: '/images/ecology/recycling.jpg'
+            image: '/images/placeholder/recycling.jpg'
           },
           {
             title: 'Mitarbeiterbildung',
             description: 'Regelmäßige Schulung der Mitarbeiter zu Umweltstandards und ordnungsgemäßem Materialumgang.',
             impact: '100% der Mitarbeiter geschult',
             status: 'aktivno',
-            image: '/images/ecology/education.jpg'
+            image: '/images/placeholder/worker-education.jpg'
           }
         ]
       },
@@ -765,7 +765,7 @@ const EcologyPage = () => {
               <p className="hero-subtitle">{currentContent.hero.subtitle}</p>
             </div>
             <div className="hero-image">
-              <img src="/images/ecology/sustainability-hero.jpg" alt="Sustainable Production" />
+              <img src="/images/placeholder/ecology-main.jpeg" alt="Sustainable Production" />
             </div>
           </div>
         </div>

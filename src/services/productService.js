@@ -252,6 +252,56 @@ export const productService = {
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Failed to delete catalog PDF');
     }
+  },
+
+  // Associate image with color (admin)
+  associateImageWithColor: async (productId, imageIndex, colorName, token) => {
+    try {
+      const response = await productAPI.patch(`/${productId}/images/associate-color`, 
+        {
+          imageIndex,
+          colorName
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to associate image with color');
+    }
+  },
+
+  // Get images by color for a product
+  getImagesByColor: async (productId, color) => {
+    try {
+      const params = color ? `?color=${encodeURIComponent(color)}` : '';
+      const response = await productAPI.get(`/${productId}/images/by-color${params}`);
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to get images by color');
+    }
+  },
+
+  // Reorder gallery images (admin)
+  reorderGalleryImages: async (productId, imageOrder, token) => {
+    try {
+      const response = await productAPI.patch(`/${productId}/images/reorder`, 
+        { imageOrder },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to reorder gallery images');
+    }
   }
 };
 

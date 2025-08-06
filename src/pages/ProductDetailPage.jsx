@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import './ProductDetailPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -8,6 +8,7 @@ import useLanguage from '../hooks/useLanguage';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { language, changeLanguage } = useLanguage();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
@@ -17,6 +18,8 @@ const ProductDetailPage = () => {
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
   const [activeTab, setActiveTab] = useState('description');
+  const [currentImages, setCurrentImages] = useState([]);
+
 
 
   // Function to determine if a color is light or dark
@@ -65,6 +68,20 @@ const ProductDetailPage = () => {
         const response = await productService.getProductById(id);
         if (response.success) {
           setProduct(response.data);
+          
+          // Reset selectedImageIndex if it's beyond the gallery length
+          if (response.data.gallery && response.data.gallery.length > 0) {
+            setSelectedImageIndex(prev => 
+              prev >= response.data.gallery.length ? 0 : prev
+            );
+          } else {
+            setSelectedImageIndex(0);
+          }
+          
+          // Initialize images immediately
+          const galleryImages = response.data.gallery || [];
+          setCurrentImages(galleryImages);
+          
           const initialColor = response.data.colors?.[0];
           if (initialColor) {
             setSelectedColor(initialColor.name);
@@ -102,10 +119,109 @@ const ProductDetailPage = () => {
     fetchProduct();
   }, [id]);
 
-  // Removed formatPrice function - price display is no longer needed
+  // Refresh product data periodically to catch admin updates
+  useEffect(() => {
+    if (!id || !product) return;
+
+    const refreshProduct = async () => {
+      try {
+        const response = await productService.getProductById(id);
+        if (response.success) {
+          // Only update if the gallery has actually changed
+          const newGalleryLength = response.data.gallery?.length || 0;
+          const currentGalleryLength = product.gallery?.length || 0;
+          
+          if (newGalleryLength !== currentGalleryLength) {
+            setProduct(response.data);
+            
+            // Reset selectedImageIndex if necessary
+            if (selectedImageIndex >= newGalleryLength) {
+              setSelectedImageIndex(0);
+            }
+            
+            setCurrentImages(response.data.gallery || []);
+          }
+        }
+      } catch (err) {
+        console.error('Error refreshing product:', err);
+      }
+    };
+
+    // Refresh every 30 seconds when product is loaded
+    const interval = setInterval(refreshProduct, 30000);
+    
+    return () => clearInterval(interval);
+  }, [id, product, selectedImageIndex]);
+
+  // Load images for initially selected color (but not on initial load)
+  useEffect(() => {
+    if (product && selectedColor && currentImages.length > 0) {
+      // Only update if we're changing color, not on initial load
+      updateImagesForColor(selectedColor);
+    }
+  }, [selectedColor]); // Remove product dependency to avoid initial override
+
+  // Keyboard navigation for images
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!product?.gallery || product.gallery.length <= 1) return;
+      
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        handlePrevImage();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        handleNextImage();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [product]);
+
+  // Function to get images based on selected color
+  const updateImagesForColor = async (colorName) => {
+    if (!product || !product.gallery) {
+      setCurrentImages([]);
+      return;
+    }
+    
+    try {
+      const response = await productService.getImagesByColor(product._id, colorName);
+      if (response.success && response.data.images.length > 0) {
+        setCurrentImages(response.data.images);
+        setSelectedImageIndex(0); // Reset to first image when color changes
+      } else {
+        // Fallback to all images if no color-specific images
+        setCurrentImages(product.gallery);
+        setSelectedImageIndex(0);
+      }
+    } catch (error) {
+      console.error('Error fetching images by color:', error);
+      // Fallback to all images
+      setCurrentImages(product.gallery);
+      setSelectedImageIndex(0);
+    }
+  };
 
   const handleImageSelect = (index) => {
     setSelectedImageIndex(index);
+  };
+
+  const handlePrevImage = () => {
+    if (product?.gallery && product.gallery.length > 0) {
+      setSelectedImageIndex(prev => 
+        prev === 0 ? product.gallery.length - 1 : prev - 1
+      );
+    }
+  };
+
+  const handleNextImage = () => {
+    if (product?.gallery && product.gallery.length > 0) {
+      setSelectedImageIndex(prev => 
+        prev === product.gallery.length - 1 ? 0 : prev + 1
+      );
+    }
   };
 
   const handleDownloadCatalog = () => {
@@ -122,7 +238,7 @@ const ProductDetailPage = () => {
     }
   };
 
-  const handleColorSelect = (colorName) => {
+  const handleColorSelect = async (colorName) => {
     setSelectedColor(colorName);
     
     // Find the selected color object to get hex code
@@ -130,10 +246,28 @@ const ProductDetailPage = () => {
     if (selectedColorObj) {
       updateCheckmarkColor(selectedColorObj.hexCode);
     }
+    
+    // Update images based on selected color
+    await updateImagesForColor(colorName);
   };
 
   const handleSizeSelect = (sizeName) => {
     setSelectedSize(sizeName);
+  };
+
+  const handleRequestQuote = () => {
+    if (!product) return;
+    
+    // Create URL parameters with product details
+    const params = new URLSearchParams({
+      product: product.title,
+      color: selectedColor,
+      profile: selectedSize,
+      focus: 'contact-form'
+    });
+    
+    // Navigate to contact page with parameters
+    navigate(`/contact?${params.toString()}`);
   };
 
   const content = {
@@ -453,29 +587,81 @@ const ProductDetailPage = () => {
             
             {/* Product Images */}
             <div className="product-images">
-              <div className="main-image">
-                <img 
-                  src={product.gallery?.[selectedImageIndex]?.url || '/images/placeholder/product-placeholder.jpg'} 
-                  alt={product.gallery?.[selectedImageIndex]?.alt || product.title}
-                />
-                {!product.availability.inStock && (
-                  <div className="stock-overlay">
-                    <span>{currentContent.product.outOfStock}</span>
+              <div className="main-image-container">
+                <div className="main-image">
+                  <img 
+                    src={
+                      product?.gallery?.[selectedImageIndex]?.url || 
+                      '/images/placeholder/product-placeholder.jpg'
+                    } 
+                    alt={
+                      product?.gallery?.[selectedImageIndex]?.alt || 
+                      product?.title
+                    }
+                  />
+                  {!product.availability.inStock && (
+                    <div className="stock-overlay">
+                      <span>{currentContent.product.outOfStock}</span>
+                    </div>
+                  )}
+                  
+                  {/* Navigation Arrows */}
+                  {product?.gallery && product.gallery.length > 1 && (
+                    <>
+                      <button 
+                        className="image-nav-btn prev-btn" 
+                        onClick={handlePrevImage}
+                        aria-label="Previous image"
+                      >
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </button>
+                      <button 
+                        className="image-nav-btn next-btn" 
+                        onClick={handleNextImage}
+                        aria-label="Next image"
+                      >
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </button>
+                    </>
+                  )}
+                </div>
+                
+                {/* Image Counter */}
+                {product?.gallery && product.gallery.length > 1 && (
+                  <div className="image-counter">
+                    {selectedImageIndex + 1} / {product.gallery.length}
                   </div>
                 )}
               </div>
               
-              {product.gallery && product.gallery.length > 1 && (
-                <div className="image-thumbnails">
-                  {product.gallery.map((image, index) => (
-                    <button
-                      key={index}
-                      className={`thumbnail ${index === selectedImageIndex ? 'active' : ''}`}
-                      onClick={() => handleImageSelect(index)}
-                    >
-                      <img src={image.url} alt={image.alt || product.title} />
-                    </button>
-                  ))}
+              {/* Enhanced Thumbnail Gallery - ALWAYS show ALL product images */}
+              {product && product.gallery && product.gallery.length > 0 && (
+                <div className="image-gallery">
+                  <div className="gallery-label">
+                    <span>{language === 'SR' ? 'Galerija slika' : language === 'EN' ? 'Image Gallery' : 'Bildergalerie'}</span>
+                    <span className="gallery-count">
+                      ({product.gallery.length} {language === 'SR' ? 'slika' : language === 'EN' ? 'images' : 'Bilder'})
+                    </span>
+                  </div>
+                  <div className="image-thumbnails">
+                    {product.gallery.map((image, index) => (
+                      <button
+                        key={index}
+                        className={`thumbnail ${index === selectedImageIndex ? 'active' : ''}`}
+                        onClick={() => handleImageSelect(index)}
+                        title={`${language === 'SR' ? 'Slika' : language === 'EN' ? 'Image' : 'Bild'} ${index + 1}`}
+                      >
+                        <img src={image.url} alt={image.alt || `${product.title} - Image ${index + 1}`} />
+                        <div className="thumbnail-overlay">
+                          <span className="thumbnail-number">{index + 1}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -554,7 +740,10 @@ const ProductDetailPage = () => {
 
               {/* Action Buttons */}
               <div className="product-actions">
-                <button className="btn btn-primary btn-lg">
+                <button 
+                  className="btn btn-primary btn-lg"
+                  onClick={handleRequestQuote}
+                >
                   {currentContent.product.requestQuote}
                 </button>
                 <button 

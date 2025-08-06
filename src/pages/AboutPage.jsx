@@ -609,12 +609,22 @@ const AboutPage = () => {
           {
             title: 'Monatsproduktion',
             value: '15.000 m',
-            icon: 'monthly'
+            icon: 'calendar'
           }
-        ]
+        ],
+        equipment: {
+          title: 'Ausrüstung und Technologien',
+          items: [
+            'CNC-Maschinen für Präzisionsbearbeitung',
+            'Automatische Eloxierungslinien',
+            'Moderne Lackieranlagen',
+            'Qualitätskontrolle in Echtzeit'
+          ]
+        }
       },
-      certifications: {
+      certificates: {
         title: 'Zertifikate und Standards',
+        subtitle: 'Wir sind höchsten Qualitätsstandards verpflichtet',
         items: [
           {
             name: 'ISO 9001:2015',
@@ -627,16 +637,25 @@ const AboutPage = () => {
             image: '/images/sertifikat2.png'
           },
           {
-            name: 'Green Building',
-            description: 'Nachhaltiges Bauen',
+            name: 'SRPS ISO 14001',
+            description: 'Umweltmanagementsystem',
             image: '/images/sertifikat3.png'
           },
           {
-            name: 'REACH',
-            description: 'Chemikalienverordnung',
+            name: 'OHSAS 18001',
+            description: 'Arbeitsschutz und Gesundheit',
             image: '/images/sertifikat4.png'
           }
-        ]
+        ],
+        qualityControl: {
+          title: 'Qualitätskontrolle',
+          steps: [
+            'Rohstoffkontrolle bei der Annahme',
+            'Überwachung des Produktionsprozesses',
+            'Endkontrolle der fertigen Produkte',
+            'Prüfung in akkreditiertem Labor'
+          ]
+        }
       },
       partnerships: {
         title: 'Partnerschaften',

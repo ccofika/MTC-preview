@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import './ContactPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -7,6 +8,8 @@ import useLanguage from '../hooks/useLanguage';
 
 const ContactPage = () => {
   const { language, changeLanguage } = useLanguage();
+  const location = useLocation();
+  const formRef = useRef(null);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -24,6 +27,74 @@ const ContactPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', null
   const [submitMessage, setSubmitMessage] = useState('');
+
+  // Handle URL parameters for auto-populating form
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const product = urlParams.get('product');
+    const color = urlParams.get('color');
+    const profile = urlParams.get('profile');
+    const shouldFocus = urlParams.get('focus') === 'contact-form';
+
+    if (product) {
+      // Build subject line with product details based on language
+      let subject = '';
+      if (language === 'SR') {
+        subject = `Ponuda za ${product}`;
+      } else if (language === 'EN') {
+        subject = `Quote for ${product}`;
+      } else { // DE
+        subject = `Angebot für ${product}`;
+      }
+      
+      if (color || profile) {
+        subject += ' (';
+        const details = [];
+        if (color) {
+          if (language === 'SR') {
+            details.push(`Boja: ${color}`);
+          } else if (language === 'EN') {
+            details.push(`Color: ${color}`);
+          } else { // DE
+            details.push(`Farbe: ${color}`);
+          }
+        }
+        if (profile) {
+          if (language === 'SR') {
+            details.push(`Profil: ${profile}`);
+          } else if (language === 'EN') {
+            details.push(`Profile: ${profile}`);
+          } else { // DE
+            details.push(`Profil: ${profile}`);
+          }
+        }
+        subject += details.join(', ');
+        subject += ')';
+      }
+
+      // Update form data
+      setFormData(prev => ({
+        ...prev,
+        inquiryType: 'quote', // Set inquiry type to quote
+        subject: subject
+      }));
+    }
+
+    // Focus the form if requested
+    if (shouldFocus && formRef.current) {
+      setTimeout(() => {
+        formRef.current.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+        // Focus the first input field
+        const firstInput = formRef.current.querySelector('input[name="firstName"]');
+        if (firstInput) {
+          firstInput.focus();
+        }
+      }, 500);
+    }
+  }, [location.search, language]);
 
 
   const handleInputChange = (e) => {
@@ -569,7 +640,7 @@ const ContactPage = () => {
       </section>
 
       {/* Contact Form Section */}
-      <section className="contact-form-section">
+      <section className="contact-form-section" ref={formRef}>
         <div className="container">
           <div className="form-content">
             <div className="form-header">
