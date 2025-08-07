@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './AboutPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -6,6 +6,25 @@ import useLanguage from '../hooks/useLanguage';
 
 const AboutPage = () => {
   const { language, changeLanguage } = useLanguage();
+  const heroIconRef = useRef(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (heroIconRef.current) {
+        const rect = heroIconRef.current.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const deltaX = (e.clientX - centerX) * 0.01;
+        const deltaY = (e.clientY - centerY) * 0.01;
+        
+        heroIconRef.current.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+      }
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    return () => document.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const content = {
     SR: {
@@ -699,7 +718,7 @@ const AboutPage = () => {
               <h1 className="hero-title">{currentContent.hero.title}</h1>
               <p className="hero-subtitle">{currentContent.hero.subtitle}</p>
             </div>
-            <div className="hero-icon">
+            <div className="hero-icon" ref={heroIconRef}>
               <img src="/images/header/onama-icon.png" alt="About Us Icon" className="icon-image" />
             </div>
           </div>

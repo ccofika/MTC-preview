@@ -106,32 +106,57 @@
 /* Header spacing adjustment since we're using external Header component */
 
 /* Hero Section */
-.home-page .hero {
+.home-page .home-hero {
   margin-top: 80px;
   padding: var(--spacing-24) 0;
-  background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-white) 100%);
   position: relative;
   overflow: hidden;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
 }
 
-.home-page .hero::before {
+.home-page .hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.home-page .hero-background .background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(3px) brightness(0.3);
+}
+
+.home-page .hero-background::before {
   content: '';
   position: absolute;
   top: 0;
-  right: -10%;
-  width: 50%;
+  left: 0;
+  width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, transparent 0%, rgba(255, 107, 53, 0.05) 100%);
-  transform: skewX(-15deg);
+  background: rgba(29, 29, 27, 0.6);
+  z-index: 2;
+}
+
+.home-page .container {
+  position: relative;
+  z-index: 3;
 }
 
 .home-page .hero-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 60% 40%;
   gap: var(--spacing-16);
   align-items: center;
-  position: relative;
-  z-index: 2;
+}
+
+.home-page .hero-text {
+  color: var(--color-white);
 }
 
 .home-page .hero-title {
@@ -139,14 +164,16 @@
   font-weight: 800;
   line-height: 1.1;
   margin: 0 0 var(--spacing-6) 0;
-  color: var(--color-black);
+  color: var(--color-white);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .home-page .hero-subtitle {
   font-size: var(--font-size-xl);
-  color: var(--color-gray-600);
+  color: rgba(255, 255, 255, 0.9);
   margin: 0 0 var(--spacing-8) 0;
   line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .home-page .hero-actions {
@@ -154,21 +181,58 @@
   gap: var(--spacing-4);
 }
 
-.home-page .hero-image {
-  flex: 1;
+.home-page .hero-icons {
+  position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
-  max-width: 500px;
+  justify-content: center;
+  height: 400px;
 }
 
-.home-page .hero-image img {
-  width: 100%;
+.home-page .hero-icon {
+  position: absolute;
+  transition: transform 0.2s ease-out;
+}
+
+.home-page .hero-icon.main-icon {
+  z-index: 10;
+}
+
+.home-page .hero-icon.main-icon .icon-image {
+  width: 550px;
   height: auto;
-  max-width: 100%;
-  border-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-xl);
-  display: block;
+  filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+.home-page .hero-icon.side-icon {
+  z-index: 8;
+}
+
+.home-page .hero-icon.side-icon .icon-image {
+  width: 190px;
+  height: auto;
+  filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* Position side icons around main icon */
+.home-page .hero-icon.side-icon-1 {
+  top: 0px;
+  left: -120px;
+}
+
+.home-page .hero-icon.side-icon-2 {
+  top: 60px;
+  right: -140px;
+}
+
+.home-page .hero-icon.side-icon-3 {
+  bottom: 40px;
+  left: -100px;
+}
+
+.home-page .hero-icon.side-icon-4 {
+  bottom: 0px;
+  right: -120px;
 }
 
 /* Button Styles */
@@ -733,9 +797,10 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   
-  .home-page .hero {
+  .home-page .home-hero {
     margin-top: 120px;
-    padding: var(--spacing-12) 0;
+    padding: var(--spacing-16) 0;
+    min-height: 400px;
   }
   
   .home-page .hero-content {
@@ -755,6 +820,39 @@
   .home-page .hero-actions {
     flex-direction: column;
     align-items: center;
+  }
+  
+  .home-page .hero-icons {
+    height: 300px;
+  }
+  
+  .home-page .hero-icon.main-icon .icon-image {
+    width: 360px;
+  }
+  
+  .home-page .hero-icon.side-icon .icon-image {
+    width: 160px;
+  }
+  
+  /* Adjust side icon positions for mobile */
+  .home-page .hero-icon.side-icon-1 {
+    top: -10px;
+    left: -80px;
+  }
+  
+  .home-page .hero-icon.side-icon-2 {
+    top: 40px;
+    right: -90px;
+  }
+  
+  .home-page .hero-icon.side-icon-3 {
+    bottom: 20px;
+    left: -70px;
+  }
+  
+  .home-page .hero-icon.side-icon-4 {
+    bottom: -10px;
+    right: -80px;
   }
   
   .home-page .section-title {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 import Header from '../components/Header';
@@ -16,6 +16,13 @@ const HomePage = () => {
   const [productsLoading, setProductsLoading] = useState(true);
   const [projectsError, setProjectsError] = useState(null);
   const [productsError, setProductsError] = useState(null);
+
+  // Mouse tracking refs
+  const heroMainIconRef = useRef(null);
+  const heroSideIcon1Ref = useRef(null);
+  const heroSideIcon2Ref = useRef(null);
+  const heroSideIcon3Ref = useRef(null);
+  const heroSideIcon4Ref = useRef(null);
 
   const content = {
     SR: {
@@ -368,6 +375,42 @@ const HomePage = () => {
     fetchProducts();
   }, []);
 
+  // Mouse tracking effect
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      // Main icon - same behavior as other pages
+      if (heroMainIconRef.current) {
+        const rect = heroMainIconRef.current.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const deltaX = (e.clientX - centerX) * 0.01;
+        const deltaY = (e.clientY - centerY) * 0.01;
+        
+        heroMainIconRef.current.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+      }
+
+      // Side icons - more movement and slight overlap
+      const sideRefs = [heroSideIcon1Ref, heroSideIcon2Ref, heroSideIcon3Ref, heroSideIcon4Ref];
+      const multipliers = [0.015, 0.018, 0.02, 0.017]; // Different speeds for variation
+      
+      sideRefs.forEach((ref, index) => {
+        if (ref.current) {
+          const rect = ref.current.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          
+          const deltaX = (e.clientX - centerX) * multipliers[index];
+          const deltaY = (e.clientY - centerY) * multipliers[index];
+          
+          ref.current.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+        }
+      });
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    return () => document.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   return (
     <div className="home-page">
@@ -379,7 +422,10 @@ const HomePage = () => {
       />
 
       {/* Hero Section */}
-      <section className="hero">
+      <section className="home-hero">
+        <div className="hero-background">
+          <img src="/images/header/pocetna-background.jpg" alt="" className="background-image" />
+        </div>
         <div className="container">
           <div className="hero-content">
             <div className="hero-text">
@@ -400,18 +446,22 @@ const HomePage = () => {
                 </button>
               </div>
             </div>
-            <div className="hero-image">
-              <img 
-                src="/images/hero-image.png" 
-                alt="Nissal Aluminum Systems"
-                onError={(e) => {
-                  console.error('Image failed to load:', e.target.src);
-                  e.target.style.border = '2px solid red';
-                  e.target.style.padding = '20px';
-                  e.target.alt = 'Image failed to load: ' + e.target.src;
-                }}
-                onLoad={() => console.log('Image loaded successfully')}
-              />
+            <div className="hero-icons">
+              <div className="hero-icon main-icon" ref={heroMainIconRef}>
+                <img src="/images/header/pocetna-icon-main.png" alt="Main Icon" className="icon-image" />
+              </div>
+              <div className="hero-icon side-icon side-icon-1" ref={heroSideIcon1Ref}>
+                <img src="/images/header/pocetna-icon-side1.png" alt="Side Icon 1" className="icon-image" />
+              </div>
+              <div className="hero-icon side-icon side-icon-2" ref={heroSideIcon2Ref}>
+                <img src="/images/header/pocetna-icon-side3.png" alt="Side Icon 2" className="icon-image" />
+              </div>
+              <div className="hero-icon side-icon side-icon-3" ref={heroSideIcon3Ref}>
+                <img src="/images/header/pocetna-icon-side2.png" alt="Side Icon 3" className="icon-image" />
+              </div>
+              <div className="hero-icon side-icon side-icon-4" ref={heroSideIcon4Ref}>
+                <img src="/images/header/pocetna-icon-side4.png" alt="Side Icon 4" className="icon-image" />
+              </div>
             </div>
           </div>
         </div>

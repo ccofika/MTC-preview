@@ -228,6 +228,15 @@
   max-width: 300px;
   height: auto;
   filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.3));
+  transition: transform 0.2s ease-out;
+}
+
+.ecology-page .hero-icon {
+  transition: transform 0.2s ease-out;
+}
+
+.ecology-page .hero-icon:hover .icon-image {
+  transform: scale(1.02);
 }
 
 /* Sustainability Section - Scoped to ecology-page only */
