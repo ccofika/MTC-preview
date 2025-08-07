@@ -150,29 +150,54 @@
 .ecology-page .ecology-hero {
   margin-top: 80px;
   padding: var(--spacing-24) 0;
-  background: linear-gradient(135deg, #fef7f0 0%, var(--color-white) 100%);
   position: relative;
   overflow: hidden;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
 }
 
-.ecology-page .ecology-hero::before {
+.ecology-page .hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.ecology-page .hero-background .background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(3px) brightness(0.3);
+}
+
+.ecology-page .hero-background::before {
   content: '';
   position: absolute;
   top: 0;
-  right: -10%;
-  width: 50%;
+  left: 0;
+  width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, transparent 0%, rgba(218, 89, 19, 0.05) 100%);
-  transform: skewX(-15deg);
+  background: rgba(29, 29, 27, 0.6);
+  z-index: 2;
+}
+
+.ecology-page .container {
+  position: relative;
+  z-index: 3;
 }
 
 .ecology-page .hero-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 60% 40%;
   gap: var(--spacing-16);
   align-items: center;
-  position: relative;
-  z-index: 2;
+}
+
+.ecology-page .hero-text {
+  color: var(--color-white);
 }
 
 .ecology-page .hero-title {
@@ -180,21 +205,29 @@
   font-weight: 800;
   line-height: 1.1;
   margin: 0 0 var(--spacing-6) 0;
-  color: var(--color-black);
+  color: var(--color-white);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .ecology-page .hero-subtitle {
   font-size: var(--font-size-xl);
-  color: var(--color-gray-600);
+  color: rgba(255, 255, 255, 0.9);
   margin: 0;
   line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.ecology-page .hero-image img {
+.ecology-page .hero-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ecology-page .hero-icon .icon-image {
   width: 100%;
+  max-width: 300px;
   height: auto;
-  border-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-xl);
+  filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.3));
 }
 
 /* Sustainability Section - Scoped to ecology-page only */
@@ -204,8 +237,25 @@
 
 .ecology-page .sustainability-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--spacing-8);
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-6);
+  max-width: 1000px;
+  margin: 0 auto;
+  justify-items: center;
+}
+
+@media (max-width: 1200px) {
+  .ecology-page .sustainability-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ecology-page .sustainability-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+  }
 }
 
 .ecology-page .sustainability-card {
@@ -463,8 +513,26 @@
 
 .ecology-page .initiatives-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--spacing-8);
+}
+
+@media (max-width: 1200px) {
+  .ecology-page .initiatives-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .ecology-page .initiatives-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .ecology-page .initiatives-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .ecology-page .initiative-card {
@@ -569,8 +637,20 @@
 
 .ecology-page .impact-metrics {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--spacing-8);
+}
+
+@media (max-width: 1000px) {
+  .ecology-page .impact-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .ecology-page .impact-metrics {
+    grid-template-columns: 1fr;
+  }
 }
 
 .ecology-page .impact-metric {
@@ -612,8 +692,26 @@
 
 .ecology-page .certifications-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--spacing-8);
+}
+
+@media (max-width: 1200px) {
+  .ecology-page .certifications-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .ecology-page .certifications-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .ecology-page .certifications-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .ecology-page .certification-card {
@@ -674,6 +772,7 @@
   .ecology-page .ecology-hero {
     margin-top: 120px;
     padding: var(--spacing-16) 0;
+    min-height: 400px;
   }
   
   .ecology-page .hero-content {
@@ -688,6 +787,10 @@
   
   .ecology-page .hero-subtitle {
     font-size: var(--font-size-lg);
+  }
+  
+  .ecology-page .hero-icon .icon-image {
+    max-width: 200px;
   }
   
   .ecology-page .section-title {

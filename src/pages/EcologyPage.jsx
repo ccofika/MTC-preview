@@ -28,28 +28,28 @@ const EcologyPage = () => {
         pillars: [
           {
             title: 'Zelena energija',
-            description: 'Koristimo obnovljive izvore energije u našoj proizvodnji, smanjujući ugljenik otisak za 60%.',
+            description: 'Koristimo obnovljive izvore energije, smanjujući ugljenik otisak.',
             icon: 'solar',
             percentage: '85%',
             label: 'obnovljive energije'
           },
           {
             title: 'Reciklaža materijala',
-            description: 'Aluminijum je 100% recikažabilan. Naši proizvodi se mogu potpuno reciklirati bez gubitka kvaliteta.',
+            description: 'Aluminijum je 100% recikažabilan bez gubitka kvaliteta.',
             icon: 'recycle',
             percentage: '100%', 
             label: 'recikažabilnost'
           },
           {
             title: 'Smanjenje otpada',
-            description: 'Optimizovali smo proces proizvodnje i smanjili otpad za 45% u poslednje tri godine.',
+            description: 'Optimizovali smo proces proizvodnje i smanjili otpad.',
             icon: 'waste',
             percentage: '45%',
             label: 'smanjenje otpada'
           },
           {
             title: 'Energetska efikasnost',
-            description: 'Naši aluminijumski sistemi doprinose energetskoj efikasnosti zgrada kroz bolje izolovanje.',
+            description: 'Naši sistemi doprinose energetskoj efikasnosti zgrada.',
             icon: 'efficiency',
             percentage: '30%',
             label: 'ušteda energije'
@@ -62,33 +62,21 @@ const EcologyPage = () => {
         phases: [
           {
             title: 'Proizvodnja',
-            description: 'Korišćenje čiste energije u proizvodnom procesu',
+            description: 'Čista energija u proizvodnji',
             duration: '1-2 meseca',
             impact: 'Niska emisija CO₂'
           },
           {
-            title: 'Transport',
-            description: 'Optimizovane logistike rute za smanjenje transporta',
-            duration: '1-7 dana',
-            impact: 'Minimalna potrošnja goriva'
-          },
-          {
-            title: 'Ugradnja',
-            description: 'Brza i efikasna ugradnja bez škodljivih materijala',
-            duration: '1-3 dana',
-            impact: 'Bez emisija tokom ugradnje'
-          },
-          {
             title: 'Korišćenje',
-            description: 'Dugotrajnost od 50+ godina uz minimalno održavanje',
+            description: 'Dugotrajnost 50+ godina',
             duration: '50+ godina',
-            impact: 'Energetska efikasnost zgrade'
+            impact: 'Energetska efikasnost'
           },
           {
             title: 'Reciklaža',
-            description: 'Potpuna reciklaža bez gubitka svojstava materijala',
+            description: 'Potpuna reciklaža materijala',
             duration: 'Beskonačno',
-            impact: '95% manje energije za reciklažu'
+            impact: '95% manje energije'
           }
         ]
       },
@@ -127,32 +115,18 @@ const EcologyPage = () => {
         subtitle: 'Aktivno učestvujemo u projektima zaštite životne sredine',
         projects: [
           {
-            title: 'Program sadnje drveća',
-            description: 'Za svaki završen projekat, sadimo 10 stabala u lokalnoj zajednici.',
-            impact: '2,500 posađenih stabala',
-            status: 'aktivno',
-            image: '/images/placeholder/tree-planting.jpg'
-          },
-          {
             title: 'Solarna elektrana',
-            description: 'Izgradili smo solarnu elektranu koja pokriva 70% naših energetskih potreba.',
-            impact: '1.2 MW instalisan kapacitet',
+            description: 'Pokriva 70% naših energetskih potreba.',
+            impact: '1.2 MW kapacitet',
             status: 'završeno',
             image: '/images/placeholder/solar-energy.png'
           },
           {
             title: 'Program za reciklažu',
-            description: 'Besplatno preuzimamo stare aluminijumske konstrukcije za reciklažu.',
-            impact: '150 tona recikliranog aluminijuma',
+            description: 'Besplatno preuzimamo stare konstrukcije.',
+            impact: '150 tona recikliranog materijala',
             status: 'aktivno',
             image: '/images/placeholder/recycling.jpg'
-          },
-          {
-            title: 'Edukacija zaposlenih',
-            description: 'Redovna obuka zaposlenih o ekološkim standardima i pravilnom rukovanju materijalom.',
-            impact: '100% zaposlenih obučeno',
-            status: 'aktivno',
-            image: '/images/placeholder/worker-education.jpg'
           }
         ]
       },
@@ -758,14 +732,17 @@ const EcologyPage = () => {
 
       {/* Hero Section */}
       <section className="ecology-hero">
+        <div className="hero-background">
+          <img src="/images/header/ecology-background.jpg" alt="" className="background-image" />
+        </div>
         <div className="container">
           <div className="hero-content">
             <div className="hero-text">
               <h1 className="hero-title">{currentContent.hero.title}</h1>
               <p className="hero-subtitle">{currentContent.hero.subtitle}</p>
             </div>
-            <div className="hero-image">
-              <img src="/images/placeholder/ecology-main.jpeg" alt="Sustainable Production" />
+            <div className="hero-icon">
+              <img src="/images/header/ecology-icon.png" alt="Ecology Icon" className="icon-image" />
             </div>
           </div>
         </div>
@@ -834,7 +811,8 @@ const EcologyPage = () => {
         </div>
       </section>
 
-      {/* Environmental Benefits Section */}
+      {/* Environmental Benefits Section - HIDDEN as requested by user */}
+      {/*
       <section className="benefits-section">
         <div className="container">
           <div className="section-header">
@@ -854,8 +832,10 @@ const EcologyPage = () => {
           </div>
         </div>
       </section>
+      */}
 
-      {/* Green Initiatives Section */}
+      {/* Green Initiatives Section - HIDDEN as requested by user */}
+      {/*
       <section className="initiatives-section">
         <div className="container">
           <div className="section-header">
@@ -883,6 +863,7 @@ const EcologyPage = () => {
           </div>
         </div>
       </section>
+      */}
 
       {/* Environmental Impact Metrics */}
       <section className="impact-section">

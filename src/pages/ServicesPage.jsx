@@ -28,7 +28,7 @@ const ServicesPage = () => {
           {
             id: 1,
             title: 'Konsultacije i projektovanje',
-            description: 'Stručne konsultacije, tehnička analiza i izrada projekata prilagođenih vašim potrebama',
+            description: 'Stručne konsultacije i tehnička analiza',
             process: ['Analiza', 'Predlog', 'Projekat'],
             buttonText: 'Zakaži konsultacije',
             icon: 'design'
@@ -36,7 +36,7 @@ const ServicesPage = () => {
           {
             id: 2,
             title: 'Proizvodnja na meru',
-            description: 'Custom rešenja prilagođena specifičnim potrebama i zahtevima projekta',
+            description: 'Prilagođena rešenja za vaše potrebe',
             process: ['Specifikacija', 'Proizvodnja', 'Kontrola'],
             buttonText: 'Zatraži ponudu',
             icon: 'production'
@@ -44,34 +44,10 @@ const ServicesPage = () => {
           {
             id: 3,
             title: 'Ugradnja i montaža',
-            description: 'Profesionalna montaža od strane sertifikovanih tehničara sa dugogodišnjim iskustvom',
+            description: 'Profesionalna montaža sertifikovanih tehničara',
             process: ['Priprema', 'Montaža', 'Testiranje'],
             buttonText: 'Saznaj više',
             icon: 'installation'
-          },
-          {
-            id: 4,
-            title: 'Servis i održavanje',
-            description: 'Redovno održavanje, popravke i zamena delova za dugotrajan rad sistema',
-            process: ['Pregled', 'Dijagnoza', 'Rešavanje'],
-            buttonText: 'Pozovi servis',
-            icon: 'service'
-          },
-          {
-            id: 5,
-            title: 'Obuka i podrška',
-            description: 'Obuka za pravilno rukovanje i održavanje aluminijumskih sistema',
-            process: ['Analiza', 'Obuka', 'Sertifikat'],
-            buttonText: 'Rezerviši obuku',
-            icon: 'education'
-          },
-          {
-            id: 6,
-            title: 'Tehnička podrška',
-            description: '24/7 tehnička podrška za sve naše proizvode i rešavanje problema',
-            process: ['Kontakt', 'Dijagnoza', 'Rešavanje'],
-            buttonText: 'Kontaktiraj',
-            icon: 'support'
           }
         ]
       },
@@ -422,10 +398,18 @@ const ServicesPage = () => {
 
       {/* Hero Section */}
       <section className="services-hero">
+        <div className="hero-background">
+          <img src="/images/header/usluge-background.jpg" alt="" className="background-image" />
+        </div>
         <div className="container">
           <div className="hero-content">
-            <h1 className="hero-title">{currentContent.hero.title}</h1>
-            <p className="hero-subtitle">{currentContent.hero.subtitle}</p>
+            <div className="hero-text">
+              <h1 className="hero-title">{currentContent.hero.title}</h1>
+              <p className="hero-subtitle">{currentContent.hero.subtitle}</p>
+            </div>
+            <div className="hero-icon">
+              <img src="/images/header/usluge-icon.png" alt="Services Icon" className="icon-image" />
+            </div>
           </div>
         </div>
       </section>
@@ -478,7 +462,8 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      {/* Workflow Section */}
+      {/* Workflow Section - HIDDEN as requested by user */}
+      {/*
       <section className="workflow-section">
         <div className="container">
           <div className="section-header">
@@ -505,6 +490,7 @@ const ServicesPage = () => {
           </div>
         </div>
       </section>
+      */}
 
       {/* Guarantees Section */}
       <section className="guarantees-section">

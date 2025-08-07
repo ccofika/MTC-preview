@@ -28,32 +28,17 @@ const AboutPage = () => {
           {
             year: '2008',
             title: 'Osnivanje kompanije',
-            description: 'Osnovana je kompanija Nissal sa fokusом na aluminijumske profile.'
-          },
-          {
-            year: '2012',
-            title: 'Proširenje proizvodnje',
-            description: 'Nabavka novih mašina i proširenje proizvodnih kapaciteta.'
+            description: 'Osnovana kompanija Nissal.'
           },
           {
             year: '2015',
             title: 'ISO sertifikacija',
-            description: 'Dobijanje ISO 9001:2015 sertifikata za kvalitet.'
-          },
-          {
-            year: '2018',
-            title: 'Regionalno širenje',
-            description: 'Otvaranje predstavništava u regionu i novi partneri.'
-          },
-          {
-            year: '2020',
-            title: 'Digitalna transformacija',
-            description: 'Implementacija savremenih tehnologija i sistema.'
+            description: 'Dobijanje ISO 9001:2015 sertifikata.'
           },
           {
             year: '2024',
             title: 'Lider na tržištu',
-            description: 'Postali smo jedan od vodećih proizvođača u regionu.'
+            description: 'Vodeći proizvođač u regionu.'
           }
         ]
       },
@@ -80,43 +65,29 @@ const AboutPage = () => {
             name: 'Marko Petrović',
             position: 'Generalni direktor',
             department: 'Rukovodstvo',
-            bio: 'Više od 20 godina iskustva u industriji aluminijuma. Vodi kompaniju ka novim visinama.',
+            bio: '20+ godina iskustva u industriji aluminijuma.',
             image: '/images/about/team2.jpg'
           },
           {
             name: 'Ana Jovanović',
             position: 'Tehnički direktor',
             department: 'Rukovodstvo', 
-            bio: 'Ekspert za tehnička rešenja sa dugogodišnjim iskustvom u razvoju proizvoda.',
+            bio: 'Ekspert za tehnička rešenja i razvoj proizvoda.',
             image: '/images/about/team1.jpg'
           },
           {
             name: 'Stefan Nikolić',
             position: 'Šef proizvodnje',
             department: 'Proizvodnja',
-            bio: 'Odgovoran za kvalitet proizvodnje i optimizaciju proizvodnih procesa.',
+            bio: 'Odgovoran za kvalitet i optimizaciju procesa.',
             image: '/images/about/team3.jpg'
           },
           {
             name: 'Milica Stojanović',
             position: 'Šef dizajna',
             department: 'Dizajn',
-            bio: 'Kreativni um koji dizajnira inovativna i funkcionalna rešenja.',
+            bio: 'Dizajnira inovativna i funkcionalna rešenja.',
             image: '/images/about/team5.jpg'
-          },
-          {
-            name: 'Nikola Mitrović',
-            position: 'Šef prodaje',
-            department: 'Prodaja',
-            bio: 'Gradi dugoročne partnerske odnose sa klijentima širom regiona.',
-            image: '/images/about/team4.jpg'
-          },
-          {
-            name: 'Jelena Radić',
-            position: 'Šef servisa',
-            department: 'Servis',
-            bio: 'Osigurava vrhunsku podršku i servis za sve naše proizvode.',
-            image: '/images/about/team6.jpg'
           }
         ]
       },
@@ -719,14 +690,17 @@ const AboutPage = () => {
 
       {/* Hero Section */}
       <section className="about-hero">
+        <div className="hero-background">
+          <img src="/images/header/onama-background.jpg" alt="" className="background-image" />
+        </div>
         <div className="container">
           <div className="hero-content">
             <div className="hero-text">
               <h1 className="hero-title">{currentContent.hero.title}</h1>
               <p className="hero-subtitle">{currentContent.hero.subtitle}</p>
             </div>
-            <div className="hero-image">
-              <img src="/images/about/about-hero.jpg" alt="Nissal Company" />
+            <div className="hero-icon">
+              <img src="/images/header/onama-icon.png" alt="About Us Icon" className="icon-image" />
             </div>
           </div>
         </div>
