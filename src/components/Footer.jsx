@@ -55,10 +55,10 @@ const Footer = ({ content }) => {
           <div className="footer-section footer-links">
             <h3>{content.footer.quickLinks.title}</h3>
             <ul className="footer-links-list">
-              <li><a href="#products">{content.footer.quickLinks.products}</a></li>
-              <li><a href="#services">{content.footer.quickLinks.services}</a></li>
-              <li><a href="#projects">{content.footer.quickLinks.projects}</a></li>
-              <li><a href="#contact">{content.footer.quickLinks.contact}</a></li>
+              <li><a href="/products">{content.footer.quickLinks.products}</a></li>
+              <li><a href="/services">{content.footer.quickLinks.services}</a></li>
+              <li><a href="/projekti">{content.footer.quickLinks.projects}</a></li>
+              <li><a href="/contact">{content.footer.quickLinks.contact}</a></li>
             </ul>
           </div>
           

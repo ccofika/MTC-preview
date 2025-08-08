@@ -538,16 +538,17 @@ const HomePage = () => {
                     <div className="product-overlay">
                       <div className="product-details">
                         <h3>{product.title}</h3>
-                        <p>{product.description?.substring(0, 100)}...</p>
-                        <button 
-                          className="btn btn-primary"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigate(`/products/${product._id}`);
-                          }}
-                        >
-                          {language === 'SR' ? 'Vidi više' : 'View More'}
-                        </button>
+                        <div className="product-button-container">
+                          <button 
+                            className="btn btn-primary"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/products/${product._id}`);
+                            }}
+                          >
+                            {language === 'SR' ? 'Vidi jos' : 'View More'}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

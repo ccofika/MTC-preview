@@ -36,8 +36,11 @@
   --spacing-8: 2rem;
   --spacing-10: 2.5rem;
   --spacing-12: 3rem;
+  --spacing-14: 3.5rem;
   --spacing-16: 4rem;
+  --spacing-18: 4.5rem;
   --spacing-20: 5rem;
+  --spacing-24: 6rem;
   
   /* Shadows */
   --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
@@ -409,14 +412,112 @@
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
+
+/* Ultra Wide Screens (1920px+) */
+@media (min-width: 1920px) {
+  .site-footer .container {
+    max-width: 1600px;
+    padding: 0 var(--spacing-12);
+  }
+  
   .site-footer .footer-content {
-    grid-template-columns: 1fr 180px 180px 1fr;
+    grid-template-columns: 1.5fr 250px 250px 1.5fr;
+    gap: var(--spacing-16);
+    padding: var(--spacing-24) 0 var(--spacing-20) 0;
+  }
+  
+  .site-footer .footer-section h3 {
+    font-size: 1.375rem;
+    margin-bottom: var(--spacing-8);
+  }
+  
+  .site-footer .contact-details {
     gap: var(--spacing-6);
+  }
+  
+  .site-footer .social-link {
+    padding: var(--spacing-4) var(--spacing-5);
+    font-size: var(--font-size-base);
   }
 }
 
+/* Extra Large Screens (1440px+) */
+@media (min-width: 1440px) {
+  .site-footer .container {
+    max-width: 1400px;
+    padding: 0 var(--spacing-8);
+  }
+  
+  .site-footer .footer-content {
+    grid-template-columns: 1.2fr 220px 220px 1.2fr;
+    gap: var(--spacing-12);
+    padding: var(--spacing-24) 0 var(--spacing-16) 0;
+  }
+  
+  .site-footer .footer-section h3 {
+    font-size: var(--font-size-xl);
+  }
+}
+
+/* Large Desktop (1200px - 1439px) */
+@media (max-width: 1439px) and (min-width: 1200px) {
+  .site-footer .footer-content {
+    grid-template-columns: 1fr 200px 200px 1fr;
+    gap: var(--spacing-10);
+  }
+}
+
+/* Desktop (1025px - 1199px) */
+@media (max-width: 1199px) and (min-width: 1025px) {
+  .site-footer .footer-content {
+    grid-template-columns: 1fr 180px 180px 1fr;
+    gap: var(--spacing-8);
+  }
+}
+
+/* Small Desktop/Large Tablet (1024px) */
+@media (max-width: 1024px) {
+  .site-footer .footer-content {
+    grid-template-columns: 1fr 160px 160px 1fr;
+    gap: var(--spacing-6);
+    padding: var(--spacing-18) 0 var(--spacing-10) 0;
+  }
+  
+  .site-footer .footer-section h3 {
+    font-size: var(--font-size-base);
+  }
+  
+  .site-footer .social-link {
+    padding: var(--spacing-2);
+    font-size: var(--font-size-sm);
+  }
+  
+  .site-footer .certificate-item {
+    padding: var(--spacing-2);
+  }
+}
+
+/* Large Tablet (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .site-footer .container {
+    padding: 0 var(--spacing-6);
+  }
+  
+  .site-footer .contact-details {
+    gap: var(--spacing-4);
+  }
+  
+  .site-footer .social-links {
+    gap: var(--spacing-3);
+  }
+}
+
+/* Tablet (768px) */
 @media (max-width: 768px) {
+  .site-footer .container {
+    padding: 0 var(--spacing-4);
+  }
+  
   .site-footer .footer-content {
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-8);
@@ -425,6 +526,7 @@
   
   .site-footer .footer-contact {
     grid-column: 1 / -1;
+    margin-bottom: var(--spacing-6);
   }
   
   .site-footer .footer-links {
@@ -443,18 +545,44 @@
   .site-footer .certificates {
     flex-direction: row;
     justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-4);
   }
   
   .site-footer .company-info {
     text-align: center;
+    margin-top: var(--spacing-6);
   }
   
   .site-footer .footer-bottom-content {
     flex-direction: column;
     text-align: center;
+    gap: var(--spacing-3);
+  }
+  
+  .site-footer .footer-bottom-links {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-4);
   }
 }
 
+/* Small Tablet/Large Mobile (641px - 768px) */
+@media (max-width: 768px) and (min-width: 641px) {
+  .site-footer .footer-links-list {
+    gap: var(--spacing-2);
+  }
+  
+  .site-footer .social-links {
+    gap: var(--spacing-3);
+  }
+  
+  .site-footer .social-link {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+}
+
+/* Mobile Landscape (640px) */
 @media (max-width: 640px) {
   .site-footer .container {
     padding: 0 var(--spacing-3);
@@ -462,8 +590,9 @@
   
   .site-footer .footer-content {
     grid-template-columns: 1fr;
-    gap: var(--spacing-8);
+    gap: var(--spacing-6);
     text-align: center;
+    padding: var(--spacing-12) 0 var(--spacing-6) 0;
   }
   
   .site-footer .footer-contact,
@@ -475,46 +604,45 @@
   
   .site-footer .contact-details {
     align-items: center;
+    gap: var(--spacing-4);
   }
   
   .site-footer .contact-item {
     justify-content: center;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .site-footer .footer-links-list {
+    max-width: 200px;
+    margin: 0 auto;
+    gap: var(--spacing-2);
   }
   
   .site-footer .social-links {
     max-width: 280px;
     margin: 0 auto;
+    gap: var(--spacing-3);
   }
   
   .site-footer .certificates {
     justify-content: center;
     flex-wrap: wrap;
+    gap: var(--spacing-3);
+    max-width: 300px;
+    margin: 0 auto;
   }
   
   .site-footer .footer-bottom-links {
     flex-direction: column;
-    gap: var(--spacing-3);
+    gap: var(--spacing-2);
   }
   
   /* Enhanced text handling for longer German words on mobile */
   .site-footer .footer-section h3 {
     font-size: var(--font-size-base);
     line-height: 1.4;
-  }
-  
-  .site-footer .social-link span {
-    font-size: var(--font-size-xs);
-  }
-}
-
-@media (max-width: 480px) {
-  .site-footer .footer-content {
-    padding: var(--spacing-12) 0 var(--spacing-6) 0;
-    gap: var(--spacing-6);
-  }
-  
-  .site-footer .social-links {
-    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
   }
   
   .site-footer .social-link {
@@ -522,9 +650,109 @@
     font-size: var(--font-size-sm);
   }
   
-  .site-footer .social-link svg {
+  .site-footer .social-link span {
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Mobile Portrait (481px - 640px) */
+@media (max-width: 640px) and (min-width: 481px) {
+  .site-footer .contact-item {
+    text-align: left;
+  }
+  
+  .site-footer .footer-links-list {
+    text-align: center;
+  }
+}
+
+/* Small Mobile (480px) */
+@media (max-width: 480px) {
+  .site-footer .container {
+    padding: 0 var(--spacing-2);
+  }
+  
+  .site-footer .footer-content {
+    padding: var(--spacing-10) 0 var(--spacing-5) 0;
+    gap: var(--spacing-5);
+  }
+  
+  .site-footer .footer-section h3 {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-3);
+  }
+  
+  .site-footer .contact-details {
+    gap: var(--spacing-3);
+  }
+  
+  .site-footer .contact-item {
+    font-size: var(--font-size-sm);
+    max-width: 280px;
+  }
+  
+  .site-footer .contact-icon {
     width: 18px;
     height: 18px;
+  }
+  
+  .site-footer .footer-links-list {
+    gap: var(--spacing-1);
+  }
+  
+  .site-footer .footer-links-list a {
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-1) 0;
+  }
+  
+  .site-footer .social-links {
+    gap: var(--spacing-2);
+    max-width: 250px;
+  }
+  
+  .site-footer .social-link {
+    padding: var(--spacing-2);
+    font-size: var(--font-size-xs);
+  }
+  
+  .site-footer .social-link svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .site-footer .certificates {
+    gap: var(--spacing-2);
+    max-width: 250px;
+  }
+  
+  .site-footer .certificate-item {
+    padding: var(--spacing-1) var(--spacing-2);
+    font-size: var(--font-size-xs);
+  }
+  
+  .site-footer .certificate-item img {
+    height: 24px;
+  }
+  
+  .site-footer .company-logo img {
+    height: 28px;
+  }
+  
+  .site-footer .company-description {
+    font-size: var(--font-size-xs);
+    line-height: 1.5;
+  }
+  
+  .site-footer .footer-bottom {
+    padding: var(--spacing-4) 0;
+  }
+  
+  .site-footer .copyright {
+    font-size: var(--font-size-xs);
+  }
+  
+  .site-footer .footer-bottom-links a {
+    font-size: var(--font-size-xs);
   }
 }
 
@@ -560,6 +788,71 @@
   }
 }
 
+/* Extra Small Mobile (320px - 480px) */
+@media (max-width: 479px) and (min-width: 320px) {
+  .site-footer .container {
+    padding: 0 var(--spacing-1);
+  }
+  
+  .site-footer .footer-content {
+    gap: var(--spacing-4);
+    padding: var(--spacing-8) 0 var(--spacing-4) 0;
+  }
+  
+  .site-footer .footer-section h3 {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-2);
+  }
+  
+  .site-footer .contact-item {
+    max-width: 260px;
+    font-size: var(--font-size-xs);
+  }
+  
+  .site-footer .social-links {
+    max-width: 200px;
+  }
+  
+  .site-footer .social-link {
+    padding: var(--spacing-1);
+    font-size: 0.7rem;
+  }
+  
+  .site-footer .certificates {
+    max-width: 200px;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .site-footer .certificate-item {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Ultra Small Mobile (320px) */
+@media (max-width: 320px) {
+  .site-footer .footer-content {
+    gap: var(--spacing-3);
+    padding: var(--spacing-6) 0 var(--spacing-3) 0;
+  }
+  
+  .site-footer .contact-item {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--spacing-1);
+    max-width: 100%;
+  }
+  
+  .site-footer .footer-bottom-content {
+    gap: var(--spacing-2);
+  }
+  
+  .site-footer .footer-bottom-links {
+    gap: var(--spacing-1);
+  }
+}
+
 /* Print styles */
 @media print {
   .site-footer {
@@ -575,5 +868,84 @@
   
   .site-footer .footer-content {
     grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-8);
+    padding: var(--spacing-8) 0;
+  }
+  
+  .site-footer .certificates {
+    flex-direction: row;
+  }
+}
+
+/* Foldable Devices & Unique Aspect Ratios */
+@media (max-width: 540px) and (max-height: 720px) {
+  /* Samsung Galaxy Fold (unfolded), Surface Duo */
+  .site-footer .footer-content {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-4);
+    padding: var(--spacing-8) 0 var(--spacing-4) 0;
+  }
+  
+  .site-footer .footer-contact,
+  .site-footer .footer-certificates {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 375px) and (max-height: 812px) {
+  /* iPhone X/11/12/13 Pro Max */
+  .site-footer .footer-section h3 {
+    font-size: 0.875rem;
+  }
+  
+  .site-footer .social-link {
+    padding: var(--spacing-1) var(--spacing-2);
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 393px) and (max-height: 852px) {
+  /* iPhone 14 Pro Max */
+  .site-footer .contact-item {
+    max-width: 280px;
+  }
+}
+
+/* Landscape orientation for small devices */
+@media (max-height: 500px) and (orientation: landscape) {
+  .site-footer .footer-content {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-4);
+    padding: var(--spacing-6) 0 var(--spacing-3) 0;
+  }
+  
+  .site-footer .footer-contact,
+  .site-footer .footer-links,
+  .site-footer .footer-social,
+  .site-footer .footer-certificates {
+    grid-column: auto;
+  }
+  
+  .site-footer .footer-section h3 {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-2);
+  }
+  
+  .site-footer .company-info {
+    margin-top: var(--spacing-3);
+  }
+}
+
+/* High DPI / Retina displays optimization */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .site-footer .contact-icon,
+  .site-footer .social-link svg {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  .site-footer .certificate-item img,
+  .site-footer .company-logo img {
+    image-rendering: -webkit-optimize-contrast;
   }
 }
