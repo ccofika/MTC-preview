@@ -241,7 +241,24 @@
 
 /* Sustainability Section - Scoped to ecology-page only */
 .ecology-page .sustainability-section {
-  background-color: var(--color-white);
+  background: linear-gradient(135deg, 
+    var(--color-gray-50) 0%, 
+    var(--color-white) 50%, 
+    var(--color-gray-50) 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.ecology-page .sustainability-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -20%;
+  width: 40%;
+  height: 200%;
+  background: radial-gradient(ellipse, rgba(218, 89, 19, 0.02) 0%, transparent 70%);
+  animation: float 20s ease-in-out infinite;
 }
 
 .ecology-page .sustainability-grid {

@@ -441,24 +441,190 @@ const ServicesPage = () => {
             {currentContent.services.items.map(service => (
               <div key={service.id} className="service-card">
                 <div className="service-icon">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                     {service.icon === 'design' && (
-                      <path d="M12 2L2 7L12 12L22 7L12 2Z M2 17L12 22L22 17 M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <g>
+                        {/* Sophisticated architectural design icon with layered elements */}
+                        <defs>
+                          <linearGradient id="designGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="rgba(255,255,255,0.9)"/>
+                            <stop offset="100%" stopColor="rgba(255,255,255,0.6)"/>
+                          </linearGradient>
+                        </defs>
+                        {/* Blueprint base */}
+                        <rect x="8" y="12" width="48" height="36" rx="4" fill="rgba(255,255,255,0.1)" stroke="currentColor" strokeWidth="1.5"/>
+                        {/* Design layers */}
+                        <path d="M32 8L48 16L32 24L16 16L32 8Z" fill="url(#designGrad)" stroke="currentColor" strokeWidth="2"/>
+                        <path d="M16 20L32 28L48 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                        <path d="M16 26L32 34L48 26" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                        {/* Ruler/measurement tools */}
+                        <rect x="12" y="52" width="40" height="4" rx="2" fill="rgba(255,255,255,0.2)" stroke="currentColor" strokeWidth="1"/>
+                        <circle cx="16" cy="54" r="1.5" fill="currentColor"/>
+                        <circle cx="32" cy="54" r="1.5" fill="currentColor"/>
+                        <circle cx="48" cy="54" r="1.5" fill="currentColor"/>
+                        {/* Compass accent */}
+                        <circle cx="48" cy="16" r="6" fill="rgba(255,255,255,0.1)" stroke="currentColor" strokeWidth="1.5"/>
+                        <path d="M46 14L50 18L48 20L44 16L46 14Z" fill="currentColor"/>
+                      </g>
                     )}
                     {service.icon === 'production' && (
-                      <path d="M9 12L11 14L15 10 M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <g>
+                        {/* Advanced manufacturing/gear system */}
+                        <defs>
+                          <radialGradient id="prodGrad" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stopColor="rgba(255,255,255,0.8)"/>
+                            <stop offset="100%" stopColor="rgba(255,255,255,0.3)"/>
+                          </radialGradient>
+                        </defs>
+                        {/* Main gear */}
+                        <circle cx="32" cy="32" r="18" fill="url(#prodGrad)" stroke="currentColor" strokeWidth="2"/>
+                        <circle cx="32" cy="32" r="8" fill="rgba(255,255,255,0.2)" stroke="currentColor" strokeWidth="1.5"/>
+                        {/* Gear teeth */}
+                        <g>
+                          {Array.from({length: 8}).map((_, i) => (
+                            <rect 
+                              key={i}
+                              x="30" 
+                              y="10" 
+                              width="4" 
+                              height="8" 
+                              rx="2"
+                              fill="currentColor"
+                              transform={`rotate(${i * 45} 32 32)`}
+                            />
+                          ))}
+                        </g>
+                        {/* Secondary gears */}
+                        <circle cx="18" cy="18" r="8" fill="rgba(255,255,255,0.15)" stroke="currentColor" strokeWidth="1.5"/>
+                        <circle cx="46" cy="46" r="8" fill="rgba(255,255,255,0.15)" stroke="currentColor" strokeWidth="1.5"/>
+                        {/* Quality control checkmark */}
+                        <path d="M28 30L31 33L38 26" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                        {/* Precision elements */}
+                        <rect x="4" y="30" width="12" height="4" rx="2" fill="rgba(255,255,255,0.2)" stroke="currentColor" strokeWidth="1"/>
+                        <rect x="48" y="30" width="12" height="4" rx="2" fill="rgba(255,255,255,0.2)" stroke="currentColor" strokeWidth="1"/>
+                      </g>
                     )}
                     {service.icon === 'installation' && (
-                      <path d="M14.7 6.3C16.2 7.8 16.2 10.3 14.7 11.8L11.8 14.7C10.3 16.2 7.8 16.2 6.3 14.7C4.8 13.2 4.8 10.7 6.3 9.2L9.2 6.3C10.7 4.8 13.2 4.8 14.7 6.3Z M17.7 9.3L14.7 6.3 M10.7 16.3L7.7 13.3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <g>
+                        {/* Professional installation with tools */}
+                        <defs>
+                          <linearGradient id="installGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="rgba(255,255,255,0.8)"/>
+                            <stop offset="100%" stopColor="rgba(255,255,255,0.4)"/>
+                          </linearGradient>
+                        </defs>
+                        {/* Building/frame structure */}
+                        <rect x="16" y="12" width="32" height="40" rx="2" fill="rgba(255,255,255,0.1)" stroke="currentColor" strokeWidth="2"/>
+                        <rect x="20" y="16" width="24" height="32" rx="1" fill="url(#installGrad)" stroke="currentColor" strokeWidth="1"/>
+                        {/* Window frames */}
+                        <rect x="22" y="18" width="8" height="12" fill="rgba(255,255,255,0.2)" stroke="currentColor" strokeWidth="1"/>
+                        <rect x="34" y="18" width="8" height="12" fill="rgba(255,255,255,0.2)" stroke="currentColor" strokeWidth="1"/>
+                        <rect x="22" y="34" width="8" height="12" fill="rgba(255,255,255,0.2)" stroke="currentColor" strokeWidth="1"/>
+                        <rect x="34" y="34" width="8" height="12" fill="rgba(255,255,255,0.2)" stroke="currentColor" strokeWidth="1"/>
+                        {/* Professional tools */}
+                        <g transform="rotate(-30 12 20)">
+                          <rect x="8" y="18" width="8" height="4" rx="2" fill="currentColor"/>
+                          <circle cx="12" cy="20" r="3" fill="rgba(255,255,255,0.3)" stroke="currentColor" strokeWidth="1"/>
+                        </g>
+                        {/* Level tool */}
+                        <rect x="6" y="44" width="16" height="3" rx="1.5" fill="rgba(255,255,255,0.2)" stroke="currentColor" strokeWidth="1"/>
+                        <circle cx="14" cy="45.5" r="1" fill="currentColor"/>
+                        {/* Installation progress indicator */}
+                        <path d="M52 16L56 20L54 22L48 16L52 16Z" fill="currentColor"/>
+                        <circle cx="52" cy="19" r="6" fill="rgba(255,255,255,0.1)" stroke="currentColor" strokeWidth="1.5"/>
+                      </g>
                     )}
                     {service.icon === 'service' && (
-                      <path d="M14.5 4H20C20.5523 4 21 4.44772 21 5V7C21 7.55228 20.5523 8 20 8H14.5M14.5 4V8M14.5 4H4C3.44772 4 3 4.44772 3 5V7C3 7.55228 3.44772 8 4 8H14.5M14.5 8V20C14.5 20.5523 14.0523 21 13.5 21H5C4.44772 21 4 20.5523 4 20V16M14.5 8H20C20.5523 8 21 8.44772 21 9V19C21 19.5523 20.5523 20 20 20H14.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <g>
+                        {/* Premium service and maintenance */}
+                        <defs>
+                          <radialGradient id="serviceGrad" cx="50%" cy="50%" r="60%">
+                            <stop offset="0%" stopColor="rgba(255,255,255,0.9)"/>
+                            <stop offset="100%" stopColor="rgba(255,255,255,0.2)"/>
+                          </radialGradient>
+                        </defs>
+                        {/* Service badge/shield */}
+                        <path d="M32 8L44 12L44 28C44 36 38 44 32 48C26 44 20 36 20 28L20 12L32 8Z" fill="url(#serviceGrad)" stroke="currentColor" strokeWidth="2"/>
+                        {/* Premium service elements */}
+                        <circle cx="32" cy="24" r="8" fill="rgba(255,255,255,0.2)" stroke="currentColor" strokeWidth="1.5"/>
+                        <path d="M28 24L31 27L36 22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        {/* Technical tools */}
+                        <g transform="translate(48, 16)">
+                          <rect x="0" y="0" width="12" height="20" rx="6" fill="rgba(255,255,255,0.15)" stroke="currentColor" strokeWidth="1.5"/>
+                          <circle cx="6" cy="6" r="2" fill="currentColor"/>
+                          <rect x="2" y="12" width="8" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+                          <rect x="3" y="16" width="6" height="1" rx="0.5" fill="rgba(255,255,255,0.3)"/>
+                        </g>
+                        {/* Service wrench */}
+                        <g transform="rotate(45 12 48)">
+                          <rect x="8" y="44" width="8" height="20" rx="4" fill="rgba(255,255,255,0.2)" stroke="currentColor" strokeWidth="1"/>
+                          <circle cx="12" cy="48" r="3" fill="rgba(255,255,255,0.3)" stroke="currentColor" strokeWidth="1"/>
+                        </g>
+                        {/* 24/7 indicator */}
+                        <text x="32" y="38" textAnchor="middle" fontSize="6" fill="currentColor" fontWeight="bold">24/7</text>
+                      </g>
                     )}
                     {service.icon === 'education' && (
-                      <path d="M22 10V6C22 5.44772 21.5523 5 21 5H3C2.44772 5 2 5.44772 2 6V10C2 10.5523 2.44772 11 3 11H21C21.5523 11 22 10.5523 22 10Z M7 19H17M9 15V19M15 15V19M2 15L12 10L22 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <g>
+                        {/* Advanced training and education */}
+                        <defs>
+                          <linearGradient id="eduGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="rgba(255,255,255,0.8)"/>
+                            <stop offset="100%" stopColor="rgba(255,255,255,0.3)"/>
+                          </linearGradient>
+                        </defs>
+                        {/* Graduation cap */}
+                        <path d="M32 12L52 20L32 28L12 20L32 12Z" fill="url(#eduGrad)" stroke="currentColor" strokeWidth="2"/>
+                        <path d="M48 22L48 32C48 34 42 38 32 38C22 38 16 34 16 32L16 22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                        {/* Tassel */}
+                        <circle cx="48" cy="24" r="2" fill="currentColor"/>
+                        <path d="M48 26L50 32" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                        <circle cx="50" cy="32" r="1.5" fill="currentColor"/>
+                        {/* Certificate/diploma */}
+                        <rect x="8" y="44" width="20" height="14" rx="2" fill="rgba(255,255,255,0.15)" stroke="currentColor" strokeWidth="1.5"/>
+                        <rect x="10" y="46" width="16" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+                        <rect x="10" y="50" width="12" height="1" rx="0.5" fill="rgba(255,255,255,0.2)"/>
+                        <rect x="10" y="52" width="14" height="1" rx="0.5" fill="rgba(255,255,255,0.2)"/>
+                        <rect x="10" y="54" width="10" height="1" rx="0.5" fill="rgba(255,255,255,0.2)"/>
+                        {/* Award seal */}
+                        <circle cx="46" cy="48" r="8" fill="rgba(255,255,255,0.1)" stroke="currentColor" strokeWidth="1.5"/>
+                        <path d="M42 48L45 51L50 46" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        {/* Knowledge transfer arrows */}
+                        <path d="M34 20L38 24L34 28" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M30 20L26 24L30 28" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </g>
                     )}
                     {service.icon === 'support' && (
-                      <path d="M21 15C21 15.5523 20.5523 16 20 16V20C20 20.5523 19.5523 21 19 21H17C16.4477 21 16 20.5523 16 20V16H8V20C8 20.5523 7.55228 21 7 21H5C4.44772 21 4 20.5523 4 20V16C3.44772 16 3 15.5523 3 15V6C3 4.89543 3.89543 4 5 4H19C20.1046 4 21 4.89543 21 6V15Z M7 8H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <g>
+                        {/* Premium technical support system */}
+                        <defs>
+                          <radialGradient id="supportGrad" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stopColor="rgba(255,255,255,0.9)"/>
+                            <stop offset="100%" stopColor="rgba(255,255,255,0.2)"/>
+                          </radialGradient>
+                        </defs>
+                        {/* Support headset */}
+                        <path d="M32 16C38 16 44 22 44 28L44 36C44 38 42 40 40 40L36 40C34 40 32 38 32 36L32 32L32 32C32 32 30 32 28 32L28 36C28 38 26 40 24 40L20 40C18 40 16 38 16 36L16 28C16 22 22 16 28 16" fill="url(#supportGrad)" stroke="currentColor" strokeWidth="2"/>
+                        {/* Microphone */}
+                        <rect x="28" y="34" width="8" height="12" rx="4" fill="rgba(255,255,255,0.3)" stroke="currentColor" strokeWidth="1.5"/>
+                        <rect x="30" y="46" width="4" height="6" fill="currentColor"/>
+                        <rect x="26" y="50" width="12" height="2" rx="1" fill="currentColor"/>
+                        {/* Support signals/waves */}
+                        <g opacity="0.6">
+                          <path d="M8 28C8 20 14 14 22 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                          <path d="M56 28C56 20 50 14 42 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                          <path d="M12 28C12 24 16 20 20 20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                          <path d="M52 28C52 24 48 20 44 20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                        </g>
+                        {/* Connection indicators */}
+                        <circle cx="10" cy="12" r="2" fill="currentColor"/>
+                        <circle cx="54" cy="12" r="2" fill="currentColor"/>
+                        <circle cx="10" cy="44" r="2" fill="currentColor"/>
+                        <circle cx="54" cy="44" r="2" fill="currentColor"/>
+                        {/* Status indicator */}
+                        <circle cx="48" cy="24" r="3" fill="rgba(0,255,100,0.8)" stroke="currentColor" strokeWidth="1"/>
+                        <text x="48" y="26" textAnchor="middle" fontSize="4" fill="currentColor" fontWeight="bold">●</text>
+                      </g>
                     )}
                   </svg>
                 </div>
@@ -522,8 +688,101 @@ const ServicesPage = () => {
             {currentContent.guarantees.items.map((guarantee, index) => (
               <div key={index} className="guarantee-card">
                 <div className="guarantee-icon">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 12L11 14L15 10M12 3L14 8L19 8L15.5 12L17 17L12 14L7 17L8.5 12L5 8L10 8L12 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {index === 0 && (
+                      <g>
+                        {/* Product Warranty - Premium shield with layers */}
+                        <defs>
+                          <linearGradient id="warrantyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="rgba(255,255,255,0.9)"/>
+                            <stop offset="100%" stopColor="rgba(255,255,255,0.4)"/>
+                          </linearGradient>
+                        </defs>
+                        <path d="M32 8L48 14L48 32C48 42 40 50 32 54C24 50 16 42 16 32L16 14L32 8Z" fill="url(#warrantyGrad)" stroke="currentColor" strokeWidth="2"/>
+                        <path d="M32 16L42 20L42 32C42 38 38 42 32 46C26 42 22 38 22 32L22 20L32 16Z" fill="rgba(255,255,255,0.3)" stroke="currentColor" strokeWidth="1.5"/>
+                        <path d="M26 30L30 34L38 26" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                        <circle cx="32" cy="32" r="12" fill="rgba(255,255,255,0.1)" stroke="currentColor" strokeWidth="1"/>
+                        <text x="32" y="50" textAnchor="middle" fontSize="8" fill="currentColor" fontWeight="bold">5-10</text>
+                      </g>
+                    )}
+                    {index === 1 && (
+                      <g>
+                        {/* Installation Warranty - Tools and quality */}
+                        <defs>
+                          <radialGradient id="installWarrantyGrad" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stopColor="rgba(255,255,255,0.8)"/>
+                            <stop offset="100%" stopColor="rgba(255,255,255,0.3)"/>
+                          </radialGradient>
+                        </defs>
+                        <circle cx="32" cy="32" r="22" fill="url(#installWarrantyGrad)" stroke="currentColor" strokeWidth="2"/>
+                        <g transform="rotate(-45 32 32)">
+                          <rect x="28" y="18" width="8" height="28" rx="4" fill="rgba(255,255,255,0.4)" stroke="currentColor" strokeWidth="1.5"/>
+                          <circle cx="32" cy="24" r="4" fill="currentColor"/>
+                          <rect x="30" y="36" width="4" height="8" rx="2" fill="rgba(255,255,255,0.3)"/>
+                        </g>
+                        <g transform="rotate(45 32 32)">
+                          <rect x="22" y="28" width="20" height="8" rx="4" fill="rgba(255,255,255,0.3)" stroke="currentColor" strokeWidth="1"/>
+                          <circle cx="38" cy="32" r="3" fill="currentColor"/>
+                        </g>
+                        <path d="M20 44L24 48L30 42" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        <text x="32" y="56" textAnchor="middle" fontSize="6" fill="currentColor" fontWeight="bold">2 YRS</text>
+                      </g>
+                    )}
+                    {index === 2 && (
+                      <g>
+                        {/* Parts Service - Mechanical components */}
+                        <defs>
+                          <linearGradient id="partsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="rgba(255,255,255,0.9)"/>
+                            <stop offset="100%" stopColor="rgba(255,255,255,0.2)"/>
+                          </linearGradient>
+                        </defs>
+                        <circle cx="32" cy="32" r="20" fill="url(#partsGrad)" stroke="currentColor" strokeWidth="2"/>
+                        <circle cx="32" cy="32" r="8" fill="rgba(255,255,255,0.3)" stroke="currentColor" strokeWidth="1.5"/>
+                        {Array.from({length: 6}).map((_, i) => (
+                          <rect 
+                            key={i}
+                            x="30" 
+                            y="10" 
+                            width="4" 
+                            height="10" 
+                            rx="2"
+                            fill="currentColor"
+                            transform={`rotate(${i * 60} 32 32)`}
+                          />
+                        ))}
+                        <g transform="translate(48, 20)">
+                          <rect x="0" y="0" width="8" height="16" rx="4" fill="rgba(255,255,255,0.2)" stroke="currentColor" strokeWidth="1"/>
+                          <circle cx="4" cy="8" r="2" fill="currentColor"/>
+                        </g>
+                        <g transform="translate(8, 36)">
+                          <rect x="0" y="0" width="16" height="8" rx="4" fill="rgba(255,255,255,0.2)" stroke="currentColor" strokeWidth="1"/>
+                          <circle cx="8" cy="4" r="1.5" fill="currentColor"/>
+                        </g>
+                        <text x="32" y="58" textAnchor="middle" fontSize="5" fill="currentColor" fontWeight="bold">15+</text>
+                      </g>
+                    )}
+                    {index === 3 && (
+                      <g>
+                        {/* Technical Support - 24/7 Communication */}
+                        <defs>
+                          <radialGradient id="supportGuaranteeGrad" cx="50%" cy="50%" r="60%">
+                            <stop offset="0%" stopColor="rgba(255,255,255,0.9)"/>
+                            <stop offset="100%" stopColor="rgba(255,255,255,0.2)"/>
+                          </radialGradient>
+                        </defs>
+                        <circle cx="32" cy="32" r="22" fill="url(#supportGuaranteeGrad)" stroke="currentColor" strokeWidth="2"/>
+                        <path d="M32 18C38 18 44 24 44 30L44 38C44 40 42 42 40 42L36 42C34 42 32 40 32 38L32 34C32 34 30 34 28 34L28 38C28 40 26 42 24 42L20 42C18 42 16 40 16 38L16 30C16 24 22 18 28 18" fill="rgba(255,255,255,0.3)" stroke="currentColor" strokeWidth="1.5"/>
+                        <rect x="28" y="36" width="8" height="10" rx="4" fill="rgba(255,255,255,0.4)" stroke="currentColor" strokeWidth="1"/>
+                        <circle cx="32" cy="48" r="2" fill="currentColor"/>
+                        <g opacity="0.7">
+                          <path d="M12 30C12 22 18 16 26 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                          <path d="M52 30C52 22 46 16 38 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                        </g>
+                        <circle cx="48" cy="26" r="3" fill="rgba(0,255,100,0.8)" stroke="currentColor" strokeWidth="1"/>
+                        <text x="32" y="58" textAnchor="middle" fontSize="5" fill="currentColor" fontWeight="bold">24/7</text>
+                      </g>
+                    )}
                   </svg>
                 </div>
                 <div className="guarantee-content">

@@ -325,7 +325,7 @@ const ProjectsPage = () => {
         <div className="projects-content">
           {/* Sidebar with filters */}
           <aside className="projects-sidebar">
-            <div className="sidebar-section">
+            <div className="sidebar-section search-section">
               <h3>Pretraga</h3>
               <form onSubmit={handleSearchSubmit} className="search-form">
                 <input
