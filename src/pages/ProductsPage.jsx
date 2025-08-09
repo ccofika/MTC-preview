@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './ProductsPage.css';
 import Header from '../components/Header';
@@ -29,6 +29,14 @@ const ProductsPage = () => {
     sortBy: 'createdAt',
     sortOrder: 'desc'
   });
+
+  // Scroll states for sticky behavior
+  const [isSticky, setIsSticky] = useState(false);
+  const [isAtBottom, setIsAtBottom] = useState(false);
+  const sidebarRef = useRef(null);
+  const mainContentRef = useRef(null);
+  const sidebarPlaceholderRef = useRef(null);
+  const productsSectionRef = useRef(null);
 
 
   // Fetch initial data
@@ -72,6 +80,109 @@ const ProductsPage = () => {
 
     fetchProducts();
   }, [filters]);
+
+  // Advanced sticky sidebar behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sidebarRef.current || !mainContentRef.current || !sidebarPlaceholderRef.current || !productsSectionRef.current) return;
+      
+      // Disable sticky behavior on mobile devices
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        setIsSticky(false);
+        sidebarPlaceholderRef.current.style.width = '0px';
+        sidebarRef.current.style.top = '';
+        return;
+      }
+
+      const scrollTop = window.pageYOffset;
+      const windowHeight = window.innerHeight;
+      
+      // Get section boundaries
+      const productsSectionRect = productsSectionRef.current.getBoundingClientRect();
+      const productsSectionTop = scrollTop + productsSectionRect.top;
+      const productsSectionBottom = productsSectionTop + productsSectionRect.height;
+      
+      // Get sidebar dimensions
+      const sidebarHeight = sidebarRef.current.offsetHeight;
+      
+      // Header offset (assuming header is ~100px)
+      const headerOffset = 100;
+      const topPadding = 20; // Additional padding from top
+      
+      // Calculate when sticky should activate
+      // Start when products section enters viewport (accounting for header)
+      const stickyActivationPoint = productsSectionTop - headerOffset;
+      
+      // Calculate the exact point where sidebar should stop being sticky
+      // This should be when scrollTop reaches the point where sidebar bottom would align with section bottom
+      const maxStickyScroll = productsSectionBottom - sidebarHeight - headerOffset - topPadding;
+      
+      // Determine sidebar states
+      const shouldBeSticky = scrollTop >= stickyActivationPoint && scrollTop <= maxStickyScroll;
+      const shouldBeAtBottom = scrollTop > maxStickyScroll;
+      
+      setIsSticky(shouldBeSticky);
+      setIsAtBottom(shouldBeAtBottom);
+      
+      if (shouldBeSticky) {
+        // Sticky mode - follows scroll
+        let optimalTop = headerOffset + topPadding;
+        
+        // Show placeholder to maintain layout
+        const sidebarWidth = window.innerWidth <= 1024 ? '280px' : '300px';
+        sidebarPlaceholderRef.current.style.width = sidebarWidth;
+        
+        sidebarRef.current.style.position = 'fixed';
+        sidebarRef.current.style.top = `${optimalTop}px`;
+        sidebarRef.current.style.left = ''; // Reset left positioning
+        sidebarRef.current.style.width = ''; // Reset width
+      } else if (shouldBeAtBottom) {
+        // Bottom mode - position absolutely at bottom of products section
+        const sidebarWidth = window.innerWidth <= 1024 ? '280px' : '300px';
+        
+        // Calculate position relative to products-main section
+        const relativeBottom = productsSectionRect.height - sidebarHeight - 20;
+        
+        sidebarRef.current.style.position = 'absolute';
+        sidebarRef.current.style.top = `${relativeBottom}px`;
+        sidebarRef.current.style.left = '20px'; // Container padding
+        sidebarRef.current.style.width = sidebarWidth;
+        sidebarPlaceholderRef.current.style.width = '0px';
+      } else {
+        // Normal mode - before sticky activation
+        sidebarRef.current.style.position = '';
+        sidebarRef.current.style.top = '';
+        sidebarRef.current.style.left = '';
+        sidebarRef.current.style.width = '';
+        sidebarPlaceholderRef.current.style.width = '0px';
+      }
+    };
+
+    // Throttle scroll handler for better performance
+    let scrollTimeout;
+    const throttledScrollHandler = () => {
+      if (scrollTimeout) return;
+      scrollTimeout = setTimeout(() => {
+        handleScroll();
+        scrollTimeout = null;
+      }, 8); // ~120fps for smoother sticky behavior
+    };
+
+    window.addEventListener('scroll', throttledScrollHandler);
+    window.addEventListener('resize', handleScroll);
+    
+    // Initial check
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', throttledScrollHandler);
+      window.removeEventListener('resize', handleScroll);
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+    };
+  }, []);
 
   // Handle filter changes
   const handleFilterChange = (key, value) => {
@@ -381,12 +492,18 @@ const ProductsPage = () => {
       </section>
 
       {/* Main Content */}
-      <section className="products-main">
+      <section ref={productsSectionRef} className="products-main">
         <div className="container">
           <div className="products-layout">
             
+            {/* Sidebar Placeholder - maintains layout when sidebar becomes fixed */}
+            <div ref={sidebarPlaceholderRef} className="sidebar-placeholder"></div>
+            
             {/* Filters Sidebar */}
-            <aside className="filters-sidebar">
+            <aside 
+              ref={sidebarRef}
+              className={`filters-sidebar ${isSticky ? 'is-sticky' : ''} ${isAtBottom ? 'is-at-bottom' : ''}`}
+            >
               <div className="filters-header">
                 <h3 className="filters-title">{currentContent.filters.title}</h3>
                 <button 
@@ -487,7 +604,10 @@ const ProductsPage = () => {
             </aside>
 
             {/* Products Content */}
-            <main className="products-content">
+            <main 
+              ref={mainContentRef}
+              className="products-content"
+            >
               
               {/* Toolbar */}
               <div className="products-toolbar">

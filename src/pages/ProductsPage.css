@@ -204,7 +204,20 @@
   z-index: 1;
 }
 
-/* Filters Sidebar - Glass morphism style from homepage */
+/* Products main section needs relative positioning for absolute sidebar */
+.products-page .products-main {
+  position: relative;
+}
+
+/* Sidebar Placeholder - maintains layout space when sidebar is fixed */
+.products-page .sidebar-placeholder {
+  width: 0px;
+  transition: width 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* Filters Sidebar - Enhanced sticky behavior */
 .products-page .filters-sidebar {
   background: linear-gradient(135deg,
     rgba(255, 255, 255, 0.9) 0%,
@@ -216,12 +229,103 @@
   padding: var(--spacing-8);
   position: sticky;
   top: 100px;
-  max-height: calc(100vh - 120px);
+  max-height: calc(100vh - 160px); /* Reduced height for bottom margin */
   overflow-y: auto;
   box-shadow: 
     var(--shadow-lg),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transition: all var(--transition-normal);
+  transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+  will-change: transform, top;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* Enhanced sticky state */
+.products-page .filters-sidebar.is-sticky {
+  position: fixed;
+  z-index: 10; /* Lower z-index to avoid covering main content */
+  width: 300px;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.85) 100%
+  );
+  backdrop-filter: blur(25px);
+  box-shadow: 
+    var(--shadow-xl),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 0 0 1px rgba(218, 89, 19, 0.1);
+  transform: translateZ(0); /* Force hardware acceleration */
+}
+
+/* Sticky indicator */
+.products-page .filters-sidebar.is-sticky::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    var(--primary-color), 
+    var(--primary-light)
+  );
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  opacity: 0.8;
+}
+
+/* Bottom margin for sticky sidebar */
+.products-page .filters-sidebar.is-sticky {
+  margin-bottom: 40px;
+}
+
+/* Bottom state - sidebar stays at bottom of products section */
+.products-page .filters-sidebar.is-at-bottom {
+  position: static !important;
+  top: auto !important;
+  transform: none !important;
+  margin-top: auto;
+  align-self: end;
+  /* JavaScript will handle positioning */
+}
+
+/* Responsive sticky adjustments */
+@media (max-width: 1024px) {
+  .products-page .filters-sidebar.is-sticky {
+    width: 280px;
+    margin-bottom: 30px; /* Smaller margin on smaller screens */
+  }
+  
+  .products-page .filters-sidebar {
+    max-height: calc(100vh - 140px); /* Adjust for smaller screens */
+  }
+  
+  .products-page .sidebar-placeholder {
+    width: 280px;
+  }
+}
+
+/* Smooth scroll behavior */
+.products-page .filters-sidebar {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for sidebar */
+.products-page .filters-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.products-page .filters-sidebar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.products-page .filters-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(218, 89, 19, 0.3);
+  border-radius: 3px;
+}
+
+.products-page .filters-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(218, 89, 19, 0.5);
 }
 
 .products-page .filters-sidebar:hover {
@@ -400,6 +504,8 @@
 /* Products Content */
 .products-page .products-content {
   min-height: 600px;
+  position: relative;
+  z-index: 20; /* Higher than sticky sidebar */
 }
 
 /* Toolbar */
@@ -897,14 +1003,29 @@
   }
   
   .products-page .filters-sidebar {
-    position: static;
-    max-height: none;
+    position: static !important;
+    max-height: none !important;
     order: 2;
+    top: auto !important;
+    width: auto !important;
     background: linear-gradient(135deg,
       rgba(255, 255, 255, 0.95) 0%,
       rgba(255, 255, 255, 0.85) 100%
     );
     backdrop-filter: blur(10px);
+  }
+
+  /* Disable sticky on mobile */
+  .products-page .filters-sidebar.is-sticky {
+    position: static !important;
+    width: auto !important;
+    top: auto !important;
+    z-index: auto !important;
+    transform: none !important;
+  }
+
+  .products-page .sidebar-placeholder {
+    display: none;
   }
   
   .products-page .products-content {

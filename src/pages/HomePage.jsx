@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { projectService } from '../services/projectService';
 import { productService } from '../services/productService';
+import { homepageSettingsService } from '../services/homepageSettingsService';
 import useLanguage from '../hooks/useLanguage';
 
 const HomePage = () => {
@@ -353,26 +354,42 @@ const HomePage = () => {
 
   // Fetch featured products
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchFeaturedProducts = async () => {
       try {
         setProductsLoading(true);
         setProductsError(null);
-        const response = await productService.getProducts({ limit: 4 });
+        const response = await homepageSettingsService.getFeaturedProducts();
         
-        if (response.success && response.data.products) {
-          setProducts(response.data.products);
+        if (response.success && response.data) {
+          setProducts(response.data);
         } else {
-          setProductsError('Failed to fetch products');
+          // Fallback to regular products if no featured products are set
+          const fallbackResponse = await productService.getProducts({ limit: 4 });
+          if (fallbackResponse.success && fallbackResponse.data.products) {
+            setProducts(fallbackResponse.data.products);
+          } else {
+            setProductsError('Failed to fetch products');
+          }
         }
       } catch (error) {
-        console.error('Error fetching products:', error);
-        setProductsError(error.message || 'Failed to fetch products');
+        console.error('Error fetching featured products:', error);
+        // Fallback to regular products on error
+        try {
+          const fallbackResponse = await productService.getProducts({ limit: 4 });
+          if (fallbackResponse.success && fallbackResponse.data.products) {
+            setProducts(fallbackResponse.data.products);
+          } else {
+            setProductsError(error.message || 'Failed to fetch products');
+          }
+        } catch (fallbackError) {
+          setProductsError(fallbackError.message || 'Failed to fetch products');
+        }
       } finally {
         setProductsLoading(false);
       }
     };
 
-    fetchProducts();
+    fetchFeaturedProducts();
   }, []);
 
   // Mouse tracking effect

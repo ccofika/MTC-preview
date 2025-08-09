@@ -4,6 +4,7 @@ import useAuth from '../hooks/useAuth';
 import ProductManager from '../components/ProductManager';
 import ProjectManager from '../components/ProjectManager';
 import AdminSettings from '../components/AdminSettings';
+import FeaturedProductsManager from '../components/FeaturedProductsManager';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -12,6 +13,7 @@ const AdminDashboard = () => {
   const [showProductManager, setShowProductManager] = useState(false);
   const [showProjectManager, setShowProjectManager] = useState(false);
   const [showAdminSettings, setShowAdminSettings] = useState(false);
+  const [showFeaturedProductsManager, setShowFeaturedProductsManager] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -205,6 +207,27 @@ const AdminDashboard = () => {
                     <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
                   </svg>
                 </div>
+                <h3 className="admin-card-title">Istaknuti proizvodi</h3>
+              </div>
+              <p className="admin-card-description">
+                Odaberite 4 proizvoda koji će biti prikazani na početnoj stranici.
+              </p>
+              <button 
+                className="admin-card-button"
+                onClick={() => setShowFeaturedProductsManager(true)}
+              >
+                Upravljaj istaknutim proizvodima
+              </button>
+            </div>
+
+            <div className="admin-management-card">
+              <div className="admin-card-header">
+                <div className="admin-card-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                </div>
                 <h3 className="admin-card-title">Sertifikati i standardi</h3>
               </div>
               <p className="admin-card-description">
@@ -305,6 +328,11 @@ const AdminDashboard = () => {
       {/* Admin Settings Modal */}
       {showAdminSettings && (
         <AdminSettings onClose={() => setShowAdminSettings(false)} />
+      )}
+
+      {/* Featured Products Manager Modal */}
+      {showFeaturedProductsManager && (
+        <FeaturedProductsManager onClose={() => setShowFeaturedProductsManager(false)} />
       )}
     </div>
   );
