@@ -129,30 +129,67 @@
   border-radius: var(--radius-base);
 }
 
-/* Hero Section */
+/* Hero Section - Homepage style with dark overlay and mouse tracking */
 .contact-page .contact-hero {
   margin-top: 80px;
   padding: var(--spacing-24) 0;
-  background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-white) 100%);
+  min-height: 500px;
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
   text-align: center;
+  background: linear-gradient(135deg, 
+    var(--color-gray-900) 0%, 
+    var(--secondary-color) 50%, 
+    var(--color-gray-800) 100%
+  );
+}
+
+.contact-page .hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.contact-page .hero-background .background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(3px) brightness(0.3);
+}
+
+.contact-page .hero-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(29, 29, 27, 0.6);
+  z-index: 2;
 }
 
 .contact-page .contact-hero::before {
   content: '';
   position: absolute;
   top: 0;
-  right: -10%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(45deg, transparent 0%, rgba(255, 107, 53, 0.03) 100%);
-  transform: skewX(-15deg);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(ellipse at 20% 30%, rgba(218, 89, 19, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(218, 89, 19, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(29, 29, 27, 0.6) 0%, transparent 70%);
+  animation: subtleFloat 25s ease-in-out infinite;
 }
 
 .contact-page .hero-content {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   max-width: 800px;
   margin: 0 auto;
 }
@@ -162,19 +199,38 @@
   font-weight: 800;
   line-height: 1.1;
   margin: 0 0 var(--spacing-6) 0;
-  color: var(--color-black);
+  color: var(--color-white);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .contact-page .hero-subtitle {
   font-size: var(--font-size-xl);
-  color: var(--color-gray-600);
+  color: rgba(255, 255, 255, 0.9);
   margin: 0;
   line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Contact Info Section - Scoped to contact-page only */
 .contact-page .contact-info-section {
-  background-color: var(--color-white);
+  background: linear-gradient(135deg, 
+    var(--color-gray-50) 0%, 
+    var(--color-white) 50%, 
+    var(--color-gray-50) 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-page .contact-info-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -20%;
+  width: 40%;
+  height: 200%;
+  background: radial-gradient(ellipse, rgba(218, 89, 19, 0.02) 0%, transparent 70%);
+  animation: float 20s ease-in-out infinite;
 }
 
 .contact-page .contact-info-grid {
@@ -182,18 +238,27 @@
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: var(--spacing-8);
   margin-top: var(--spacing-12);
+  position: relative;
+  z-index: 2;
 }
 
 .contact-page .contact-info-card {
-  background-color: var(--color-white);
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: var(--spacing-8);
   border-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-sm);
   text-align: center;
-  transition: all var(--transition-normal);
-  border: 1px solid var(--color-gray-100);
+  box-shadow: 
+    var(--shadow-base),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all var(--transition-slow);
   position: relative;
   overflow: hidden;
+  z-index: 2;
 }
 
 .contact-page .contact-info-card::before {
@@ -212,9 +277,12 @@
 }
 
 .contact-page .contact-info-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--primary-color);
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 
+    var(--shadow-xl),
+    0 0 0 1px rgba(218, 89, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(218, 89, 19, 0.3);
 }
 
 /* Contact page specific icon styling - will not affect footer icons */
@@ -231,8 +299,15 @@
   transition: transform var(--transition-normal);
 }
 
-.contact-page .contact-info-card:hover .contact-info-card .contact-icon {
+.contact-page .contact-info-card:hover .contact-icon {
   transform: scale(1.1) rotate(5deg);
+  background: conic-gradient(
+    from 0deg,
+    var(--primary-color) 0%,
+    var(--primary-light) 50%,
+    var(--primary-dark) 100%
+  );
+  animation: rotate 3s linear infinite;
 }
 
 .contact-page .contact-info-card .contact-icon svg {
@@ -270,13 +345,45 @@
 
 /* Contact Form Section - Scoped to contact-page only */
 .contact-page .contact-form-section {
-  background-color: var(--color-gray-50);
+  background: linear-gradient(135deg, 
+    var(--color-gray-900) 0%, 
+    var(--secondary-color) 50%, 
+    var(--color-gray-800) 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-page .contact-form-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(ellipse at 20% 30%, rgba(218, 89, 19, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(218, 89, 19, 0.08) 0%, transparent 50%);
+  animation: subtleFloat 25s ease-in-out infinite;
+}
+
+.contact-page .contact-form-section .section-title,
+.contact-page .contact-form-section .form-subtitle {
+  color: var(--color-white);
+  position: relative;
+  z-index: 2;
+}
+
+.contact-page .contact-form-section .section-title::after {
+  background: linear-gradient(90deg, var(--color-white), rgba(255, 255, 255, 0.7));
 }
 
 .contact-page .form-content {
   max-width: 800px;
   margin: 0 auto;
   width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 .contact-page .form-header {
@@ -286,19 +393,46 @@
 
 .contact-page .form-subtitle {
   font-size: var(--font-size-lg);
-  color: var(--color-gray-600);
+  color: rgba(255, 255, 255, 0.9);
   margin: var(--spacing-4) 0 0 0;
 }
 
 .contact-page .contact-form {
-  background-color: var(--color-white);
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: var(--spacing-10);
   border-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-base);
+  box-shadow: 
+    var(--shadow-xl),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   width: 100%;
   max-width: 100%;
   overflow: hidden;
   box-sizing: border-box;
+  position: relative;
+}
+
+.contact-page .contact-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.2), 
+    transparent
+  );
+  transition: left 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.contact-page .contact-form:hover::before {
+  left: 100%;
 }
 
 .contact-page .form-grid {
@@ -593,37 +727,92 @@
   opacity: 0.3;
 }
 
-/* FAQ Section - Scoped to contact-page only */
+/* FAQ Section - Ultimate Professional Animation System */
 .contact-page .faq-section {
-  background-color: var(--color-gray-50);
-}
-
-.contact-page .faq-accordion {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.contact-page .faq-item {
-  background-color: var(--color-white);
-  border-radius: var(--radius-xl);
-  margin-bottom: var(--spacing-4);
-  box-shadow: var(--shadow-sm);
+  background: linear-gradient(135deg, 
+    var(--color-gray-900) 0%, 
+    var(--secondary-color) 30%, 
+    var(--color-gray-800) 70%,
+    var(--color-gray-900) 100%
+  );
+  position: relative;
   overflow: hidden;
-  transition: all var(--transition-normal);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
 }
 
+/* Simple Static Background */
+.contact-page .faq-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(ellipse at 20% 30%, rgba(218, 89, 19, 0.1) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 70%, rgba(218, 89, 19, 0.08) 0%, transparent 60%);
+  z-index: 1;
+}
+
+/* FAQ Content Container with Z-Index Management */
+.contact-page .faq-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.contact-page .faq-section .section-title {
+  color: var(--color-white);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin-bottom: var(--spacing-20);
+  position: relative;
+  z-index: 2;
+}
+
+.contact-page .faq-section .section-title::after {
+  background: linear-gradient(90deg, var(--color-white), rgba(255, 255, 255, 0.7));
+}
+
+/* FAQ Accordion Container */
+.contact-page .faq-accordion {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  perspective: 1000px;
+}
+
+/* Individual FAQ Item - Lightweight */
+.contact-page .faq-item {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-2xl);
+  margin-bottom: var(--spacing-6);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  
+  /* Simple shadow */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Simple Hover State */
 .contact-page .faq-item:hover {
-  box-shadow: var(--shadow-base);
+  transform: translateY(-2px);
+  border-color: rgba(218, 89, 19, 0.4);
 }
 
+/* Simple Open State */
 .contact-page .faq-item.open {
-  box-shadow: var(--shadow-base);
-  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-color: rgba(218, 89, 19, 0.6);
+  background: rgba(255, 255, 255, 0.1);
 }
 
+/* FAQ Question Button - Advanced Typography + Morphing */
 .contact-page .faq-question {
   width: 100%;
-  padding: var(--spacing-6);
+  padding: var(--spacing-8);
   background: none;
   border: none;
   text-align: left;
@@ -633,51 +822,94 @@
   align-items: center;
   font-size: var(--font-size-lg);
   font-weight: 600;
-  color: var(--color-black);
-  transition: all var(--transition-fast);
+  color: var(--color-white);
   font-family: var(--font-family-primary);
+  position: relative;
+  z-index: 2;
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  will-change: transform, color;
 }
 
-.contact-page .faq-question:hover {
-  color: var(--primary-color);
+.contact-page .faq-question span {
+  flex: 1;
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: left center;
 }
 
+.contact-page .faq-question:hover span {
+  transform: translateX(8px) scale(1.02);
+  color: rgba(255, 255, 255, 1);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.contact-page .faq-item.open .faq-question span {
+  color: rgba(218, 89, 19, 1);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  transform: translateX(4px) scale(1.01);
+}
+
+/* Advanced Icon Animation System */
 .contact-page .faq-icon {
-  width: 24px;
-  height: 24px;
-  transition: transform var(--transition-normal);
-  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
   margin-left: var(--spacing-4);
-}
-
-.contact-page .faq-item.open .faq-icon {
-  transform: rotate(180deg);
+  position: relative;
+  flex-shrink: 0;
+  transform-style: preserve-3d;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
 }
 
 .contact-page .faq-icon svg {
   width: 100%;
   height: 100%;
-  color: var(--primary-color);
+  color: var(--color-white);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
 }
 
+/* Hover Icon Animation - 3D Rotation + Color Morph */
+.contact-page .faq-item:hover .faq-icon {
+  transform: rotateY(180deg) scale(1.1);
+}
+
+.contact-page .faq-item:hover .faq-icon svg {
+  color: rgba(218, 89, 19, 1);
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+/* Simple Icon Animation */
+.contact-page .faq-item.open .faq-icon {
+  transform: rotate(180deg);
+}
+
+.contact-page .faq-item.open .faq-icon svg {
+  color: rgba(218, 89, 19, 1);
+}
+
+/* FAQ Answer - Smooth max-height animation */
 .contact-page .faq-answer {
   max-height: 0;
   overflow: hidden;
-  transition: all var(--transition-normal);
-  background-color: var(--color-gray-50);
+  background: rgba(255, 255, 255, 0.05);
+  transition: max-height 0.5s ease, padding 0.3s ease;
 }
 
 .contact-page .faq-item.open .faq-answer {
-  max-height: 200px;
-  padding: 0 var(--spacing-6) var(--spacing-6) var(--spacing-6);
+  max-height: 300px;
+  padding: var(--spacing-4) var(--spacing-8);
 }
 
 .contact-page .faq-answer p {
   margin: 0;
-  color: var(--color-gray-600);
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.6;
-  padding-top: var(--spacing-3);
+  font-size: var(--font-size-base);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
+
+/* Uklonili stare animacije - koristiće se samo simple sistem */
 
 /* Responsive Design */
 
@@ -1051,7 +1283,7 @@
 
 /* Animation Enhancements - Scoped to contact-page only */
 .contact-page .contact-info-card {
-  animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .contact-page .contact-info-card:nth-child(2) {
@@ -1062,24 +1294,293 @@
   animation-delay: 0.2s;
 }
 
-.contact-page .faq-item {
-  animation: fadeInUp 0.5s ease-out;
-}
-
-.contact-page .faq-item:nth-child(n+2) {
-  animation-delay: calc(0.1s * (var(--index, 1)));
-}
+/* Uklanjamo fadeInUp animacije jer koristimo simple sistem */
 
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-10px) rotate(1deg); }
+  66% { transform: translateY(5px) rotate(-1deg); }
+}
+
+@keyframes subtleFloat {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  25% { transform: translateY(-15px) translateX(10px); }
+  50% { transform: translateY(10px) translateX(-5px); }
+  75% { transform: translateY(-5px) translateX(15px); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ================== ADVANCED FAQ ANIMATION KEYFRAMES ================== */
+
+/* Complex Background Flow Animation */
+@keyframes faqBackgroundFlow {
+  0%, 100% { 
+    transform: translateX(0) translateY(0) scale(1); 
+    filter: hue-rotate(0deg);
+  }
+  25% { 
+    transform: translateX(-20px) translateY(10px) scale(1.05); 
+    filter: hue-rotate(15deg);
+  }
+  50% { 
+    transform: translateX(15px) translateY(-15px) scale(0.95); 
+    filter: hue-rotate(30deg);
+  }
+  75% { 
+    transform: translateX(10px) translateY(20px) scale(1.02); 
+    filter: hue-rotate(15deg);
+  }
+}
+
+/* Floating Particles Movement */
+@keyframes floatingParticles {
+  0% { 
+    transform: translateX(0) translateY(0); 
+  }
+  25% { 
+    transform: translateX(50px) translateY(-30px); 
+  }
+  50% { 
+    transform: translateX(-20px) translateY(-60px); 
+  }
+  75% { 
+    transform: translateX(30px) translateY(-30px); 
+  }
+  100% { 
+    transform: translateX(0) translateY(0); 
+  }
+}
+
+/* FAQ Item Staggered Entrance Animation */
+@keyframes faqEntranceStagger {
+  0% {
+    opacity: 0;
+    transform: translateY(80px) rotateX(-20deg) scale(0.8);
+    filter: blur(10px);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(20px) rotateX(-5deg) scale(0.95);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg) scale(1);
+    filter: blur(0px);
+  }
+}
+
+/* Open State Glow Effect */
+@keyframes openGlow {
+  0% {
+    opacity: 0.3;
+    filter: brightness(1) saturate(1);
+  }
+  100% {
+    opacity: 0.8;
+    filter: brightness(1.2) saturate(1.5);
+  }
+}
+
+/* Icon Pulse Animation for Open State */
+@keyframes iconPulse {
+  0%, 100% {
+    transform: rotateX(180deg) rotateZ(180deg) scale(1.15);
+    filter: drop-shadow(0 0 5px rgba(218, 89, 19, 0.3));
+  }
+  50% {
+    transform: rotateX(180deg) rotateZ(180deg) scale(1.25);
+    filter: drop-shadow(0 0 15px rgba(218, 89, 19, 0.6));
+  }
+}
+
+/* Icon Color Shifting Animation */
+@keyframes iconColorShift {
+  0% {
+    color: rgba(218, 89, 19, 1);
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4)) hue-rotate(0deg);
+  }
+  25% {
+    color: rgba(255, 120, 61, 1);
+    filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.5)) hue-rotate(15deg);
+  }
+  50% {
+    color: rgba(255, 107, 53, 1);
+    filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.6)) hue-rotate(30deg);
+  }
+  75% {
+    color: rgba(184, 74, 15, 1);
+    filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.5)) hue-rotate(15deg);
+  }
+  100% {
+    color: rgba(218, 89, 19, 1);
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4)) hue-rotate(0deg);
+  }
+}
+
+/* Parallax Scroll Animation for FAQ Items */
+@keyframes faqParallax {
+  0% {
+    transform: translateZ(0) rotateX(0deg);
+  }
+  100% {
+    transform: translateZ(50px) rotateX(5deg);
+  }
+}
+
+/* Text Typing Effect Animation */
+@keyframes textReveal {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  1% {
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+/* Advanced Border Animation */
+@keyframes borderFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Sophisticated Shimmer Effect */
+@keyframes advancedShimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* 3D Card Flip Animation */
+@keyframes card3DFlip {
+  0% {
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+  }
+  25% {
+    transform: perspective(1000px) rotateY(90deg) rotateX(10deg);
+  }
+  50% {
+    transform: perspective(1000px) rotateY(180deg) rotateX(0deg);
+  }
+  75% {
+    transform: perspective(1000px) rotateY(270deg) rotateX(-10deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateY(360deg) rotateX(0deg);
+  }
+}
+
+/* Morphing Background Animation */
+@keyframes morphingBackground {
+  0%, 100% {
+    border-radius: var(--radius-2xl);
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+  }
+  25% {
+    border-radius: 2rem 1rem 2rem 1rem;
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(218, 89, 19, 0.08) 50%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+  }
+  50% {
+    border-radius: 1rem 2rem 1rem 2rem;
+    background: linear-gradient(135deg,
+      rgba(218, 89, 19, 0.08) 0%,
+      rgba(255, 255, 255, 0.12) 50%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+  }
+  75% {
+    border-radius: 1.5rem 1.5rem 2rem 0.5rem;
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.10) 0%,
+      rgba(218, 89, 19, 0.06) 100%
+    );
+  }
+}
+
+/* Complex Loading Animation */
+@keyframes complexLoading {
+  0% {
+    transform: scale(0.8) rotate(0deg);
+    opacity: 0.5;
+  }
+  25% {
+    transform: scale(1.1) rotate(90deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(0.9) rotate(180deg);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(1.05) rotate(270deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    opacity: 1;
+  }
+}
+
+/* =================== OPTIMIZED FAQ ANIMATION SYSTEM =================== */
+
+/* FAQ Item Initial State */
+.contact-page .faq-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Staggered Animation with CSS */
+.contact-page .faq-section.visible .faq-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contact-page .faq-section.visible .faq-item:nth-child(1) { transition-delay: 0.1s; }
+.contact-page .faq-section.visible .faq-item:nth-child(2) { transition-delay: 0.2s; }
+.contact-page .faq-section.visible .faq-item:nth-child(3) { transition-delay: 0.3s; }
+.contact-page .faq-section.visible .faq-item:nth-child(4) { transition-delay: 0.4s; }
+.contact-page .faq-section.visible .faq-item:nth-child(5) { transition-delay: 0.5s; }
+.contact-page .faq-section.visible .faq-item:nth-child(6) { transition-delay: 0.6s; }
+.contact-page .faq-section.visible .faq-item:nth-child(7) { transition-delay: 0.7s; }
+.contact-page .faq-section.visible .faq-item:nth-child(8) { transition-delay: 0.8s; }
 
 /* Accessibility Enhancements - Scoped to contact-page only */
 .contact-page *:focus {

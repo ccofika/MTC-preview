@@ -285,15 +285,22 @@
 }
 
 .ecology-page .sustainability-card {
-  background-color: var(--color-white);
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: var(--spacing-8);
   border-radius: var(--radius-2xl);
   text-align: center;
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-normal);
-  border: 1px solid var(--color-gray-100);
+  box-shadow: 
+    var(--shadow-base),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all var(--transition-slow);
   position: relative;
   overflow: hidden;
+  z-index: 2;
 }
 
 .ecology-page .sustainability-card::before {
@@ -312,9 +319,12 @@
 }
 
 .ecology-page .sustainability-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--color-green);
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 
+    var(--shadow-xl),
+    0 0 0 1px rgba(218, 89, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(218, 89, 19, 0.3);
 }
 
 .ecology-page .sustainability-icon {
@@ -332,6 +342,13 @@
 
 .ecology-page .sustainability-card:hover .sustainability-icon {
   transform: scale(1.1) rotate(5deg);
+  background: conic-gradient(
+    from 0deg,
+    var(--color-green) 0%,
+    var(--color-green-light) 50%,
+    var(--color-green-dark) 100%
+  );
+  animation: rotate 3s linear infinite;
 }
 
 .ecology-page .sustainability-icon svg {
@@ -371,13 +388,44 @@
 
 /* Lifecycle Section - Scoped to ecology-page only */
 .ecology-page .lifecycle-section {
-  background-color: var(--color-gray-50);
+  background: linear-gradient(135deg, 
+    var(--color-gray-900) 0%, 
+    var(--secondary-color) 50%, 
+    var(--color-gray-800) 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.ecology-page .lifecycle-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(ellipse at 20% 30%, rgba(218, 89, 19, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(218, 89, 19, 0.08) 0%, transparent 50%);
+  animation: subtleFloat 25s ease-in-out infinite;
+}
+
+.ecology-page .lifecycle-section .section-title,
+.ecology-page .lifecycle-section .section-subtitle {
+  color: var(--color-white);
+  position: relative;
+  z-index: 2;
+}
+
+.ecology-page .lifecycle-section .section-title::after {
+  background: linear-gradient(90deg, var(--color-white), rgba(255, 255, 255, 0.7));
 }
 
 .ecology-page .lifecycle-timeline {
   position: relative;
   max-width: 900px;
   margin: 0 auto;
+  z-index: 2;
 }
 
 .ecology-page .lifecycle-timeline::before {
@@ -424,19 +472,49 @@
 
 .ecology-page .phase-content {
   flex: 1;
-  background-color: var(--color-white);
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: var(--spacing-6);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 
+    var(--shadow-base),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   margin: var(--spacing-6);
   transition: all var(--transition-normal);
-  border: 1px solid var(--color-gray-100);
+  position: relative;
+  overflow: hidden;
+}
+
+.ecology-page .phase-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.4), 
+    transparent
+  );
+  transition: left 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .ecology-page .phase-content:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-base);
-  border-color: var(--color-green);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    var(--shadow-lg),
+    0 0 0 1px rgba(218, 89, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(218, 89, 19, 0.3);
+}
+
+.ecology-page .phase-content:hover::before {
+  left: 100%;
 }
 
 .ecology-page .phase-content h3 {
@@ -903,38 +981,84 @@
 
 /* Animation Enhancements - Scoped to ecology-page only */
 .ecology-page .sustainability-card {
-  animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.ecology-page .sustainability-card:nth-child(n+2) {
-  animation-delay: calc(0.1s * var(--index, 1));
-}
-
-.ecology-page .lifecycle-phase {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.ecology-page .lifecycle-phase:nth-child(even) {
+.ecology-page .sustainability-card:nth-child(2n) {
   animation-delay: 0.1s;
 }
 
+.ecology-page .sustainability-card:nth-child(3n) {
+  animation-delay: 0.2s;
+}
+
+.ecology-page .sustainability-card:nth-child(4n) {
+  animation-delay: 0.3s;
+}
+
+.ecology-page .lifecycle-phase {
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ecology-page .lifecycle-phase:nth-child(2n) {
+  animation-delay: 0.1s;
+}
+
+.ecology-page .lifecycle-phase:nth-child(3n) {
+  animation-delay: 0.2s;
+}
+
 .ecology-page .benefit-card {
-  animation: fadeInUp 0.5s ease-out;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ecology-page .benefit-card:nth-child(2n) {
+  animation-delay: 0.1s;
 }
 
 .ecology-page .initiative-card {
-  animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ecology-page .initiative-card:nth-child(2n) {
+  animation-delay: 0.1s;
+}
+
+.ecology-page .initiative-card:nth-child(3n) {
+  animation-delay: 0.2s;
+}
+
+.ecology-page .initiative-card:nth-child(4n) {
+  animation-delay: 0.3s;
 }
 
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-10px) rotate(1deg); }
+  66% { transform: translateY(5px) rotate(-1deg); }
+}
+
+@keyframes subtleFloat {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  25% { transform: translateY(-15px) translateX(10px); }
+  50% { transform: translateY(10px) translateX(-5px); }
+  75% { transform: translateY(-5px) translateX(15px); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Accessibility Enhancements - Scoped to ecology-page only */

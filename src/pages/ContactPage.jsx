@@ -10,6 +10,8 @@ const ContactPage = () => {
   const { language, changeLanguage } = useLanguage();
   const location = useLocation();
   const formRef = useRef(null);
+  const faqSectionRef = useRef(null);
+  const faqItemsRef = useRef([]);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -27,6 +29,7 @@ const ContactPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', null
   const [submitMessage, setSubmitMessage] = useState('');
+  const [faqVisible, setFaqVisible] = useState(false);
 
   // Handle URL parameters for auto-populating form
   useEffect(() => {
@@ -95,6 +98,36 @@ const ContactPage = () => {
       }, 500);
     }
   }, [location.search, language]);
+
+  // Optimized FAQ Animation System
+  useEffect(() => {
+    const faqSection = faqSectionRef.current;
+    if (!faqSection) return;
+
+    // Simple intersection observer for FAQ visibility
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !faqVisible) {
+            setFaqVisible(true);
+            // No setTimeout - let CSS handle stagger
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(faqSection);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [faqVisible]);
+
+  // Simple FAQ toggle - Original smooth animation
+  const toggleFaq = (index) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
 
 
   const handleInputChange = (e) => {
@@ -175,10 +208,6 @@ const ContactPage = () => {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const toggleFaq = (index) => {
-    setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
 
   const content = {
@@ -866,25 +895,47 @@ const ContactPage = () => {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="faq-section">
+      {/* FAQ Section - Stable Version */}
+      <section 
+        className={`faq-section ${faqVisible ? 'visible' : ''}`}
+        ref={faqSectionRef}
+      >
         <div className="container">
           <h2 className="section-title">{currentContent.faq.title}</h2>
+          
           <div className="faq-accordion">
             {currentContent.faq.items.map((item, index) => (
-              <div key={index} className={`faq-item ${openFaqIndex === index ? 'open' : ''}`}>
+              <div 
+                key={index} 
+                className={`faq-item ${openFaqIndex === index ? 'open' : ''}`}
+                ref={el => faqItemsRef.current[index] = el}
+              >
                 <button 
                   className="faq-question"
                   onClick={() => toggleFaq(index)}
+                  aria-expanded={openFaqIndex === index}
+                  aria-controls={`faq-answer-${index}`}
                 >
                   <span>{item.question}</span>
                   <div className="faq-icon">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path 
+                        d="M6 9L12 15L18 9" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                      />
                     </svg>
                   </div>
                 </button>
-                <div className="faq-answer">
+                
+                <div 
+                  className="faq-answer" 
+                  id={`faq-answer-${index}`}
+                  role="region"
+                  aria-labelledby={`faq-question-${index}`}
+                >
                   <p>{item.answer}</p>
                 </div>
               </div>
