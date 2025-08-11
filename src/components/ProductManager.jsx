@@ -36,7 +36,7 @@ const ProductManager = ({ onClose }) => {
   });
 
   const [images, setImages] = useState([]);
-  const [currentColor, setCurrentColor] = useState({ name: '', hexCode: '#000000' });
+  const [currentColor, setCurrentColor] = useState({ name: '', hexCode: '#000000', category: 'Aloksaza' });
   const [currentSize, setCurrentSize] = useState({ name: '', code: '' });
   const [currentMeasurement, setCurrentMeasurement] = useState({
     size: '',
@@ -100,12 +100,12 @@ const ProductManager = ({ onClose }) => {
   };
 
   const addColor = () => {
-    if (currentColor.name && currentColor.hexCode) {
+    if (currentColor.name && currentColor.hexCode && currentColor.category) {
       setFormData(prev => ({
         ...prev,
         colors: [...prev.colors, { ...currentColor, available: true }]
       }));
-      setCurrentColor({ name: '', hexCode: '#000000' });
+      setCurrentColor({ name: '', hexCode: '#000000', category: 'Aloksaza' });
     }
   };
 
@@ -347,6 +347,28 @@ const ProductManager = ({ onClose }) => {
       console.log('Image-color association updated successfully');
     } catch (err) {
       setError('Greška pri vezivanju slike za boju: ' + err.message);
+    }
+  };
+
+  const handleImageCategoryAssociation = async (imageIndex, category) => {
+    if (!editingProduct) return;
+    
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await productService.associateImageWithCategory(
+        editingProduct._id, 
+        imageIndex, 
+        category || null, 
+        token
+      );
+      
+      // Update the editing product with new data
+      setEditingProduct(response.data);
+      
+      // Show success message (optional)
+      console.log('Image-category association updated successfully');
+    } catch (err) {
+      setError('Greška pri vezivanju slike za kategoriju: ' + err.message);
     }
   };
 
@@ -745,6 +767,18 @@ const ProductManager = ({ onClose }) => {
                         <div className="image-position">#{index + 1}</div>
                       </div>
                       <div className="image-controls">
+                        <div className="category-association">
+                          <label>Kategorija:</label>
+                          <select
+                            value={image.categoryAssociation || 'Aloksaza'}
+                            onChange={(e) => handleImageCategoryAssociation(index, e.target.value)}
+                            className="category-select"
+                          >
+                            <option value="Aloksaza">Aloksaza</option>
+                            <option value="Plastifikacija">Plastifikacija</option>
+                            <option value="">Generička (za sve)</option>
+                          </select>
+                        </div>
                         <div className="color-association">
                           <label>Vezuj za boju:</label>
                           <select
@@ -753,9 +787,11 @@ const ProductManager = ({ onClose }) => {
                             className="color-select"
                           >
                             <option value="">Generička slika</option>
-                            {formData.colors.map(color => (
+                            {formData.colors
+                              .filter(color => !image.categoryAssociation || color.category === image.categoryAssociation)
+                              .map(color => (
                               <option key={color.name} value={color.name}>
-                                {color.name}
+                                {color.name} ({color.category})
                               </option>
                             ))}
                           </select>
@@ -802,20 +838,57 @@ const ProductManager = ({ onClose }) => {
                 value={currentColor.hexCode}
                 onChange={(e) => setCurrentColor(prev => ({ ...prev, hexCode: e.target.value }))}
               />
+              <select
+                value={currentColor.category}
+                onChange={(e) => setCurrentColor(prev => ({ ...prev, category: e.target.value }))}
+              >
+                <option value="Aloksaza">Aloksaza</option>
+                <option value="Plastifikacija">Plastifikacija</option>
+              </select>
               <button type="button" onClick={addColor} className="add-btn">Dodaj</button>
             </div>
             
-            <div className="added-items">
-              {formData.colors.map((color, index) => (
-                <div key={index} className="color-item">
-                  <span 
-                    className="color-preview" 
-                    style={{ backgroundColor: color.hexCode }}
-                  ></span>
-                  <span>{color.name}</span>
-                  <button type="button" onClick={() => removeColor(index)} className="remove-btn">×</button>
+            {/* Display colors by category */}
+            <div className="colors-by-category">
+              <div className="color-category">
+                <h4>Aloksaza boje</h4>
+                <div className="added-items">
+                  {formData.colors.filter(color => color.category === 'Aloksaza').map((color, index) => {
+                    const originalIndex = formData.colors.findIndex(c => c === color);
+                    return (
+                      <div key={originalIndex} className="color-item">
+                        <span 
+                          className="color-preview" 
+                          style={{ backgroundColor: color.hexCode }}
+                        ></span>
+                        <span>{color.name}</span>
+                        <span className="color-category-badge">Aloksaza</span>
+                        <button type="button" onClick={() => removeColor(originalIndex)} className="remove-btn">×</button>
+                      </div>
+                    );
+                  })}
                 </div>
-              ))}
+              </div>
+              
+              <div className="color-category">
+                <h4>Plastifikacija boje</h4>
+                <div className="added-items">
+                  {formData.colors.filter(color => color.category === 'Plastifikacija').map((color, index) => {
+                    const originalIndex = formData.colors.findIndex(c => c === color);
+                    return (
+                      <div key={originalIndex} className="color-item">
+                        <span 
+                          className="color-preview" 
+                          style={{ backgroundColor: color.hexCode }}
+                        ></span>
+                        <span>{color.name}</span>
+                        <span className="color-category-badge">Plastifikacija</span>
+                        <button type="button" onClick={() => removeColor(originalIndex)} className="remove-btn">×</button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
 

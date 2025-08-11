@@ -16,6 +16,72 @@
   isolation: isolate;
 }
 
+/* Color Categories Styling */
+.product-manager .colors-by-category {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.product-manager .color-category {
+  flex: 1;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+.product-manager .color-category h4 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.product-manager .color-category-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.4rem;
+  background-color: #e9ecef;
+  border-radius: 0.2rem;
+  color: #6c757d;
+  margin-left: 0.5rem;
+}
+
+.product-manager .color-input-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.product-manager .color-input-group select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+/* Category Association Controls */
+.product-manager .category-association {
+  margin-bottom: 0.5rem;
+}
+
+.product-manager .category-association label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 0.2rem;
+}
+
+.product-manager .category-select {
+  width: 100%;
+  padding: 0.3rem;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 0.8rem;
+}
+
 /* Modal Content Container */
 .product-manager .product-manager-content {
   background: #ffffff;

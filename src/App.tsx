@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from '@mui/material/styles';
@@ -26,6 +27,42 @@ import './styles/App.css';
 
 const queryClient = new QueryClient();
 
+const RoutesWithTransitions = () => {
+  const location = useLocation();
+
+  return (
+    <TransitionGroup>
+      <CSSTransition
+        key={location.pathname}
+        timeout={200}
+        classNames="page-transition"
+        unmountOnExit
+      >
+        <div className="page-wrapper">
+          <Routes location={location}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/products/:id" element={<ProductDetailPage />} />
+            <Route path="/projekti" element={<ProjectsPage />} />
+            <Route path="/projekti/:id" element={<ProjectDetailPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/ecology" element={<EcologyPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </div>
+      </CSSTransition>
+    </TransitionGroup>
+  );
+};
+
 const AppContent = () => {
   const [showIntro, setShowIntro] = useState(true);
 
@@ -49,26 +86,15 @@ const AppContent = () => {
     <Router>
       <div className="App">
         <IntroLoader show={showIntro} onComplete={handleIntroComplete} />
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/products" element={<ProductsPage />} />
-          <Route path="/products/:id" element={<ProductDetailPage />} />
-          <Route path="/projekti" element={<ProjectsPage />} />
-          <Route path="/projekti/:id" element={<ProjectDetailPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/ecology" element={<EcologyPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={
-            <ProtectedRoute>
-              <AdminDashboard />
-            </ProtectedRoute>
-          } />
-        </Routes>
-        <Toaster position="top-right" />
+        <div style={{ 
+          opacity: showIntro ? 0 : 1, 
+          transition: 'opacity 0.5s ease-in-out',
+          pointerEvents: showIntro ? 'none' : 'auto'
+        }}>
+          <ScrollToTop />
+          <RoutesWithTransitions />
+          <Toaster position="top-right" />
+        </div>
       </div>
     </Router>
   );

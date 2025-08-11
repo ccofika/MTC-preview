@@ -25,6 +25,27 @@ const HomePage = () => {
   const heroSideIcon3Ref = useRef(null);
   const heroSideIcon4Ref = useRef(null);
 
+  // Section refs for scroll snap functionality
+  const homePageRef = useRef(null);
+  const heroRef = useRef(null);
+  const valuesRef = useRef(null);
+  const productsRef = useRef(null);
+  const projectsRef = useRef(null);
+
+  // Scroll navigation state
+  const [activeSection, setActiveSection] = useState(0);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [showScrollDots, setShowScrollDots] = useState(false);
+  const [elementsVisible, setElementsVisible] = useState({
+    hero: false,
+    values: false,
+    products: false,
+    projects: false
+  });
+  
+  // Ref to track current section index to avoid stale closure
+  const currentSectionIndexRef = useRef(0);
+
   const content = {
     SR: {
       nav: {
@@ -429,8 +450,145 @@ const HomePage = () => {
     return () => document.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  // Enhanced scroll snap functionality with animations for desktop
+  useEffect(() => {
+    // Only apply scroll snap behavior on desktop
+    const isDesktop = window.innerWidth > 768;
+    setShowScrollDots(isDesktop);
+    
+    if (!isDesktop) return;
+
+    // Fix navbar to not overlap scrollbar - clean approach
+    const adjustForScrollbar = () => {
+      const homePageContainer = homePageRef.current;
+      let scrollbarWidth = 0;
+      
+      if (homePageContainer) {
+        scrollbarWidth = homePageContainer.offsetWidth - homePageContainer.clientWidth;
+      }
+      
+      // Use exact scrollbar width for perfect fit
+      if (scrollbarWidth === 0) {
+        scrollbarWidth = 17; // Standard scrollbar width
+      }
+      
+      const header = document.querySelector('header, .header, .site-header');
+      if (header) {
+        header.style.width = `calc(100% - ${scrollbarWidth}px)`;
+        header.style.right = 'auto';
+        header.style.left = '0px';
+        header.style.borderRight = 'none';
+        header.style.boxShadow = 'none';
+      }
+    };
+
+    adjustForScrollbar();
+
+    const sections = [
+      { ref: heroRef, name: 'hero' },
+      { ref: valuesRef, name: 'values' },
+      { ref: productsRef, name: 'products' },
+      { ref: projectsRef, name: 'projects' }
+    ];
+
+    // Function to trigger scroll animations
+    const triggerSectionAnimations = (sectionName) => {
+      setElementsVisible(prev => ({
+        ...prev,
+        [sectionName]: true
+      }));
+    };
+
+    const scrollToSection = (index) => {
+      if (index < 0 || index >= sections.length || !sections[index].ref.current || !homePageRef.current) return;
+      
+      setIsScrolling(true);
+      currentSectionIndexRef.current = index;
+      setActiveSection(index);
+      
+      const container = homePageRef.current;
+      const targetElement = sections[index].ref.current;
+      const targetTop = targetElement.offsetTop;
+      
+      container.scrollTo({
+        top: targetTop,
+        behavior: 'smooth'
+      });
+
+      // Trigger animations for the target section immediately
+      triggerSectionAnimations(sections[index].name);
+
+      setTimeout(() => {
+        setIsScrolling(false);
+      }, 800);
+    };
+
+    // Handle navigation dots click
+    window.scrollToSection = scrollToSection;
+
+    const handleWheel = (e) => {
+      if (isScrolling) {
+        e.preventDefault();
+        return;
+      }
+
+      const container = homePageRef.current;
+      if (!container) return;
+
+      const scrollTop = container.scrollTop;
+      const scrollHeight = container.scrollHeight;
+      const clientHeight = container.clientHeight;
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
+
+      if (e.deltaY > 0) {
+        // Scrolling down
+        if (currentSectionIndexRef.current < sections.length - 1) {
+          e.preventDefault();
+          scrollToSection(currentSectionIndexRef.current + 1);
+        } else if (currentSectionIndexRef.current === sections.length - 1 && !isAtBottom) {
+          // Allow free scrolling to footer when at last section
+          // Don't prevent default - allow natural scroll to footer
+        } else if (isAtBottom) {
+          // At the very bottom, prevent further scrolling
+          e.preventDefault();
+        }
+      } else {
+        // Scrolling up
+        if (isAtBottom || scrollTop > sections[sections.length - 1].ref.current.offsetTop + 100) {
+          // If in footer area, go back to projects section
+          e.preventDefault();
+          scrollToSection(sections.length - 1);
+        } else if (currentSectionIndexRef.current > 0) {
+          e.preventDefault();
+          scrollToSection(currentSectionIndexRef.current - 1);
+        }
+      }
+    };
+
+    // Initialize first section as visible immediately
+    triggerSectionAnimations('hero');
+    setActiveSection(0);
+    currentSectionIndexRef.current = 0;
+
+    document.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      document.removeEventListener('wheel', handleWheel);
+      delete window.scrollToSection;
+      
+      const header = document.querySelector('header, .header, .site-header');
+      if (header) {
+        header.style.width = '';
+        header.style.right = '';
+        header.style.left = '';
+        header.style.borderRight = '';
+        header.style.boxShadow = '';
+      }
+    };
+  }, []);
+
   return (
-    <div className="home-page">
+    <div className="home-page" ref={homePageRef}>
       {/* Header Section */}
       <Header 
         language={language} 
@@ -438,17 +596,34 @@ const HomePage = () => {
         content={currentContent} 
       />
 
+      {/* Scroll Navigation Dots - Desktop Only */}
+      {showScrollDots && (
+        <div className="scroll-navigation">
+          <div className="scroll-dots">
+            {['hero', 'values', 'products', 'projects'].map((section, index) => (
+              <button
+                key={section}
+                className={`scroll-dot ${activeSection === index ? 'active' : ''}`}
+                onClick={() => window.scrollToSection && window.scrollToSection(index)}
+                aria-label={`Go to ${section} section`}
+                title={section.charAt(0).toUpperCase() + section.slice(1)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Hero Section */}
-      <section className="home-hero">
+      <section className={`home-hero ${elementsVisible.hero ? 'animate-in' : ''}`} ref={heroRef}>
         <div className="hero-background">
           <img src="/images/header/pocetna-background.jpg" alt="" className="background-image" />
         </div>
         <div className="container">
           <div className="hero-content">
             <div className="hero-text">
-              <h1 className="hero-title">{currentContent.hero.title}</h1>
-              <p className="hero-subtitle">{currentContent.hero.subtitle}</p>
-              <div className="hero-actions">
+              <h1 className={`hero-title ${elementsVisible.hero ? 'slide-in-left' : ''}`}>{currentContent.hero.title}</h1>
+              <p className={`hero-subtitle ${elementsVisible.hero ? 'slide-in-left delay-200' : ''}`}>{currentContent.hero.subtitle}</p>
+              <div className={`hero-actions ${elementsVisible.hero ? 'slide-in-left delay-400' : ''}`}>
                 <button 
                   className="btn btn-primary"
                   onClick={() => navigate('/products')}
@@ -456,14 +631,14 @@ const HomePage = () => {
                   {currentContent.hero.ctaPrimary}
                 </button>
                 <button 
-                  className="btn btn-secondary"
+                  className="btn btn-outline"
                   onClick={() => navigate('/contact')}
                 >
                   {currentContent.hero.ctaSecondary}
                 </button>
               </div>
             </div>
-            <div className="hero-icons">
+            <div className={`hero-icons ${elementsVisible.hero ? 'fade-in-scale delay-600' : ''}`}>
               <div className="hero-icon main-icon" ref={heroMainIconRef}>
                 <img src="/images/header/pocetna-icon-main.png" alt="Main Icon" className="icon-image" />
               </div>
@@ -485,25 +660,25 @@ const HomePage = () => {
       </section>
 
       {/* Key Values Section */}
-      <section className="values">
+      <section className={`values ${elementsVisible.values ? 'animate-in' : ''}`} ref={valuesRef}>
         <div className="container">
-          <h2 className="section-title">{currentContent.values.title}</h2>
+          <h2 className={`section-title ${elementsVisible.values ? 'slide-in-up' : ''}`}>{currentContent.values.title}</h2>
           <div className="values-grid">
-            <div className="value-card">
+            <div className={`value-card ${elementsVisible.values ? 'slide-in-up delay-200' : ''}`}>
               <div className="value-icon">
                 <img src="/images/icons/quality.png" alt="Quality" />
               </div>
               <h3>{currentContent.values.quality.title}</h3>
               <p>{currentContent.values.quality.description}</p>
             </div>
-            <div className="value-card">
+            <div className={`value-card ${elementsVisible.values ? 'slide-in-up delay-400' : ''}`}>
               <div className="value-icon">
                 <img src="/images/icons/idea.png" alt="Innovation" />
               </div>
               <h3>{currentContent.values.innovation.title}</h3>
               <p>{currentContent.values.innovation.description}</p>
             </div>
-            <div className="value-card">
+            <div className={`value-card ${elementsVisible.values ? 'slide-in-up delay-600' : ''}`}>
               <div className="value-icon">
                 <img src="/images/icons/customer-support.png" alt="Support" />
               </div>
@@ -515,9 +690,9 @@ const HomePage = () => {
       </section>
 
       {/* Product Overview Section */}
-      <section className="products-overview">
+      <section className={`products-overview ${elementsVisible.products ? 'animate-in' : ''}`} ref={productsRef}>
         <div className="container">
-          <h2 className="section-title">{currentContent.products.title}</h2>
+          <h2 className={`section-title ${elementsVisible.products ? 'slide-in-up' : ''}`}>{currentContent.products.title}</h2>
           
           {productsLoading ? (
             <div className="loading-skeleton">
@@ -538,7 +713,7 @@ const HomePage = () => {
               </button>
             </div>
           ) : (
-            <div className="product-slideshow">
+            <div className={`product-slideshow ${elementsVisible.products ? 'fade-in-scale delay-400' : ''}`}>
               {products.map(product => (
                 <div 
                   key={product._id} 
@@ -557,7 +732,7 @@ const HomePage = () => {
                         <h3>{product.title}</h3>
                         <div className="product-button-container">
                           <button 
-                            className="btn btn-primary"
+                            className="btn btn-outline"
                             onClick={(e) => {
                               e.stopPropagation();
                               navigate(`/products/${product._id}`);
@@ -580,12 +755,12 @@ const HomePage = () => {
       
 
       {/* Latest Projects Section */}
-      <section className="recent-projects">
+      <section className={`recent-projects ${elementsVisible.projects ? 'animate-in' : ''}`} ref={projectsRef}>
         <div className="container">
           <div className="section-header">
-            <h2 className="section-title">{currentContent.recentProjects.title}</h2>
+            <h2 className={`section-title ${elementsVisible.projects ? 'slide-in-up' : ''}`}>{currentContent.recentProjects.title}</h2>
             <button 
-              className="btn btn-outline"
+              className={`btn btn-outline ${elementsVisible.projects ? 'slide-in-right delay-200' : ''}`}
               onClick={() => navigate('/projekti')}
             >
               {currentContent.recentProjects.viewAll}
@@ -612,7 +787,7 @@ const HomePage = () => {
               </button>
             </div>
           ) : (
-            <div className="projects-slider">
+            <div className={`projects-slider ${elementsVisible.projects ? 'fade-in-scale delay-400' : ''}`}>
               {projects.map(project => (
                 <div 
                   key={project._id} 

@@ -47,60 +47,87 @@ const AdminLogin = () => {
 
   return (
     <div className="admin-login-page">
+      {/* Background with glassmorphism shapes */}
+      <div className="admin-background">
+        <div className="admin-bg-gradient"></div>
+        <div className="admin-floating-shape admin-shape-1"></div>
+        <div className="admin-floating-shape admin-shape-2"></div>
+        <div className="admin-floating-shape admin-shape-3"></div>
+        <div className="admin-floating-shape admin-shape-4"></div>
+      </div>
+
       <div className="admin-login-container">
         <div className="admin-login-card">
+          {/* Header with logo and branding */}
           <div className="admin-login-header">
             <div className="admin-logo">
-              <img src="/images/logo-mtc.png" alt="Nissal Admin" />
+              <div className="logo-container">
+                <img src="/images/logo-mtc.png" alt="Nissal Admin" className="logo-image" />
+                <div className="logo-glow"></div>
+              </div>
             </div>
-            <h1 className="admin-login-title">Admin Panel</h1>
-            <p className="admin-login-subtitle">Prijavite se da pristupite admin panelu</p>
+            <div className="admin-title-section">
+              <h1 className="admin-login-title">Admin Panel</h1>
+              <p className="admin-login-subtitle">Prijavite se da pristupite admin panelu</p>
+              <div className="title-accent"></div>
+            </div>
           </div>
 
+          {/* Login form */}
           <form className="admin-login-form" onSubmit={handleSubmit}>
             {error && (
               <div className="admin-error-message">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-                  <line x1="15" y1="9" x2="9" y2="15" stroke="currentColor" strokeWidth="2"/>
-                  <line x1="9" y1="9" x2="15" y2="15" stroke="currentColor" strokeWidth="2"/>
-                </svg>
-                <span>{error}</span>
+                <div className="error-icon">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                    <line x1="15" y1="9" x2="9" y2="15" stroke="currentColor" strokeWidth="2"/>
+                    <line x1="9" y1="9" x2="15" y2="15" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                </div>
+                <span className="error-text">{error}</span>
               </div>
             )}
 
             <div className="admin-form-group">
               <label htmlFor="username" className="admin-form-label">
+                <span className="label-icon">👤</span>
                 Korisničko ime
               </label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                className="admin-form-input"
-                value={credentials.username}
-                onChange={handleInputChange}
-                placeholder="Unesite korisničko ime"
-                required
-                autoComplete="username"
-              />
+              <div className="input-wrapper">
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  className="admin-form-input"
+                  value={credentials.username}
+                  onChange={handleInputChange}
+                  placeholder="Unesite korisničko ime"
+                  required
+                  autoComplete="username"
+                />
+                <div className="input-focus-ring"></div>
+              </div>
             </div>
 
             <div className="admin-form-group">
               <label htmlFor="password" className="admin-form-label">
+                <span className="label-icon">🔒</span>
                 Lozinka
               </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="admin-form-input"
-                value={credentials.password}
-                onChange={handleInputChange}
-                placeholder="Unesite lozinku"
-                required
-                autoComplete="current-password"
-              />
+              <div className="input-wrapper">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  className="admin-form-input"
+                  value={credentials.password}
+                  onChange={handleInputChange}
+                  placeholder="Unesite lozinku"
+                  required
+                  autoComplete="current-password"
+                />
+                <div className="input-focus-ring"></div>
+              </div>
             </div>
 
             <button
@@ -108,38 +135,44 @@ const AdminLogin = () => {
               className="admin-login-button"
               disabled={loading || !credentials.username || !credentials.password}
             >
-              {loading ? (
-                <>
-                  <div className="admin-loading-spinner">
-                    <svg viewBox="0 0 24 24">
-                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" strokeDasharray="31.416" strokeDashoffset="31.416">
-                        <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
-                        <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/>
-                      </circle>
-                    </svg>
-                  </div>
-                  Prijavljivanje...
-                </>
-              ) : (
-                'Prijavite se'
-              )}
+              <div className="button-content">
+                {loading ? (
+                  <>
+                    <div className="admin-loading-spinner">
+                      <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" strokeDasharray="31.416" strokeDashoffset="31.416">
+                          <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
+                          <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/>
+                        </circle>
+                      </svg>
+                    </div>
+                    <span>Prijavljivanje...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Prijavite se</span>
+                    <div className="button-icon">→</div>
+                  </>
+                )}
+              </div>
+              <div className="button-glow"></div>
             </button>
           </form>
 
+          {/* Footer */}
           <div className="admin-login-footer">
-            <p className="admin-footer-text">
-              Nissal d.o.o. - Admin Panel
-            </p>
-            <p className="admin-footer-version">
-              v1.0.0
-            </p>
+            <div className="footer-divider"></div>
+            <div className="footer-content">
+              <p className="admin-footer-text">
+                <span className="company-name">Nissal d.o.o.</span>
+                <span className="separator">•</span>
+                <span className="panel-text">Admin Panel</span>
+              </p>
+              <p className="admin-footer-version">
+                v1.0.0
+              </p>
+            </div>
           </div>
-        </div>
-
-        <div className="admin-login-background">
-          <div className="admin-bg-shape admin-bg-shape-1"></div>
-          <div className="admin-bg-shape admin-bg-shape-2"></div>
-          <div className="admin-bg-shape admin-bg-shape-3"></div>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import introVideo from '../assets/intro-video.mp4';
+import React, { useEffect, useState } from 'react';
+import logoMtc from '../assets/logo-mtc.png';
 
 interface IntroLoaderProps {
   onComplete: () => void;
@@ -7,62 +7,99 @@ interface IntroLoaderProps {
 }
 
 export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete, show }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [animationStage, setAnimationStage] = useState<'fadeIn' | 'zoom' | 'fadeOut' | 'complete'>('fadeIn');
 
   useEffect(() => {
-    if (videoRef.current && show) {
-      const video = videoRef.current;
-      
-      // Auto-play when component mounts
-      video.play().catch(console.error);
-      
-      // Set up completion handler
-      const handleEnded = () => {
-        setTimeout(() => {
-          onComplete();
-        }, 300); // Small delay before calling onComplete
-      };
+    if (!show) return;
 
-      video.addEventListener('ended', handleEnded);
+    const timeline = setTimeout(() => {
+      setAnimationStage('zoom');
       
-      return () => {
-        video.removeEventListener('ended', handleEnded);
-      };
-    }
+      setTimeout(() => {
+        setAnimationStage('fadeOut');
+        
+        setTimeout(() => {
+          setAnimationStage('complete');
+          onComplete();
+        }, 800); // fade out duration
+      }, 1200); // zoom duration - increased for smoother transition
+    }, 1000); // fade in duration - slightly increased
+
+    return () => clearTimeout(timeline);
   }, [onComplete, show]);
 
-  if (!show) return null;
+  if (!show || animationStage === 'complete') return null;
+
+  const getLogoStyle = () => {
+    const baseStyle = {
+      maxWidth: '400px',
+      maxHeight: '200px',
+      width: 'auto',
+      height: 'auto',
+      transition: 'all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+    };
+
+    switch (animationStage) {
+      case 'fadeIn':
+        return {
+          ...baseStyle,
+          opacity: 0,
+          transform: 'scale(0.8)',
+          animation: 'fadeInScale 1s ease-out forwards',
+        };
+      case 'zoom':
+        return {
+          ...baseStyle,
+          opacity: 1,
+          transform: 'scale(1.08)',
+        };
+      case 'fadeOut':
+        return {
+          ...baseStyle,
+          opacity: 0,
+          transform: 'scale(1.08)',
+        };
+      default:
+        return baseStyle;
+    }
+  };
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: '#ffffff',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 9999,
-        transition: 'opacity 0.3s ease-out',
-      }}
-    >
-      <video
-        ref={videoRef}
+    <>
+      <style>
+        {`
+          @keyframes fadeInScale {
+            0% {
+              opacity: 0;
+              transform: scale(0.8);
+            }
+            100% {
+              opacity: 1;
+              transform: scale(1.0);
+            }
+          }
+        `}
+      </style>
+      <div
         style={{
-          width: '100vw',
-          height: '100vh',
-          objectFit: 'cover',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: '#ffffff',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999,
         }}
-        muted
-        playsInline
-        preload="auto"
       >
-        <source src={introVideo} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-    </div>
+        <img
+          src={logoMtc}
+          alt="MTC Konstrukcije Logo"
+          style={getLogoStyle()}
+        />
+      </div>
+    </>
   );
 };

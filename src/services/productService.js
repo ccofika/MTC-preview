@@ -275,6 +275,27 @@ export const productService = {
     }
   },
 
+  // Associate image with category (admin)
+  associateImageWithCategory: async (productId, imageIndex, category, token) => {
+    try {
+      const response = await productAPI.patch(`/${productId}/images/associate-category`, 
+        {
+          imageIndex,
+          category
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to associate image with category');
+    }
+  },
+
   // Get images by color for a product
   getImagesByColor: async (productId, color) => {
     try {

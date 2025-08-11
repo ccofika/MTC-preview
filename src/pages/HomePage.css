@@ -100,20 +100,47 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 var(--spacing-4);
+  padding: 0 var(--spacing-6);
+}
+
+/* Extra space for better breathing room on larger screens */
+@media (min-width: 1400px) {
+  .home-page .hero .container,
+  .home-page .values .container,
+  .home-page .products-overview .container,
+  .home-page .stats .container,
+  .home-page .recent-projects .container {
+    max-width: 1400px;
+    padding: 0 var(--spacing-8);
+  }
+  
+  .home-page .values-grid {
+    max-width: 1200px;
+  }
+  
+  .home-page .product-slideshow {
+    height: 600px;
+  }
+  
+  .home-page .project-slide {
+    height: 420px;
+  }
 }
 
 /* Header spacing adjustment since we're using external Header component */
 
 /* Hero Section */
 .home-page .home-hero {
-  margin-top: 80px;
-  padding: var(--spacing-24) 0;
+  margin-top: 0;
+  padding-top: 80px;
+  padding-bottom: var(--spacing-24);
   position: relative;
   overflow: hidden;
-  min-height: 500px;
+  min-height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .home-page .hero-background {
@@ -235,74 +262,246 @@
   right: -120px;
 }
 
-/* Button Styles */
+/* Button System - Complete Implementation */
+
+/* Base button styles */
 .home-page .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-4) var(--spacing-6);
-  font-size: var(--font-size-base);
-  font-weight: 600;
+  gap: 0.5rem;
   text-decoration: none;
-  border-radius: var(--radius-lg);
-  border: 2px solid transparent;
   cursor: pointer;
-  transition: all var(--transition-normal);
+  transition: all 0.2s ease;
+  border: none;
+  font-family: var(--font-family-primary);
   position: relative;
-  overflow: hidden;
+  outline: none;
 }
 
+/* PRIMARY BUTTONS - Orange gradient for main CTAs */
 .home-page .btn-primary {
-  background-color: var(--primary-color);
-  color: var(--color-white);
-  border-color: var(--primary-color);
+  background: linear-gradient(135deg, #da5913 0%, #e67e22 100%);
+  border: 1px solid #da5913;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(218, 89, 19, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .home-page .btn-primary:hover {
-  background-color: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-primary);
-}
-
-.home-page .btn-secondary {
-  background-color: var(--color-white);
-  color: var(--color-black);
-  border-color: var(--color-gray-300);
-}
-
-.home-page .btn-secondary:hover {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
+  background: linear-gradient(135deg, #c44f10 0%, #d35400 100%);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-base);
+  box-shadow: 0 4px 12px rgba(218, 89, 19, 0.35);
+  border-color: #c44f10;
 }
 
+/* OUTLINE BUTTONS - White background, subtle borders for secondary actions */
 .home-page .btn-outline {
-  background-color: transparent;
-  color: var(--primary-color);
-  border-color: var(--primary-color);
+  background: #ffffff;
+  border: 1px solid #e0e6ed;
+  color: #495057;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
 }
 
 .home-page .btn-outline:hover {
-  background-color: var(--primary-color);
-  color: var(--color-white);
+  background: #f8f9fa;
+  border-color: #6c757d;
+  color: #343a40;
   transform: translateY(-1px);
-  box-shadow: var(--shadow-base);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* SECONDARY BUTTONS - Gray background for neutral actions */
+.home-page .btn-secondary {
+  background: #6c757d;
+  border: 1px solid #6c757d;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+}
+
+.home-page .btn-secondary:hover {
+  background: #5a6268;
+  border-color: #545b62;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+/* VIEW ALL BUTTONS - Small outline buttons for navigation */
+.home-page .btn-view-all,
+.home-page .view-all-btn {
+  background: #ffffff;
+  border: 1px solid #e0e6ed;
+  color: #495057;
+  font-weight: 500;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  font-size: 0.9rem;
+}
+
+.home-page .btn-view-all:hover,
+.home-page .view-all-btn:hover {
+  background: #f8f9fa;
+  border-color: #6c757d;
+  color: #343a40;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* ACTION BUTTONS - Minimal helper actions */
+.home-page .action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  color: #6c757d;
+  font-weight: 400;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.home-page .action-btn:hover {
+  background: #f8f9fa;
+  color: #495057;
+  transform: none;
+}
+
+/* Button sizes */
+.home-page .btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+.home-page .btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* Special styling for buttons on dark backgrounds */
+.home-page .recent-projects .btn-outline,
+.home-page .dark-bg .btn-outline {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.home-page .recent-projects .btn-outline:hover,
+.home-page .dark-bg .btn-outline:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+}
+
+/* Button styling for product overlays - glassmorphism style similar to projects */
+.home-page .product-overlay .btn-outline {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-weight: 500;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  font-size: 0.9rem;
+}
+
+.home-page .product-overlay .btn-outline:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.25),
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Specific styling for product button container */
+.home-page .product-button-container {
+  opacity: 0;
+  transform: scale(0.8) translateY(10px);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s;
+}
+
+.home-page .product-slide:hover .product-button-container {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
 }
 
 /* Section Styles */
 .home-page section {
   padding: var(--spacing-20) 0;
-}
-
-.home-page .section-title {
-  font-size: var(--font-size-4xl);
-  font-weight: 700;
-  text-align: center;
-  margin: 0 0 var(--spacing-16) 0;
-  color: var(--color-black);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   position: relative;
 }
+
+/* Disable CSS scroll snap - using pure JavaScript control */
+.home-page {
+  scroll-behavior: auto;
+  overflow-y: auto;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Desktop-only scroll behavior */
+@media (min-width: 769px) {
+  .home-page {
+    overflow-y: auto;
+  }
+}
+
+/* No CSS needed - JavaScript handles navbar scrollbar adjustment dynamically */
+
+/* Add smooth transitions between sections */
+.home-page section {
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  scroll-snap-align: none;
+  scroll-snap-stop: normal;
+}
+
+/* Improved section spacing and visual separation */
+.home-page section + section {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.home-page .recent-projects {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 
 .home-page .section-title::after {
   content: '';
@@ -326,6 +525,8 @@
     rgba(248, 249, 250, 0.95) 100%);
   position: relative;
   overflow: hidden;
+  min-height: 100vh;
+  padding: var(--spacing-24) 0;
 }
 
 .home-page .values::before {
@@ -354,9 +555,11 @@
 
 .home-page .values-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: var(--spacing-10);
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-8);
   padding: var(--spacing-4) 0;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .home-page .value-card {
@@ -366,7 +569,7 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: var(--spacing-10) var(--spacing-8);
+  padding: var(--spacing-8) var(--spacing-6);
   border-radius: var(--radius-2xl);
   text-align: center;
   box-shadow: 
@@ -429,9 +632,9 @@
 }
 
 .home-page .value-icon {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto var(--spacing-8) auto;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto var(--spacing-6) auto;
   background: linear-gradient(135deg, 
     rgba(218, 89, 19, 0.1) 0%, 
     rgba(218, 89, 19, 0.05) 50%, 
@@ -481,8 +684,8 @@
 }
 
 .home-page .value-icon img {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   filter: brightness(1.1) contrast(1.1);
   z-index: 1;
@@ -495,9 +698,9 @@
 }
 
 .home-page .value-card h3 {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl);
   font-weight: 700;
-  margin: 0 0 var(--spacing-4) 0;
+  margin: 0 0 var(--spacing-3) 0;
   color: var(--color-black);
   background: linear-gradient(135deg, 
     var(--color-black) 0%, 
@@ -535,15 +738,21 @@
 }
 
 /* Products Overview Section */
+.home-page .products-overview {
+  min-height: 100vh;
+  padding: var(--spacing-24) 0;
+}
+
 .home-page .product-slideshow {
   display: flex;
-  gap: var(--spacing-2);
+  gap: var(--spacing-3);
   justify-content: center;
   align-items: stretch;
   overflow: hidden;
   border-radius: var(--radius-xl);
-  height: 450px;
-  box-shadow: var(--shadow-lg);
+  height: 500px;
+  box-shadow: var(--shadow-xl);
+  margin: var(--spacing-8) 0;
 }
 
 .home-page .product-slide {
@@ -709,23 +918,15 @@
   padding: var(--spacing-2) var(--spacing-4);
   font-size: var(--font-size-sm);
   font-weight: 600;
-  box-shadow: 0 2px 12px rgba(255, 107, 53, 0.3);
   white-space: nowrap;
-}
-
-.home-page .product-slide:hover .product-details .btn {
-  box-shadow: 0 4px 20px rgba(255, 107, 53, 0.5);
-}
-
-.home-page .product-details .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(255, 107, 53, 0.6);
 }
 
 /* Statistics Section */
 .home-page .stats {
   background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
   color: var(--color-white);
+  min-height: 100vh;
+  padding: var(--spacing-24) 0;
 }
 
 .home-page .stats .section-title {
@@ -771,6 +972,8 @@
   position: relative;
   overflow: hidden;
   color: var(--color-white);
+  min-height: 100vh;
+  padding: var(--spacing-24) 0;
 }
 
 .home-page .recent-projects::before {
@@ -829,14 +1032,15 @@
 .home-page .projects-slider {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-6);
+  gap: var(--spacing-8);
   position: relative;
   z-index: 2;
+  margin: var(--spacing-8) 0;
 }
 
 .home-page .project-slide {
   position: relative;
-  height: 320px;
+  height: 380px;
   border-radius: var(--radius-2xl);
   overflow: hidden;
   background: linear-gradient(145deg, 
@@ -1151,13 +1355,66 @@
 
 /* Footer styling removed since we're using external Footer component */
 
-/* Responsive Design */
+/* Hide scroll dots on mobile and tablet */
 @media (max-width: 768px) {
+  .scroll-navigation {
+    display: none;
+  }
+
+  /* Disable animations and show all elements on mobile for better performance */
+  .home-page .slide-in-left,
+  .home-page .slide-in-right,
+  .home-page .slide-in-up,
+  .home-page .fade-in-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  /* Show all elements immediately on mobile - override hidden states */
+  .home-page .hero-title,
+  .home-page .hero-subtitle, 
+  .home-page .hero-actions,
+  .home-page .hero-icons,
+  .home-page .values-grid .value-card,
+  .home-page .product-slideshow,
+  .home-page .projects-slider,
+  .home-page .section-header .btn-outline,
+  .home-page .section-title {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+/* Responsive Design */
+  
+  /* Override 100vh sections for mobile - use natural content height */
+  .home-page {
+    scroll-snap-type: none !important;
+    height: auto !important;
+    overflow-y: auto !important;
+  }
+  
+  .home-page section {
+    min-height: auto;
+    padding: var(--spacing-16) 0;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
   
   .home-page .home-hero {
     margin-top: 120px;
     padding: var(--spacing-16) 0;
     min-height: 400px;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+  
+  .home-page .values,
+  .home-page .products-overview,
+  .home-page .stats,
+  .home-page .recent-projects {
+    min-height: auto;
+    padding: var(--spacing-16) 0;
   }
   
   /* Values section mobile optimizations */
@@ -1430,7 +1687,8 @@
   }
   
   .home-page section {
-    padding: var(--spacing-12) 0;
+    padding: var(--spacing-10) 0;
+    min-height: auto !important;
   }
   
   .home-page .stat-number {
@@ -1467,6 +1725,165 @@
     padding: var(--spacing-2) var(--spacing-4);
     font-size: var(--font-size-xs);
   }
+}
+
+/* Scroll Navigation Dots - Desktop Only */
+.scroll-navigation {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.scroll-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 16px 8px;
+}
+
+.scroll-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #9ca3af;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  outline: none;
+  position: relative;
+}
+
+.scroll-dot:hover {
+  background: #6b7280;
+  transform: scale(1.25);
+}
+
+.scroll-dot.active {
+  background: var(--primary-color);
+  transform: scale(1.5);
+  box-shadow: 0 2px 8px rgba(218, 89, 19, 0.3);
+}
+
+/* Scroll Animation Classes */
+.animate-in {
+  animation-play-state: running;
+}
+
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  animation: slideInLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(60px);
+  animation: slideInRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.slide-in-up {
+  opacity: 0;
+  transform: translateY(50px);
+  animation: slideInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.fade-in-scale {
+  opacity: 0;
+  transform: scale(0.9);
+  animation: fadeInScale 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Animation Delays */
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-400 {
+  animation-delay: 0.4s;
+}
+
+.delay-600 {
+  animation-delay: 0.6s;
+}
+
+/* Keyframe Animations */
+@keyframes slideInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Enhanced Section Title Animation */
+.home-page .section-title {
+  font-size: var(--font-size-4xl);
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 var(--spacing-20) 0;
+  color: var(--color-black);
+  position: relative;
+}
+
+/* Default hidden state for all animated elements - Desktop only */
+@media (min-width: 769px) {
+  .home-page .section-title {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .home-page .hero-title,
+  .home-page .hero-subtitle, 
+  .home-page .hero-actions {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+
+  .home-page .hero-icons {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  .home-page .values-grid .value-card,
+  .home-page .product-slideshow,
+  .home-page .projects-slider {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  .home-page .section-header .btn-outline {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+}
+
+.home-page .section-title.slide-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: slideInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 /* Smooth scroll behavior */

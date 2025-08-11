@@ -16,6 +16,7 @@ const ProductDetailPage = () => {
   const [error, setError] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState('');
+  const [selectedColorCategory, setSelectedColorCategory] = useState('Aloksaza');
   const [selectedSize, setSelectedSize] = useState('');
   const [activeTab, setActiveTab] = useState('description');
   const [imageLoading, setImageLoading] = useState(true);
@@ -176,31 +177,75 @@ const ProductDetailPage = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [product]);
 
-  // Function to jump to image based on selected color
-  const updateImagesForColor = async (colorName) => {
+  // Function to jump to image based on selected color and category
+  const updateImagesForColor = async (colorName, category = null) => {
     if (!product || !product.gallery) {
       return;
     }
     
-    // Find the first image associated with the selected color
-    const colorImageIndex = product.gallery.findIndex(img => img.colorAssociation === colorName);
+    const currentCategory = category || selectedColorCategory;
+    
+    // Find the first image associated with the selected color and category
+    const colorImageIndex = product.gallery.findIndex(img => 
+      img.colorAssociation === colorName && 
+      (img.categoryAssociation === currentCategory || !img.categoryAssociation)
+    );
     
     if (colorImageIndex !== -1) {
-      // Found an image for this color, jump to it
+      // Found an image for this color and category, jump to it
       setSelectedImageIndex(colorImageIndex);
+      centerThumbnail(colorImageIndex);
     } else {
-      // No specific image for this color, find first generic image or stay at current
-      const genericImageIndex = product.gallery.findIndex(img => !img.colorAssociation);
-      if (genericImageIndex !== -1) {
-        setSelectedImageIndex(genericImageIndex);
+      // No specific image for this color, find first category-matching or generic image
+      const categoryImageIndex = product.gallery.findIndex(img => 
+        img.categoryAssociation === currentCategory || !img.categoryAssociation
+      );
+      if (categoryImageIndex !== -1) {
+        setSelectedImageIndex(categoryImageIndex);
+        centerThumbnail(categoryImageIndex);
       }
-      // If no generic images either, keep current index (don't reset to 0)
+      // If no matching images either, keep current index (don't reset to 0)
     }
   };
 
   const handleImageSelect = (index) => {
     setSelectedImageIndex(index);
     setImageLoading(true);
+  };
+
+  // Center selected thumbnail in the slider
+  const centerThumbnail = (index) => {
+    setTimeout(() => {
+      const container = document.querySelector('.image-thumbnails');
+      const thumbnails = container?.querySelectorAll('.thumbnail');
+      if (container && thumbnails && thumbnails[index]) {
+        const thumbnail = thumbnails[index];
+        const containerWidth = container.offsetWidth;
+        const thumbnailWidth = thumbnail.offsetWidth;
+        const thumbnailLeft = thumbnail.offsetLeft;
+        const scrollLeft = thumbnailLeft - (containerWidth / 2) + (thumbnailWidth / 2);
+        container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
+  // Handle thumbnail navigation arrows
+  const handlePrevThumbnail = () => {
+    if (product?.gallery && product.gallery.length > 0) {
+      const newIndex = selectedImageIndex === 0 ? product.gallery.length - 1 : selectedImageIndex - 1;
+      setSelectedImageIndex(newIndex);
+      setImageLoading(true);
+      centerThumbnail(newIndex);
+    }
+  };
+
+  const handleNextThumbnail = () => {
+    if (product?.gallery && product.gallery.length > 0) {
+      const newIndex = selectedImageIndex === product.gallery.length - 1 ? 0 : selectedImageIndex + 1;
+      setSelectedImageIndex(newIndex);
+      setImageLoading(true);
+      centerThumbnail(newIndex);
+    }
   };
 
   const handleImageLoad = (e) => {
@@ -265,17 +310,20 @@ const ProductDetailPage = () => {
     }
   };
 
-  const handleColorSelect = async (colorName) => {
+  const handleColorSelect = async (colorName, category = null) => {
     setSelectedColor(colorName);
     
-    // Find the selected color object to get hex code
+    // Find the selected color object to get hex code and category
     const selectedColorObj = product.colors.find(color => color.name === colorName);
     if (selectedColorObj) {
       updateCheckmarkColor(selectedColorObj.hexCode);
+      if (selectedColorObj.category !== selectedColorCategory) {
+        setSelectedColorCategory(selectedColorObj.category);
+      }
     }
     
-    // Update images based on selected color
-    await updateImagesForColor(colorName);
+    // Update images based on selected color and its category
+    await updateImagesForColor(colorName, selectedColorObj?.category);
   };
 
   const handleSizeSelect = (sizeName) => {
@@ -323,6 +371,10 @@ const ProductDetailPage = () => {
         outOfStock: 'Trenutno nedostupno',
         pieces: 'm',
         colors: 'Dostupne RAL boje',
+        aloksazaColors: 'Dostupne boje za Aloksazu',
+        plastifikacijaColors: 'Dostupne boje za plastifikaciju',
+        tigerCatalogInfo: 'Dostupne su i dodatne boje iz Tiger kataloga. Za upit o specifičnim bojama koristite dugme ispod.',
+        requestColorInquiry: 'Zatraži upit za boju',
         sizes: 'Dostupni profili',
         // price: 'Cena po metru', // Removed price label
         requestQuote: 'Zatraži ponudu',
@@ -402,6 +454,10 @@ const ProductDetailPage = () => {
         outOfStock: 'Currently Unavailable',
         pieces: 'm',
         colors: 'Available RAL Colors',
+        aloksazaColors: 'Available Colors for Anodizing',
+        plastifikacijaColors: 'Available Colors for Powder Coating',
+        tigerCatalogInfo: 'Additional colors from Tiger catalog are available. Use the button below to inquire about specific colors.',
+        requestColorInquiry: 'Request Color Inquiry',
         sizes: 'Available Profiles',
         // price: 'Price per meter', // Removed price label
         requestQuote: 'Request Quote',
@@ -481,6 +537,10 @@ const ProductDetailPage = () => {
         outOfStock: 'Derzeit nicht verfügbar',
         pieces: 'm',
         colors: 'Verfügbare RAL-Farben',
+        aloksazaColors: 'Verfügbare Farben für Eloxierung',
+        plastifikacijaColors: 'Verfügbare Farben für Pulverbeschichtung',
+        tigerCatalogInfo: 'Zusätzliche Farben aus dem Tiger-Katalog sind verfügbar. Verwenden Sie die Schaltfläche unten, um nach bestimmten Farben zu fragen.',
+        requestColorInquiry: 'Farbanfrage stellen',
         sizes: 'Verfügbare Profile',
         // price: 'Preis pro Meter', // Removed price label
         requestQuote: 'Angebot anfordern',
@@ -649,62 +709,63 @@ const ProductDetailPage = () => {
                     </div>
                   )}
                   
-                  {/* Navigation Arrows */}
-                  {product?.gallery && product.gallery.length > 1 && (
-                    <>
+                  {/* Arrows removed from main image as requested */}
+                </div>
+                
+              </div>
+              
+              {/* Product Image Thumbnail Slider */}
+              {product && product.gallery && product.gallery.length > 0 && (
+                <div className="image-thumbnails-container">
+                  <div className="thumbnails-label">
+                    <span>{language === 'SR' ? 'Galerija slika' : language === 'EN' ? 'Image Gallery' : 'Bildergalerie'}</span>
+                    <span className="thumbnails-count">
+                      ({product.gallery.length} {language === 'SR' ? 'slika' : language === 'EN' ? 'images' : 'Bilder'})
+                    </span>
+                  </div>
+                  
+                  <div className="thumbnails-wrapper">
+                    {/* Navigation Arrows for Thumbnails */}
+                    {product.gallery.length > 1 && (
                       <button 
-                        className="image-nav-btn prev-btn" 
-                        onClick={handlePrevImage}
+                        className="thumbnail-nav-btn prev-thumb-btn"
+                        onClick={handlePrevThumbnail}
                         aria-label="Previous image"
                       >
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       </button>
+                    )}
+                    
+                    <div className="image-thumbnails">
+                      {product.gallery.map((image, index) => (
+                        <button
+                          key={index}
+                          className={`thumbnail ${index === selectedImageIndex ? 'active' : ''}`}
+                          onClick={() => {
+                            handleImageSelect(index);
+                            centerThumbnail(index);
+                          }}
+                          title={`${language === 'SR' ? 'Slika' : language === 'EN' ? 'Image' : 'Bild'} ${index + 1}`}
+                        >
+                          <img src={image.url} alt={image.alt || `${product.title} - Image ${index + 1}`} />
+                        </button>
+                      ))}
+                    </div>
+                    
+                    {/* Navigation Arrows for Thumbnails */}
+                    {product.gallery.length > 1 && (
                       <button 
-                        className="image-nav-btn next-btn" 
-                        onClick={handleNextImage}
+                        className="thumbnail-nav-btn next-thumb-btn"
+                        onClick={handleNextThumbnail}
                         aria-label="Next image"
                       >
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       </button>
-                    </>
-                  )}
-                </div>
-                
-                {/* Image Counter */}
-                {product?.gallery && product.gallery.length > 1 && (
-                  <div className="image-counter">
-                    {selectedImageIndex + 1} / {product.gallery.length}
-                  </div>
-                )}
-              </div>
-              
-              {/* Enhanced Thumbnail Gallery - ALWAYS show ALL product images */}
-              {product && product.gallery && product.gallery.length > 0 && (
-                <div className="image-gallery">
-                  <div className="gallery-label">
-                    <span>{language === 'SR' ? 'Galerija slika' : language === 'EN' ? 'Image Gallery' : 'Bildergalerie'}</span>
-                    <span className="gallery-count">
-                      ({product.gallery.length} {language === 'SR' ? 'slika' : language === 'EN' ? 'images' : 'Bilder'})
-                    </span>
-                  </div>
-                  <div className="image-thumbnails">
-                    {product.gallery.map((image, index) => (
-                      <button
-                        key={index}
-                        className={`thumbnail ${index === selectedImageIndex ? 'active' : ''}`}
-                        onClick={() => handleImageSelect(index)}
-                        title={`${language === 'SR' ? 'Slika' : language === 'EN' ? 'Image' : 'Bild'} ${index + 1}`}
-                      >
-                        <img src={image.url} alt={image.alt || `${product.title} - Image ${index + 1}`} />
-                        <div className="thumbnail-overlay">
-                          <span className="thumbnail-number">{index + 1}</span>
-                        </div>
-                      </button>
-                    ))}
+                    )}
                   </div>
                 </div>
               )}
@@ -739,12 +800,12 @@ const ProductDetailPage = () => {
                 <p>{product.description}</p>
               </div>
 
-              {/* Colors */}
-              {product.colors && product.colors.length > 0 && (
+              {/* Aloksaza Colors */}
+              {product.colors && product.colors.filter(color => color.category === 'Aloksaza').length > 0 && (
                 <div className="product-options">
-                  <h4>{currentContent.product.colors}:</h4>
+                  <h4>{currentContent.product.aloksazaColors}:</h4>
                   <div className="color-options">
-                    {product.colors.map(color => (
+                    {product.colors.filter(color => color.category === 'Aloksaza').map(color => (
                       <button
                         key={color.name}
                         className={`color-option ${selectedColor === color.name ? 'selected' : ''} ${!color.available ? 'unavailable' : ''}`}
@@ -762,6 +823,60 @@ const ProductDetailPage = () => {
                   </div>
                 </div>
               )}
+
+              {/* Plastifikacija Colors */}
+              {product.colors && product.colors.filter(color => color.category === 'Plastifikacija').length > 0 && (
+                <div className="product-options">
+                  <h4>{currentContent.product.plastifikacijaColors}:</h4>
+                  <div className="color-options">
+                    {product.colors.filter(color => color.category === 'Plastifikacija').map(color => (
+                      <button
+                        key={color.name}
+                        className={`color-option ${selectedColor === color.name ? 'selected' : ''} ${!color.available ? 'unavailable' : ''}`}
+                        onClick={() => handleColorSelect(color.name)}
+                        disabled={!color.available}
+                        title={color.name}
+                      >
+                        <span 
+                          className="color-sample"
+                          style={{ backgroundColor: color.hexCode }}
+                        ></span>
+                        <span className="color-name">{color.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Tiger Catalog Color Inquiry */}
+              <div className="product-options tiger-catalog-section">
+                <p className="tiger-info">{currentContent.product.tigerCatalogInfo}</p>
+                <div className="tiger-catalog-actions">
+                  <button 
+                    className="btn btn-outline tiger-catalog-btn"
+                    onClick={() => window.open('/documents/tiger-color-catalog.pdf', '_blank')}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                      <polyline points="14,2 14,8 20,8"/>
+                    </svg>
+                    {language === 'SR' ? 'Pogledaj Tiger katalog' : language === 'EN' ? 'View Tiger Catalog' : 'Tiger-Katalog ansehen'}
+                  </button>
+                  <button 
+                    className="btn btn-secondary"
+                    onClick={() => {
+                      const params = new URLSearchParams({
+                        product: product.title,
+                        focus: 'contact-form',
+                        inquiryType: 'upit za boju'
+                      });
+                      navigate(`/contact?${params.toString()}`);
+                    }}
+                  >
+                    {currentContent.product.requestColorInquiry}
+                  </button>
+                </div>
+              </div>
 
               {/* Sizes */}
               {product.sizes && product.sizes.length > 0 && (
@@ -795,7 +910,12 @@ const ProductDetailPage = () => {
                   onClick={handleDownloadCatalog}
                   disabled={!product.catalogPdf?.publicId}
                 >
-                  📋 {currentContent.product.downloadCatalog}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7,10 12,15 17,10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  {currentContent.product.downloadCatalog}
                 </button>
               </div>
 

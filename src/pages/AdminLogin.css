@@ -4,7 +4,12 @@
 .admin-login-page {
   isolation: isolate;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, 
+    rgba(29, 29, 27, 0.97) 0%, 
+    rgba(29, 29, 27, 0.95) 25%,
+    rgba(45, 45, 43, 0.98) 50%,
+    rgba(29, 29, 27, 0.95) 75%,
+    rgba(29, 29, 27, 0.97) 100%);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -37,6 +37,7 @@ const ContactPage = () => {
     const product = urlParams.get('product');
     const color = urlParams.get('color');
     const profile = urlParams.get('profile');
+    const inquiryType = urlParams.get('inquiryType');
     const shouldFocus = urlParams.get('focus') === 'contact-form';
 
     if (product) {
@@ -78,7 +79,7 @@ const ContactPage = () => {
       // Update form data
       setFormData(prev => ({
         ...prev,
-        inquiryType: 'quote', // Set inquiry type to quote
+        inquiryType: inquiryType || 'quote', // Use inquiryType from URL or default to quote
         subject: subject
       }));
     }
@@ -267,7 +268,8 @@ const ContactPage = () => {
           general: 'Opšti upit',
           quote: 'Ponuda',
           service: 'Servis',
-          complaint: 'Žalba'
+          complaint: 'Žalba',
+          'upit za boju': 'Upit za boju'
         },
         submit: 'Pošalji poruku'
       },
@@ -394,7 +396,8 @@ const ContactPage = () => {
           general: 'General Inquiry',
           quote: 'Quote Request',
           service: 'Service',
-          complaint: 'Complaint'
+          complaint: 'Complaint',
+          'upit za boju': 'Color Inquiry'
         },
         submit: 'Send Message'
       },
@@ -521,7 +524,8 @@ const ContactPage = () => {
           general: 'Allgemeine Anfrage',
           quote: 'Angebotanfrage',
           service: 'Technische Unterstützung',
-          complaint: 'Beschwerde'
+          complaint: 'Beschwerde',
+          'upit za boju': 'Farbanfrage'
         },
         submit: 'Nachricht senden'
       },
@@ -783,6 +787,7 @@ const ContactPage = () => {
                     <option value="quote">{currentContent.form.inquiryTypes.quote}</option>
                     <option value="service">{currentContent.form.inquiryTypes.service}</option>
                     <option value="complaint">{currentContent.form.inquiryTypes.complaint}</option>
+                    <option value="upit za boju">{currentContent.form.inquiryTypes['upit za boju']}</option>
                   </select>
                 </div>
 
