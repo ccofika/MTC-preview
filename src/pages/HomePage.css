@@ -132,7 +132,7 @@
 /* Hero Section */
 .home-page .home-hero {
   margin-top: 0;
-  padding-top: 80px;
+  padding-top: 0;
   padding-bottom: var(--spacing-24);
   position: relative;
   overflow: hidden;
@@ -141,6 +141,7 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  z-index: 1;
 }
 
 .home-page .hero-background {
@@ -149,7 +150,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: -1;
 }
 
 .home-page .hero-background .background-image {
@@ -167,12 +168,12 @@
   width: 100%;
   height: 100%;
   background: rgba(29, 29, 27, 0.6);
-  z-index: 2;
+  z-index: 1;
 }
 
 .home-page .container {
   position: relative;
-  z-index: 3;
+  z-index: 10;
 }
 
 .home-page .hero-content {
@@ -182,12 +183,20 @@
   align-items: center;
 }
 
+/* Square-ish screens - 50/50 ratio before mobile breakpoint */
+@media (max-width: 1080px) and (min-width: 769px) {
+  .home-page .hero-content {
+    grid-template-columns: 50% 50%;
+    gap: var(--spacing-12);
+  }
+}
+
 .home-page .hero-text {
   color: var(--color-white);
 }
 
 .home-page .hero-title {
-  font-size: var(--font-size-5xl);
+  font-size: var(--font-size-6xl);
   font-weight: 800;
   line-height: 1.1;
   margin: 0 0 var(--spacing-6) 0;
@@ -196,7 +205,7 @@
 }
 
 .home-page .hero-subtitle {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-2xl);
   color: rgba(255, 255, 255, 0.9);
   margin: 0 0 var(--spacing-8) 0;
   line-height: 1.6;
@@ -208,58 +217,27 @@
   gap: var(--spacing-4);
 }
 
-.home-page .hero-icons {
-  position: relative;
+/* Hero Icon - Single icon similar to EcologyPage */
+.home-page .hero-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 400px;
-}
-
-.home-page .hero-icon {
-  position: absolute;
   transition: transform 0.2s ease-out;
+  opacity: 1;
 }
 
-.home-page .hero-icon.main-icon {
-  z-index: 10;
-}
-
-.home-page .hero-icon.main-icon .icon-image {
-  width: 550px;
+.home-page .hero-icon .icon-image {
+  width: 100%;
+  max-width: 400px;
   height: auto;
   filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.3));
+  transition: transform 0.2s ease-out;
+  display: block;
+  opacity: 1;
 }
 
-.home-page .hero-icon.side-icon {
-  z-index: 8;
-}
-
-.home-page .hero-icon.side-icon .icon-image {
-  width: 190px;
-  height: auto;
-  filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.2));
-}
-
-/* Position side icons around main icon */
-.home-page .hero-icon.side-icon-1 {
-  top: 0px;
-  left: -120px;
-}
-
-.home-page .hero-icon.side-icon-2 {
-  top: 60px;
-  right: -170px;
-}
-
-.home-page .hero-icon.side-icon-3 {
-  bottom: 20px;
-  left: -130px;
-}
-
-.home-page .hero-icon.side-icon-4 {
-  bottom: 0px;
-  right: -120px;
+.home-page .hero-icon:hover .icon-image {
+  transform: scale(1.02);
 }
 
 /* Button System - Complete Implementation */
@@ -468,6 +446,14 @@
   position: relative;
 }
 
+/* Desktop view: each section 100vh */
+@media (min-width: 769px) {
+  .home-page section {
+    min-height: 100vh;
+    height: 100vh;
+  }
+}
+
 /* Disable CSS scroll snap - using pure JavaScript control */
 .home-page {
   scroll-behavior: auto;
@@ -527,6 +513,12 @@
   overflow: hidden;
   min-height: 100vh;
   padding: var(--spacing-24) 0;
+}
+
+@media (min-width: 769px) {
+  .home-page .values {
+    height: 100vh;
+  }
 }
 
 .home-page .values::before {
@@ -743,15 +735,21 @@
   padding: var(--spacing-24) 0;
 }
 
+@media (min-width: 769px) {
+  .home-page .products-overview {
+    height: 100vh;
+  }
+}
+
 .home-page .product-slideshow {
   display: flex;
-  gap: var(--spacing-3);
+  gap: var(--spacing-2);
   justify-content: center;
   align-items: stretch;
   overflow: hidden;
   border-radius: var(--radius-xl);
-  height: 500px;
-  box-shadow: var(--shadow-xl);
+  height: 450px;
+  box-shadow: var(--shadow-lg);
   margin: var(--spacing-8) 0;
 }
 
@@ -850,6 +848,8 @@
   left: 0;
   right: 0;
   bottom: 0;
+  width: 100% !important;
+  height: 100%;
   display: flex;
   align-items: flex-end;
   justify-content: stretch;
@@ -929,6 +929,12 @@
   padding: var(--spacing-24) 0;
 }
 
+@media (min-width: 769px) {
+  .home-page .stats {
+    height: 100vh;
+  }
+}
+
 .home-page .stats .section-title {
   color: var(--color-white);
 }
@@ -974,6 +980,12 @@
   color: var(--color-white);
   min-height: 100vh;
   padding: var(--spacing-24) 0;
+}
+
+@media (min-width: 769px) {
+  .home-page .recent-projects {
+    height: 100vh;
+  }
 }
 
 .home-page .recent-projects::before {
@@ -1375,7 +1387,7 @@
   .home-page .hero-title,
   .home-page .hero-subtitle, 
   .home-page .hero-actions,
-  .home-page .hero-icons,
+  .home-page .hero-icon,
   .home-page .values-grid .value-card,
   .home-page .product-slideshow,
   .home-page .projects-slider,
@@ -1385,8 +1397,6 @@
     transform: none !important;
   }
 
-/* Responsive Design */
-  
   /* Override 100vh sections for mobile - use natural content height */
   .home-page {
     scroll-snap-type: none !important;
@@ -1402,9 +1412,10 @@
   }
   
   .home-page .home-hero {
-    margin-top: 120px;
-    padding: var(--spacing-16) 0;
-    min-height: 400px;
+    margin-top: -70px;
+    padding-top: calc(70px + var(--spacing-16));
+    padding-bottom: var(--spacing-16);
+    min-height: 100vh;
     scroll-snap-align: none;
     scroll-snap-stop: normal;
   }
@@ -1503,11 +1514,11 @@
   }
   
   .home-page .hero-title {
-    font-size: var(--font-size-3xl);
+    font-size: var(--font-size-4xl);
   }
   
   .home-page .hero-subtitle {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl);
   }
   
   .home-page .hero-actions {
@@ -1515,37 +1526,8 @@
     align-items: center;
   }
   
-  .home-page .hero-icons {
-    height: 300px;
-  }
-  
-  .home-page .hero-icon.main-icon .icon-image {
-    width: 360px;
-  }
-  
-  .home-page .hero-icon.side-icon .icon-image {
-    width: 160px;
-  }
-  
-  /* Adjust side icon positions for mobile */
-  .home-page .hero-icon.side-icon-1 {
-    top: -10px;
-    left: -80px;
-  }
-  
-  .home-page .hero-icon.side-icon-2 {
-    top: 40px;
-    right: -90px;
-  }
-  
-  .home-page .hero-icon.side-icon-3 {
-    bottom: 20px;
-    left: -70px;
-  }
-  
-  .home-page .hero-icon.side-icon-4 {
-    bottom: -10px;
-    right: -80px;
+  .home-page .hero-icon .icon-image {
+    max-width: 200px;
   }
   
   .home-page .section-title {
@@ -1567,7 +1549,6 @@
   
   .home-page .product-slide {
     flex: none;
-    height: 200px;
     min-width: 100%;
   }
   
@@ -1601,6 +1582,37 @@
   
 }
 
+/* Responsive Design for Hero Icon */
+@media (min-width: 1400px) {
+  .home-page .hero-icon .icon-image {
+    max-width: 400px;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .home-page .hero-icon .icon-image {
+    max-width: 350px;
+  }
+}
+
+@media (min-width: 1000px) and (max-width: 1199px) {
+  .home-page .hero-icon .icon-image {
+    max-width: 320px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 999px) {
+  .home-page .hero-icon .icon-image {
+    max-width: 280px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .home-page .hero-icon .icon-image {
+    max-width: 240px;
+  }
+}
+
 @media (max-width: 480px) {
   .home-page .hero .container,
   .home-page .values .container,
@@ -1610,6 +1622,11 @@
   .home-page .page-container {
     padding: 0 var(--spacing-3);
   }
+  
+  .home-page .hero-icon .icon-image {
+    max-width: 180px;
+  }
+}
   
   /* Extra small screens value cards */
   .home-page .values-grid {
@@ -1679,7 +1696,7 @@
   }
   
   .home-page .hero-title {
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-3xl);
   }
   
   .home-page .section-title {
@@ -1700,13 +1717,6 @@
     gap: var(--spacing-3);
   }
   
-  .home-page .product-slide {
-    height: 180px;
-  }
-  
-  .home-page .product-slide:hover {
-    height: 220px;
-  }
   
   .home-page .product-details {
     padding: var(--spacing-4);
@@ -1725,7 +1735,7 @@
     padding: var(--spacing-2) var(--spacing-4);
     font-size: var(--font-size-xs);
   }
-}
+
 
 /* Scroll Navigation Dots - Desktop Only */
 .scroll-navigation {
@@ -1862,9 +1872,9 @@
     transform: translateX(-60px);
   }
 
-  .home-page .hero-icons {
-    opacity: 0;
-    transform: scale(0.9);
+  .home-page .hero-icon {
+    opacity: 1;
+    transform: scale(1);
   }
 
   .home-page .values-grid .value-card,

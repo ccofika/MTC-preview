@@ -6,6 +6,7 @@ const Header = ({ language, onLanguageChange, content }) => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isOverHero, setIsOverHero] = useState(true);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
 
   // Language options
@@ -33,15 +34,65 @@ const Header = ({ language, onLanguageChange, content }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isLanguageDropdownOpen]);
 
+  // Check if current page has a hero section
+  const hasHeroSection = () => {
+    const heroPages = ['/', '/home', '/products', '/services', '/projekti', '/projects', '/ecology', '/about', '/contact'];
+    return heroPages.includes(location.pathname);
+  };
+
   // Handle scroll events for header styling
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      let scrollTop = 0;
+      
+      // Check if we're on homepage with custom scroll container
+      if (location.pathname === '/' || location.pathname === '/home') {
+        const homePageContainer = document.querySelector('.home-page');
+        if (homePageContainer) {
+          scrollTop = homePageContainer.scrollTop;
+        } else {
+          scrollTop = window.scrollY;
+        }
+      } else {
+        scrollTop = window.scrollY;
+      }
+      
+      const scrolled = scrollTop > 50;
+      setIsScrolled(scrolled);
+      
+      const currentHasHero = hasHeroSection();
+      
+      if (currentHasHero) {
+        // Show transparent navbar only at very top, white background after minimal scroll
+        const scrollThreshold = 50; // Show transparent only until 50px scroll
+        const isStillOverHero = scrollTop < scrollThreshold;
+        setIsOverHero(isStillOverHero);
+      } else {
+        setIsOverHero(false);
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    handleScroll(); // Check initial state
+    
+    // Add scroll listener to both window and homepage container
+    if (location.pathname === '/' || location.pathname === '/home') {
+      const homePageContainer = document.querySelector('.home-page');
+      if (homePageContainer) {
+        homePageContainer.addEventListener('scroll', handleScroll);
+      }
+      window.addEventListener('scroll', handleScroll);
+      
+      return () => {
+        if (homePageContainer) {
+          homePageContainer.removeEventListener('scroll', handleScroll);
+        }
+        window.removeEventListener('scroll', handleScroll);
+      };
+    } else {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+  }, [location.pathname]);
 
   // Toggle mobile menu
   const toggleMobileMenu = () => {
@@ -67,7 +118,7 @@ const Header = ({ language, onLanguageChange, content }) => {
   }, [isMobileMenuOpen]);
 
   return (
-    <header className={`site-header ${isScrolled ? 'scrolled' : ''}`}>
+    <header className={`site-header ${isScrolled ? 'scrolled' : ''} ${isOverHero && hasHeroSection() ? 'over-hero' : ''}`}>
       <div className="container">
         <div className="header-content">
           <div className="logo">

@@ -87,7 +87,7 @@
 
 /* Hero Section - Homepage style with background image and mouse tracking */
 .services-page .services-hero {
-  margin-top: 80px;
+  margin-top: 0;
   padding: var(--spacing-24) 0;
   min-height: 500px;
   position: relative;
@@ -717,9 +717,10 @@
 /* Responsive Design - Mobile-first approach */
 @media (max-width: 768px) {
   .services-page .services-hero {
-    margin-top: 120px;
-    padding: var(--spacing-16) 0;
-    min-height: 400px;
+    margin-top: -70px;
+    padding-top: calc(70px + var(--spacing-16));
+    padding-bottom: var(--spacing-16);
+    min-height: 100vh;
   }
   
   .services-page .hero-content {

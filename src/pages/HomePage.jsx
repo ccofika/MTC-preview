@@ -19,11 +19,7 @@ const HomePage = () => {
   const [productsError, setProductsError] = useState(null);
 
   // Mouse tracking refs
-  const heroMainIconRef = useRef(null);
-  const heroSideIcon1Ref = useRef(null);
-  const heroSideIcon2Ref = useRef(null);
-  const heroSideIcon3Ref = useRef(null);
-  const heroSideIcon4Ref = useRef(null);
+  const heroIconRef = useRef(null);
 
   // Section refs for scroll snap functionality
   const homePageRef = useRef(null);
@@ -45,6 +41,10 @@ const HomePage = () => {
   
   // Ref to track current section index to avoid stale closure
   const currentSectionIndexRef = useRef(0);
+  
+  // Trackpad scroll handling
+  const scrollAccumulatorRef = useRef(0);
+  const lastScrollTimeRef = useRef(0);
 
   const content = {
     SR: {
@@ -416,34 +416,16 @@ const HomePage = () => {
   // Mouse tracking effect
   useEffect(() => {
     const handleMouseMove = (e) => {
-      // Main icon - same behavior as other pages
-      if (heroMainIconRef.current) {
-        const rect = heroMainIconRef.current.getBoundingClientRect();
+      if (heroIconRef.current) {
+        const rect = heroIconRef.current.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
         
         const deltaX = (e.clientX - centerX) * 0.01;
         const deltaY = (e.clientY - centerY) * 0.01;
         
-        heroMainIconRef.current.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+        heroIconRef.current.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
       }
-
-      // Side icons - more movement and slight overlap
-      const sideRefs = [heroSideIcon1Ref, heroSideIcon2Ref, heroSideIcon3Ref, heroSideIcon4Ref];
-      const multipliers = [0.015, 0.018, 0.02, 0.017]; // Different speeds for variation
-      
-      sideRefs.forEach((ref, index) => {
-        if (ref.current) {
-          const rect = ref.current.getBoundingClientRect();
-          const centerX = rect.left + rect.width / 2;
-          const centerY = rect.top + rect.height / 2;
-          
-          const deltaX = (e.clientX - centerX) * multipliers[index];
-          const deltaY = (e.clientY - centerY) * multipliers[index];
-          
-          ref.current.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-        }
-      });
     };
 
     document.addEventListener('mousemove', handleMouseMove);
@@ -461,6 +443,32 @@ const HomePage = () => {
     // Fix navbar to not overlap scrollbar - clean approach
     const adjustForScrollbar = () => {
       const homePageContainer = homePageRef.current;
+      const header = document.querySelector('header, .header, .site-header');
+      
+      if (!header) return;
+      
+      // Don't apply scrollbar adjustments on mobile/tablet (let CSS handle responsiveness)
+      if (window.innerWidth <= 1305) {
+        header.style.width = '';
+        header.style.right = '';
+        header.style.left = '';
+        header.style.borderRight = '';
+        header.style.boxShadow = '';
+        return;
+      }
+      
+      // Only apply on large desktop screens when not over hero
+      const isOverHero = header.classList.contains('over-hero');
+      if (isOverHero) {
+        // When over hero, let CSS handle styling completely
+        header.style.width = '';
+        header.style.right = '';
+        header.style.left = '';
+        header.style.borderRight = '';
+        header.style.boxShadow = '';
+        return;
+      }
+      
       let scrollbarWidth = 0;
       
       if (homePageContainer) {
@@ -472,17 +480,22 @@ const HomePage = () => {
         scrollbarWidth = 17; // Standard scrollbar width
       }
       
-      const header = document.querySelector('header, .header, .site-header');
-      if (header) {
-        header.style.width = `calc(100% - ${scrollbarWidth}px)`;
-        header.style.right = 'auto';
-        header.style.left = '0px';
-        header.style.borderRight = 'none';
-        header.style.boxShadow = 'none';
-      }
+      header.style.width = `calc(100% - ${scrollbarWidth}px)`;
+      header.style.right = 'auto';
+      header.style.left = '0px';
+      header.style.borderRight = 'none';
+      header.style.boxShadow = 'none';
     };
 
+    // Initial adjustment
     adjustForScrollbar();
+    
+    // Re-adjust when scroll state changes (for over-hero detection)
+    const handleScrollbarAdjustment = () => {
+      setTimeout(adjustForScrollbar, 100); // Small delay to let header class changes apply
+    };
+    
+    window.addEventListener('scroll', handleScrollbarAdjustment);
 
     const sections = [
       { ref: heroRef, name: 'hero' },
@@ -539,28 +552,81 @@ const HomePage = () => {
       const scrollHeight = container.scrollHeight;
       const clientHeight = container.clientHeight;
       const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
-
-      if (e.deltaY > 0) {
-        // Scrolling down
-        if (currentSectionIndexRef.current < sections.length - 1) {
-          e.preventDefault();
-          scrollToSection(currentSectionIndexRef.current + 1);
-        } else if (currentSectionIndexRef.current === sections.length - 1 && !isAtBottom) {
-          // Allow free scrolling to footer when at last section
-          // Don't prevent default - allow natural scroll to footer
-        } else if (isAtBottom) {
-          // At the very bottom, prevent further scrolling
-          e.preventDefault();
+      
+      const now = Date.now();
+      const timeDelta = now - lastScrollTimeRef.current;
+      
+      // Detect if this is likely a trackpad gesture (smaller deltaY values, rapid succession)
+      const isTrackpadLikely = Math.abs(e.deltaY) < 50 && timeDelta < 100;
+      
+      // For trackpad gestures, use accumulator to require sustained scrolling
+      if (isTrackpadLikely) {
+        scrollAccumulatorRef.current += e.deltaY;
+        lastScrollTimeRef.current = now;
+        
+        // Reset accumulator if direction changes or too much time has passed
+        if ((scrollAccumulatorRef.current > 0 && e.deltaY < 0) || 
+            (scrollAccumulatorRef.current < 0 && e.deltaY > 0) ||
+            timeDelta > 150) {
+          scrollAccumulatorRef.current = e.deltaY;
+        }
+        
+        // Require larger accumulated scroll for section change
+        const threshold = 150;
+        
+        if (Math.abs(scrollAccumulatorRef.current) < threshold) {
+          // Allow small natural scrolling within sections for trackpad
+          return;
+        }
+        
+        // Reset accumulator after triggering section change
+        const scrollDirection = scrollAccumulatorRef.current > 0 ? 1 : -1;
+        scrollAccumulatorRef.current = 0;
+        
+        if (scrollDirection > 0) {
+          // Scrolling down
+          if (currentSectionIndexRef.current < sections.length - 1) {
+            e.preventDefault();
+            scrollToSection(currentSectionIndexRef.current + 1);
+          } else if (currentSectionIndexRef.current === sections.length - 1 && !isAtBottom) {
+            // Allow free scrolling to footer when at last section
+          } else if (isAtBottom) {
+            e.preventDefault();
+          }
+        } else {
+          // Scrolling up
+          if (isAtBottom || scrollTop > sections[sections.length - 1].ref.current.offsetTop + 100) {
+            e.preventDefault();
+            scrollToSection(sections.length - 1);
+          } else if (currentSectionIndexRef.current > 0) {
+            e.preventDefault();
+            scrollToSection(currentSectionIndexRef.current - 1);
+          }
         }
       } else {
-        // Scrolling up
-        if (isAtBottom || scrollTop > sections[sections.length - 1].ref.current.offsetTop + 100) {
-          // If in footer area, go back to projects section
-          e.preventDefault();
-          scrollToSection(sections.length - 1);
-        } else if (currentSectionIndexRef.current > 0) {
-          e.preventDefault();
-          scrollToSection(currentSectionIndexRef.current - 1);
+        // Traditional mouse wheel - immediate response
+        lastScrollTimeRef.current = now;
+        scrollAccumulatorRef.current = 0; // Reset accumulator
+        
+        if (e.deltaY > 0) {
+          // Scrolling down
+          if (currentSectionIndexRef.current < sections.length - 1) {
+            e.preventDefault();
+            scrollToSection(currentSectionIndexRef.current + 1);
+          } else if (currentSectionIndexRef.current === sections.length - 1 && !isAtBottom) {
+            // Allow free scrolling to footer when at last section
+          } else if (isAtBottom) {
+            e.preventDefault();
+          }
+        } else {
+          // Scrolling up
+          if (isAtBottom || scrollTop > sections[sections.length - 1].ref.current.offsetTop + 100) {
+            e.preventDefault();
+            scrollToSection(sections.length - 1);
+          } else if (currentSectionIndexRef.current > 0) {
+            e.preventDefault();
+            scrollToSection(currentSectionIndexRef.current - 1);
+          }
         }
       }
     };
@@ -574,6 +640,7 @@ const HomePage = () => {
 
     return () => {
       document.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('scroll', handleScrollbarAdjustment);
       delete window.scrollToSection;
       
       const header = document.querySelector('header, .header, .site-header');
@@ -631,29 +698,15 @@ const HomePage = () => {
                   {currentContent.hero.ctaPrimary}
                 </button>
                 <button 
-                  className="btn btn-outline"
+                  className="btn btn-secondary"
                   onClick={() => navigate('/contact')}
                 >
                   {currentContent.hero.ctaSecondary}
                 </button>
               </div>
             </div>
-            <div className={`hero-icons ${elementsVisible.hero ? 'fade-in-scale delay-600' : ''}`}>
-              <div className="hero-icon main-icon" ref={heroMainIconRef}>
-                <img src="/images/header/pocetna-icon-main.png" alt="Main Icon" className="icon-image" />
-              </div>
-              <div className="hero-icon side-icon side-icon-1" ref={heroSideIcon1Ref}>
-                <img src="/images/header/pocetna-icon-side1.png" alt="Side Icon 1" className="icon-image" />
-              </div>
-              <div className="hero-icon side-icon side-icon-2" ref={heroSideIcon2Ref}>
-                <img src="/images/header/pocetna-icon-side3.png" alt="Side Icon 2" className="icon-image" />
-              </div>
-              <div className="hero-icon side-icon side-icon-3" ref={heroSideIcon3Ref}>
-                <img src="/images/header/pocetna-icon-side2.png" alt="Side Icon 3" className="icon-image" />
-              </div>
-              <div className="hero-icon side-icon side-icon-4" ref={heroSideIcon4Ref}>
-                <img src="/images/header/pocetna-icon-side4.png" alt="Side Icon 4" className="icon-image" />
-              </div>
+            <div className="hero-icon" ref={heroIconRef}>
+              <img src="/images/header/MAIN-ICON-HOMEPAGE.png" alt="Homepage Icon" className="icon-image" />
             </div>
           </div>
         </div>
@@ -732,7 +785,7 @@ const HomePage = () => {
                         <h3>{product.title}</h3>
                         <div className="product-button-container">
                           <button 
-                            className="btn btn-outline"
+                            className="btn btn-primary"
                             onClick={(e) => {
                               e.stopPropagation();
                               navigate(`/products/${product._id}`);

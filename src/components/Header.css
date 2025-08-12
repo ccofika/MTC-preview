@@ -143,41 +143,59 @@
 
 .site-header .desktop-nav a {
   text-decoration: none;
-  color: var(--color-gray-700);
-  font-weight: 500;
   font-size: 0.95rem; /* Slightly smaller font to save space */
-  padding: var(--spacing-2) var(--spacing-2); /* Reduced horizontal padding */
-  border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
-  position: relative;
   display: block;
   cursor: pointer;
   white-space: nowrap; /* Prevent text wrapping */
 }
 
-/* Desktop Navigation Hover & Active States */
-.site-header .desktop-nav a:hover {
-  color: var(--primary-color);
-  background-color: rgba(255, 107, 53, 0.05);
-  transform: translateY(-1px);
-}
-
-.site-header .desktop-nav a.active {
-  color: var(--primary-color);
-  background-color: rgba(255, 107, 53, 0.1);
+/* Modern Desktop Navigation Hover & Active States - Default (Non-Hero) State */
+.site-header:not(.over-hero) .desktop-nav a {
+  color: var(--color-gray-700);
   font-weight: 600;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-lg);
+  background: transparent;
+  border: 2px solid transparent;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
 }
 
-.site-header .desktop-nav a.active::after {
+.site-header:not(.over-hero) .desktop-nav a::before {
   content: '';
   position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 2px;
-  background-color: var(--primary-color);
-  border-radius: var(--radius-full);
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(218, 89, 19, 0.1), transparent);
+  transition: left var(--transition-slow);
+  z-index: -1;
+}
+
+.site-header:not(.over-hero) .desktop-nav a:hover {
+  color: var(--primary-color);
+  background: rgba(218, 89, 19, 0.08);
+  border-color: rgba(218, 89, 19, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(218, 89, 19, 0.15);
+}
+
+.site-header:not(.over-hero) .desktop-nav a:hover::before {
+  left: 100%;
+}
+
+.site-header:not(.over-hero) .desktop-nav a.active {
+  color: var(--primary-color);
+  background: rgba(218, 89, 19, 0.12);
+  border-color: rgba(218, 89, 19, 0.3);
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(218, 89, 19, 0.2);
+}
+
+.site-header:not(.over-hero) .desktop-nav a.active::after {
+  display: none; /* Remove old bottom line indicator */
 }
 
 /* Desktop Header Actions */
@@ -607,12 +625,130 @@
   color: var(--primary-color);
 }
 
-/* Scrolled Header State */
-.site-header.scrolled {
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: var(--shadow-md);
+/* Over Hero State - Completely transparent - MAXIMUM SPECIFICITY */
+.site-header.site-header.over-hero,
+header.site-header.over-hero,
+.site-header.over-hero.site-header,
+body .site-header.over-hero,
+.home-page .site-header.over-hero {
+  background: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-bottom: none !important;
+  border-top: none !important;
+  transition: all var(--transition-normal) !important;
+  z-index: 999 !important;
+}
+
+
+/* Over Hero - Navigation Links Styling */
+.site-header.over-hero .desktop-nav a {
+  color: var(--color-white);
+  font-weight: 600;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-lg);
+  background: transparent;
+  border: 2px solid transparent;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.site-header.over-hero .desktop-nav a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left var(--transition-slow);
+  z-index: -1;
+}
+
+.site-header.over-hero .desktop-nav a:hover {
+  color: var(--color-white);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.site-header.over-hero .desktop-nav a:hover::before {
+  left: 100%;
+}
+
+.site-header.over-hero .desktop-nav a.active {
+  color: var(--color-white);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.site-header.over-hero .desktop-nav a.active::after {
+  display: none; /* Remove the bottom line indicator */
+}
+
+/* Over Hero - Language and Contact Styling */
+.site-header.over-hero .language-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--color-white);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.site-header.over-hero .language-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: var(--color-white);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.site-header.over-hero .contact-info {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.site-header.over-hero .contact-info .phone:hover,
+.site-header.over-hero .contact-info .email:hover {
+  color: var(--color-white);
+}
+
+/* When NOT over hero - normal solid background - MAXIMUM SPECIFICITY */
+.site-header:not(.over-hero),
+.site-header.site-header:not(.over-hero),
+header.site-header:not(.over-hero),
+body .site-header:not(.over-hero),
+.home-page .site-header:not(.over-hero) {
+  background: var(--color-white) !important;
+  background-color: var(--color-white) !important;
+  background-image: none !important;
+  box-shadow: var(--shadow-sm) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+  transition: all var(--transition-normal) !important;
+}
+
+/* When scrolled and NOT over hero - enhanced shadow - MAXIMUM SPECIFICITY */
+.site-header.scrolled:not(.over-hero),
+.site-header.site-header.scrolled:not(.over-hero),
+header.site-header.scrolled:not(.over-hero),
+body .site-header.scrolled:not(.over-hero),
+.home-page .site-header.scrolled:not(.over-hero) {
+  background: var(--color-white) !important;
+  background-color: var(--color-white) !important;
+  background-image: none !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  box-shadow: var(--shadow-md) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;
+  transition: all var(--transition-normal) !important;
 }
 
 .site-header.scrolled .header-content {
@@ -622,6 +758,47 @@
 
 .site-header.scrolled .logo img {
   height: 35px;
+}
+
+/* Smooth transitions between states */
+.site-header {
+  transition: all var(--transition-normal);
+}
+
+.site-header .desktop-nav a {
+  transition: all var(--transition-normal);
+}
+
+.site-header .language-btn {
+  transition: all var(--transition-normal);
+}
+
+.site-header .contact-info {
+  transition: all var(--transition-normal);
+}
+
+/* Mobile Over Hero State */
+.site-header.over-hero .hamburger-line {
+  background-color: var(--color-white);
+}
+
+.site-header.over-hero .hamburger-btn.active .hamburger-line:nth-child(1),
+.site-header.over-hero .hamburger-btn.active .hamburger-line:nth-child(3) {
+  background-color: var(--color-white);
+}
+
+.site-header.over-hero .mobile-lang-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--color-white);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.site-header.over-hero .mobile-lang-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: var(--color-white);
 }
 
 /* Responsive Breakpoints */
@@ -681,29 +858,60 @@
   }
 }
 
-/* Desktop/Tablet (769px - 1399px) */
-@media (max-width: 1399px) and (min-width: 769px) {
+
+/* Critical responsive range (1031px - 1305px) - UNIFIED */
+@media (max-width: 1305px) and (min-width: 1031px) {
+  .site-header {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    max-width: none !important;
+  }
+  
+  /* Extra tight spacing for problematic range */
   .site-header .desktop-nav ul {
-    gap: var(--spacing-5); /* Even tighter spacing for medium screens */
+    gap: 8px; /* Extra tight - even less than var(--spacing-2) */
+    flex-wrap: nowrap;
+    justify-content: center;
   }
   
   .site-header .desktop-nav a {
-    font-size: 0.9rem; /* Smaller font on medium screens */
-    padding: var(--spacing-1) var(--spacing-2); /* Reduced padding */
+    font-size: 0.75rem; /* Even smaller font */
+    padding: 4px 8px; /* Very minimal padding */
+    white-space: nowrap;
+    letter-spacing: -0.02em;
   }
   
   .site-header .contact-info {
-    font-size: 0.75rem;
-    min-width: 120px;
+    font-size: 0.65rem;
+    min-width: 80px;
+    flex-shrink: 0;
   }
   
   .site-header .desktop-actions {
-    gap: var(--spacing-6);
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  
+  .site-header .language-btn {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    min-width: 45px;
+  }
+  
+  .site-header .main-navigation {
+    flex: 1;
+    max-width: none;
+    overflow: hidden;
+  }
+  
+  .site-header .header-content {
+    gap: 8px; /* Reduce gap between sections */
   }
 }
 
-/* Mobile Landscape/Tablet Portrait (481px - 768px) */
-@media (max-width: 768px) {
+/* Tablet and Mobile - Switch to hamburger menu from 1030px down */
+@media (max-width: 1030px) {
   .site-header .desktop-nav,
   .site-header .desktop-actions {
     display: none;
@@ -728,8 +936,26 @@
   }
 }
 
+
+/* Mobile responsive - Force full width on mobile */
+@media (max-width: 1030px) {
+  .site-header {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    max-width: none !important;
+  }
+}
+
 /* Mobile Portrait (320px - 480px) */
 @media (max-width: 480px) {
+  .site-header {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    max-width: none !important;
+  }
+  
   .site-header .container {
     padding: 0 var(--spacing-3);
   }
