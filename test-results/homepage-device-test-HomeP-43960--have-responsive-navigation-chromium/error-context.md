@@ -1,0 +1,169 @@
+# Page snapshot
+
+```yaml
+- banner:
+  - link "Nissal":
+    - /url: /
+    - img "Nissal"
+  - navigation:
+    - list:
+      - listitem:
+        - link "Početna":
+          - /url: /
+      - listitem:
+        - link "Proizvodi":
+          - /url: /products
+      - listitem:
+        - link "Usluge":
+          - /url: /services
+      - listitem:
+        - link "Projekti":
+          - /url: /projekti
+      - listitem:
+        - link "Ekologija":
+          - /url: /ecology
+      - listitem:
+        - link "O nama":
+          - /url: /about
+      - listitem:
+        - link "Kontakt":
+          - /url: /contact
+  - button "Srpski":
+    - text: Srpski
+    - img
+  - text: +381 11 123 4567 info@nissal.rs
+  - button "Close navigation menu":
+    - img
+  - navigation:
+    - list:
+      - listitem:
+        - link "Početna":
+          - /url: /
+      - listitem:
+        - link "Proizvodi":
+          - /url: /products
+      - listitem:
+        - link "Usluge":
+          - /url: /services
+      - listitem:
+        - link "Projekti":
+          - /url: /projekti
+      - listitem:
+        - link "Ekologija":
+          - /url: /ecology
+      - listitem:
+        - link "O nama":
+          - /url: /about
+      - listitem:
+        - link "Kontakt":
+          - /url: /contact
+    - text: "Telefon:"
+    - link "+381 11 123 4567":
+      - /url: tel:+381111234567
+    - text: "Email:"
+    - link "info@nissal.rs":
+      - /url: mailto:info@nissal.rs
+- button "Go to hero section"
+- button "Go to values section"
+- button "Go to products section"
+- button "Go to projects section"
+- heading "Nissal – Aluminijumski sistemi priznati širom sveta" [level=1]
+- paragraph: Kreiramo inovativna rešenja za modernu gradnju koje zadovoljavaju potrebe projektanata i investitora
+- button "Pogledaj proizvode"
+- button "Traži ponudu"
+- img "Homepage Icon"
+- heading "Naše ključne vrednosti" [level=2]
+- img "Quality"
+- heading "Kvalitet i pouzdanost" [level=3]
+- paragraph: Proizvodimo prema najvišim standardima kvaliteta sa ISO i CE sertifikatima
+- img "Innovation"
+- heading "Inovacija i tehnologija" [level=3]
+- paragraph: Koristimo najnovije tehnologije u proizvodnji i pružamo prilagođena rešenja
+- img "Support"
+- heading "Iskustvo i podrška" [level=3]
+- paragraph: Preko 15 godina iskustva sa stručnim timom za konsultacije i podršku
+- heading "Naši aluminijumski profili" [level=2]
+- img "ALT 7500"
+- heading "ALT 7500" [level=3]
+- button "Vidi jos"
+- heading "ALT 7500" [level=3]
+- img "ALS 57"
+- heading "ALS 57" [level=3]
+- button "Vidi jos"
+- heading "ALS 57" [level=3]
+- img "ALS 57 - Prozorski sistemi"
+- heading "ALS 57 - Prozorski sistemi" [level=3]
+- button "Vidi jos"
+- heading "ALS 57 - Prozorski sistemi" [level=3]
+- img "ASL 57 - Vrata sistemi"
+- heading "ASL 57 - Vrata sistemi" [level=3]
+- button "Vidi jos"
+- heading "ASL 57 - Vrata sistemi" [level=3]
+- heading "Projekti" [level=2]
+- button "Pogledaj sve projekte"
+- img "Elegantni stambeni apartman sa kliznim sistemima"
+- heading "Elegantni stambeni apartman sa kliznim sistemima" [level=3]
+- paragraph
+- text: 2025 Stambeni
+- img "Minimalistička javna ustanova sa staklenom fasadom"
+- heading "Minimalistička javna ustanova sa staklenom fasadom" [level=3]
+- paragraph
+- text: 2024 Javni
+- img "Urbana rezidencija sa crnom fasadom"
+- heading "Urbana rezidencija sa crnom fasadom" [level=3]
+- paragraph
+- text: 2024 Stambeni
+- contentinfo:
+  - heading "Kontakt informacije" [level=3]
+  - img
+  - paragraph: Industrijska zona bb, 11000 Beograd
+  - img
+  - link "0616389927":
+    - /url: tel:0616389927
+  - img
+  - link "info@nissal.rs":
+    - /url: mailto:info@nissal.rs
+  - img
+  - paragraph: "Ponedeljak-Petak: 08:00-16:00"
+  - heading "Brzi linkovi" [level=3]
+  - list:
+    - listitem:
+      - link "Proizvodi":
+        - /url: /products
+    - listitem:
+      - link "Usluge":
+        - /url: /services
+    - listitem:
+      - link "Projekti":
+        - /url: /projekti
+    - listitem:
+      - link "Kontakt":
+        - /url: /contact
+  - heading "Pratite nas" [level=3]
+  - link "Facebook":
+    - /url: "#"
+    - img
+    - text: Facebook
+  - link "Instagram":
+    - /url: "#"
+    - img
+    - text: Instagram
+  - link "LinkedIn":
+    - /url: "#"
+    - img
+    - text: LinkedIn
+  - heading "Sertifikati i partneri" [level=3]
+  - img "ISO 9001:2015"
+  - text: ISO 9001:2015
+  - img "CE označavanje"
+  - text: CE označavanje
+  - img "Nissal"
+  - paragraph: Vrhunski aluminijumski sistemi za modernu gradnju. Kvalitet, inovacija i pouzdanost od 2008. godine.
+  - paragraph: © 2024 Nissal d.o.o. Sva prava zadržana.
+  - link "Politika privatnosti":
+    - /url: "#privacy"
+  - link "Uslovi korišćenja":
+    - /url: "#terms"
+  - link "Cookies":
+    - /url: "#cookies"
+```

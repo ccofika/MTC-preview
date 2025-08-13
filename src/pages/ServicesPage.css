@@ -432,15 +432,109 @@
 }
 
 .services-page .btn-primary {
-  background-color: var(--primary-color);
-  color: var(--color-white);
-  border-color: var(--primary-color);
+  background: linear-gradient(135deg, #da5913 0%, #e67e22 100%);
+  border: 1px solid #da5913;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(218, 89, 19, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.services-page .btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .services-page .btn-primary:hover {
-  background-color: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-primary);
+  background: linear-gradient(135deg, #b84a0f 0%, #da5913 100%);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(218, 89, 19, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: #b84a0f;
+}
+
+.services-page .btn-primary:hover::before {
+  left: 100%;
+}
+
+.services-page .btn-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 4px 12px rgba(218, 89, 19, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Outline Button Style */
+.services-page .btn-outline {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(218, 89, 19, 0.2);
+  color: #da5913;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.services-page .btn-outline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(218, 89, 19, 0.1), transparent);
+  transition: left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.services-page .btn-outline:hover {
+  background: linear-gradient(135deg, rgba(218, 89, 19, 0.1) 0%, rgba(230, 126, 34, 0.05) 100%);
+  border-color: #da5913;
+  color: #b84a0f;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(218, 89, 19, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.services-page .btn-outline:hover::before {
+  left: 100%;
+}
+
+.services-page .btn-outline:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 4px 8px rgba(218, 89, 19, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Action Button Style */
+.services-page .btn-action {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #706f6f;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.services-page .btn-action:hover {
+  background: rgba(218, 89, 19, 0.05);
+  color: #da5913;
+  transform: translateY(-1px);
+}
+
+.services-page .btn-action:active {
+  transform: translateY(0);
+  background: rgba(218, 89, 19, 0.1);
 }
 
 .services-page .service-btn {
@@ -805,6 +899,18 @@
   .services-page .services-grid-section,
   .services-page .guarantees-section {
     padding: var(--spacing-12) 0;
+  }
+  
+  /* Button responsive styles */
+  .services-page .btn-primary,
+  .services-page .btn-outline {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+  
+  .services-page .btn-action {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.875rem;
   }
 }
 

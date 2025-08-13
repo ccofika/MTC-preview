@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
+import logoStroke from '../assets/images/LOGO-STROKE.png';
+import logoNoStroke from '../assets/images/LOGO-NOSTROKE.png';
 
 const Header = ({ language, onLanguageChange, content }) => {
   const location = useLocation();
@@ -123,7 +125,10 @@ const Header = ({ language, onLanguageChange, content }) => {
         <div className="header-content">
           <div className="logo">
             <Link to="/">
-              <img src="/images/logo-mtc.png" alt="Nissal" />
+              <img 
+                src={isOverHero && hasHeroSection() ? logoStroke : logoNoStroke} 
+                alt="Nissal" 
+              />
             </Link>
           </div>
           

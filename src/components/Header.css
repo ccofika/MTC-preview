@@ -113,7 +113,7 @@
 }
 
 .site-header .logo img {
-  height: 35px;
+  height: 46px;
   width: auto;
   transition: all var(--transition-fast);
 }
@@ -757,7 +757,7 @@ body .site-header.scrolled:not(.over-hero),
 }
 
 .site-header.scrolled .logo img {
-  height: 35px;
+  height: 46px;
 }
 
 /* Smooth transitions between states */

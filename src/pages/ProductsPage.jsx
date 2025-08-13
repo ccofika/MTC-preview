@@ -11,63 +11,20 @@ const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [colors, setColors] = useState([]);
-  const [sizes, setSizes] = useState([]);
   const [pagination, setPagination] = useState({});
 
-  // Filter states
-  const [filters, setFilters] = useState({
-    category: '',
-    colors: [],
-    sizes: [],
-    minPrice: '',
-    maxPrice: '',
-    inStock: false,
-    search: '',
-    page: 1,
-    sortBy: 'createdAt',
-    sortOrder: 'desc'
-  });
-
-  // Scroll states for sticky behavior
-  const [isSticky, setIsSticky] = useState(false);
-  const [isAtBottom, setIsAtBottom] = useState(false);
-  const sidebarRef = useRef(null);
-  const mainContentRef = useRef(null);
-  const sidebarPlaceholderRef = useRef(null);
   const productsSectionRef = useRef(null);
 
 
-  // Fetch initial data
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      try {
-        const [categoriesData, colorsData, sizesData] = await Promise.all([
-          productService.getCategories(),
-          productService.getAvailableColors(),
-          productService.getAvailableSizes()
-        ]);
 
-        setCategories(categoriesData.data || []);
-        setColors(colorsData.data || []);
-        setSizes(sizesData.data || []);
-      } catch (err) {
-        console.error('Error fetching initial data:', err);
-      }
-    };
-
-    fetchInitialData();
-  }, []);
-
-  // Fetch products when filters change
+  // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await productService.getProducts(filters);
+        const response = await productService.getProducts();
         setProducts(response.data.products || []);
         setPagination(response.data.pagination || {});
       } catch (err) {
@@ -79,153 +36,12 @@ const ProductsPage = () => {
     };
 
     fetchProducts();
-  }, [filters]);
-
-  // Advanced sticky sidebar behavior
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sidebarRef.current || !mainContentRef.current || !sidebarPlaceholderRef.current || !productsSectionRef.current) return;
-      
-      // Disable sticky behavior on mobile devices
-      const isMobile = window.innerWidth <= 768;
-      if (isMobile) {
-        setIsSticky(false);
-        sidebarPlaceholderRef.current.style.width = '0px';
-        sidebarRef.current.style.top = '';
-        return;
-      }
-
-      const scrollTop = window.pageYOffset;
-      const windowHeight = window.innerHeight;
-      
-      // Get section boundaries
-      const productsSectionRect = productsSectionRef.current.getBoundingClientRect();
-      const productsSectionTop = scrollTop + productsSectionRect.top;
-      const productsSectionBottom = productsSectionTop + productsSectionRect.height;
-      
-      // Get sidebar dimensions
-      const sidebarHeight = sidebarRef.current.offsetHeight;
-      
-      // Header offset (assuming header is ~100px)
-      const headerOffset = 100;
-      const topPadding = 20; // Additional padding from top
-      
-      // Calculate when sticky should activate
-      // Start when products section enters viewport (accounting for header)
-      const stickyActivationPoint = productsSectionTop - headerOffset;
-      
-      // Calculate the exact point where sidebar should stop being sticky
-      // This should be when scrollTop reaches the point where sidebar bottom would align with section bottom
-      const maxStickyScroll = productsSectionBottom - sidebarHeight - headerOffset - topPadding;
-      
-      // Determine sidebar states
-      const shouldBeSticky = scrollTop >= stickyActivationPoint && scrollTop <= maxStickyScroll;
-      const shouldBeAtBottom = scrollTop > maxStickyScroll;
-      
-      setIsSticky(shouldBeSticky);
-      setIsAtBottom(shouldBeAtBottom);
-      
-      if (shouldBeSticky) {
-        // Sticky mode - follows scroll
-        let optimalTop = headerOffset + topPadding;
-        
-        // Show placeholder to maintain layout
-        const sidebarWidth = window.innerWidth <= 1024 ? '280px' : '300px';
-        sidebarPlaceholderRef.current.style.width = sidebarWidth;
-        
-        sidebarRef.current.style.position = 'fixed';
-        sidebarRef.current.style.top = `${optimalTop}px`;
-        sidebarRef.current.style.left = ''; // Reset left positioning
-        sidebarRef.current.style.width = ''; // Reset width
-      } else if (shouldBeAtBottom) {
-        // Bottom mode - position absolutely at bottom of products section
-        const sidebarWidth = window.innerWidth <= 1024 ? '280px' : '300px';
-        
-        // Calculate position relative to products-main section
-        const relativeBottom = productsSectionRect.height - sidebarHeight - 20;
-        
-        sidebarRef.current.style.position = 'absolute';
-        sidebarRef.current.style.top = `${relativeBottom}px`;
-        sidebarRef.current.style.left = '20px'; // Container padding
-        sidebarRef.current.style.width = sidebarWidth;
-        sidebarPlaceholderRef.current.style.width = '0px';
-      } else {
-        // Normal mode - before sticky activation
-        sidebarRef.current.style.position = '';
-        sidebarRef.current.style.top = '';
-        sidebarRef.current.style.left = '';
-        sidebarRef.current.style.width = '';
-        sidebarPlaceholderRef.current.style.width = '0px';
-      }
-    };
-
-    // Throttle scroll handler for better performance
-    let scrollTimeout;
-    const throttledScrollHandler = () => {
-      if (scrollTimeout) return;
-      scrollTimeout = setTimeout(() => {
-        handleScroll();
-        scrollTimeout = null;
-      }, 8); // ~120fps for smoother sticky behavior
-    };
-
-    window.addEventListener('scroll', throttledScrollHandler);
-    window.addEventListener('resize', handleScroll);
-    
-    // Initial check
-    handleScroll();
-
-    return () => {
-      window.removeEventListener('scroll', throttledScrollHandler);
-      window.removeEventListener('resize', handleScroll);
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-    };
   }, []);
 
-  // Handle filter changes
-  const handleFilterChange = (key, value) => {
-    setFilters(prev => ({
-      ...prev,
-      [key]: value,
-      page: 1 // Reset to first page when filters change
-    }));
-  };
-
-  const handleMultiSelectFilter = (key, value) => {
-    setFilters(prev => {
-      const currentValues = prev[key] || [];
-      const newValues = currentValues.includes(value)
-        ? currentValues.filter(v => v !== value)
-        : [...currentValues, value];
-      
-      return {
-        ...prev,
-        [key]: newValues,
-        page: 1
-      };
-    });
-  };
 
   const handlePageChange = (newPage) => {
-    setFilters(prev => ({ ...prev, page: newPage }));
+    // Handle pagination if needed
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const clearFilters = () => {
-    setFilters({
-      category: '',
-      colors: [],
-      sizes: [],
-      minPrice: '',
-      maxPrice: '',
-      inStock: false,
-      search: '',
-      page: 1,
-      sortBy: 'createdAt',
-      sortOrder: 'desc'
-    });
   };
 
   // Removed formatPrice function - price display is no longer needed
@@ -494,118 +310,9 @@ const ProductsPage = () => {
       {/* Main Content */}
       <section ref={productsSectionRef} className="products-main">
         <div className="container">
-          <div className="products-layout">
-            
-            {/* Sidebar Placeholder - maintains layout when sidebar becomes fixed */}
-            <div ref={sidebarPlaceholderRef} className="sidebar-placeholder"></div>
-            
-            {/* Filters Sidebar */}
-            <aside 
-              ref={sidebarRef}
-              className={`filters-sidebar ${isSticky ? 'is-sticky' : ''} ${isAtBottom ? 'is-at-bottom' : ''}`}
-            >
-              <div className="filters-header">
-                <h3 className="filters-title">{currentContent.filters.title}</h3>
-                <button 
-                  className="clear-filters-btn"
-                  onClick={clearFilters}
-                  type="button"
-                >
-                  {currentContent.filters.clearFilters}
-                </button>
-              </div>
-
-              <div className="filters-content">
-                {/* Search */}
-                <div className="filter-group">
-                  <input
-                    type="text"
-                    className="search-input"
-                    placeholder={currentContent.filters.search}
-                    value={filters.search}
-                    onChange={(e) => handleFilterChange('search', e.target.value)}
-                  />
-                </div>
-
-                {/* Category Filter */}
-                <div className="filter-group">
-                  <label className="filter-label">{currentContent.filters.category}</label>
-                  <select
-                    className="filter-select"
-                    value={filters.category}
-                    onChange={(e) => handleFilterChange('category', e.target.value)}
-                  >
-                    <option value="">{currentContent.filters.allCategories}</option>
-                    {categories.map(category => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Colors Filter */}
-                {colors.length > 0 && (
-                  <div className="filter-group">
-                    <label className="filter-label">{currentContent.filters.colors}</label>
-                    <div className="color-filters">
-                      {colors.map(color => (
-                        <label key={color.name} className="color-filter-item">
-                          <input
-                            type="checkbox"
-                            checked={filters.colors.includes(color.name)}
-                            onChange={() => handleMultiSelectFilter('colors', color.name)}
-                          />
-                          <span 
-                            className="color-sample"
-                            style={{ backgroundColor: color.hexCode }}
-                            title={color.name}
-                          ></span>
-                          <span className="color-name">{color.name}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Sizes Filter */}
-                {sizes.length > 0 && (
-                  <div className="filter-group">
-                    <label className="filter-label">{currentContent.filters.sizes}</label>
-                    <div className="size-filters">
-                      {sizes.map(size => (
-                        <label key={size.code} className="size-filter-item">
-                          <input
-                            type="checkbox"
-                            checked={filters.sizes.includes(size.name)}
-                            onChange={() => handleMultiSelectFilter('sizes', size.name)}
-                          />
-                          <span className="size-label">{size.name}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Price Range removed */}
-
-                {/* In Stock Filter */}
-                <div className="filter-group">
-                  <label className="checkbox-filter-item">
-                    <input
-                      type="checkbox"
-                      checked={filters.inStock}
-                      onChange={(e) => handleFilterChange('inStock', e.target.checked)}
-                    />
-                    <span>{currentContent.filters.inStock}</span>
-                  </label>
-                </div>
-              </div>
-            </aside>
 
             {/* Products Content */}
             <main 
-              ref={mainContentRef}
               className="products-content"
             >
               
@@ -618,22 +325,6 @@ const ProductsPage = () => {
                       {Math.min(pagination.page * pagination.limit, pagination.total)} {currentContent.pagination.of} {pagination.total} {currentContent.pagination.products}
                     </span>
                   )}
-                </div>
-
-                <div className="sort-controls">
-                  <label className="sort-label">{currentContent.filters.sortBy}:</label>
-                  <select
-                    className="sort-select"
-                    value={`${filters.sortBy}-${filters.sortOrder}`}
-                    onChange={(e) => {
-                      const [sortBy, sortOrder] = e.target.value.split('-');
-                      setFilters(prev => ({ ...prev, sortBy, sortOrder, page: 1 }));
-                    }}
-                  >
-                    {Object.entries(currentContent.filters.sortOptions).map(([value, label]) => (
-                      <option key={value} value={value}>{label}</option>
-                    ))}
-                  </select>
                 </div>
               </div>
 
@@ -808,7 +499,6 @@ const ProductsPage = () => {
                 </div>
               )}
             </main>
-          </div>
         </div>
       </section>
 
