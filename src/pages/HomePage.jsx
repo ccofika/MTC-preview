@@ -7,6 +7,7 @@ import { projectService } from '../services/projectService';
 import { productService } from '../services/productService';
 import { homepageSettingsService } from '../services/homepageSettingsService';
 import useLanguage from '../hooks/useLanguage';
+import { Award, Lightbulb, Users } from 'lucide-react';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -45,21 +46,22 @@ const HomePage = () => {
   // Trackpad scroll handling
   const scrollAccumulatorRef = useRef(0);
   const lastScrollTimeRef = useRef(0);
+  const scrollSessionActiveRef = useRef(false);
+  const scrollTimeoutRef = useRef(null);
 
   const content = {
     SR: {
       nav: {
         home: 'Početna',
         products: 'Proizvodi',
-        services: 'Usluge',
         projects: 'Projekti',
         about: 'O nama',
         ecology: 'Ekologija',
         contact: 'Kontakt'
       },
       hero: {
-        title: 'Nissal – Aluminijumski sistemi priznati širom sveta',
-        subtitle: 'Kreiramo inovativna rešenja za modernu gradnju koje zadovoljavaju potrebe projektanata i investitora',
+        title: 'Nissal aluminijumski sistemi - proizvodnja i isporuka kompletnih rešenja.',
+        subtitle: 'Razvijamo i isporučujemo sisteme profila za prozore, vrata, solarce i staklene ograde, uz tehničku podršku od idejnog rešenja do montaže na gradilištu.',
         ctaPrimary: 'Pogledaj proizvode',
         ctaSecondary: 'Traži ponudu'
       },
@@ -67,15 +69,15 @@ const HomePage = () => {
         title: 'Naše ključne vrednosti',
         quality: {
           title: 'Kvalitet i pouzdanost',
-          description: 'Proizvodimo prema najvišim standardima kvaliteta sa ISO i CE sertifikatima'
+          description: 'Usklađenost sa EN standardima i CE obeležavanjem. Procesi kontrole kvaliteta prema ISO 9001:2015.'
         },
         innovation: {
-          title: 'Inovacija i tehnologija',
-          description: 'Koristimo najnovije tehnologije u proizvodnji i pružamo prilagođena rešenja'
+          title: 'Prilagođena rešenja',
+          description: 'Uvek nudimo stabilna i pouzdana rešenja koja odgovaraju specifičnim zahtevima svakog projekta.'
         },
         experience: {
-          title: 'Iskustvo i podrška',
-          description: 'Preko 15 godina iskustva sa stručnim timom za konsultacije i podršku'
+          title: 'Iskustvo od 1955. godine',
+          description: 'Višedecenijska praksa koja predstavlja ogroman kapital znanja.'
         }
       },
       products: {
@@ -119,8 +121,7 @@ const HomePage = () => {
         quickLinks: {
           title: 'Brzi linkovi',
           products: 'Proizvodi',
-          services: 'Usluge',
-          projects: 'Projekti',
+            projects: 'Projekti',
           contact: 'Kontakt'
         },
         social: {
@@ -149,15 +150,14 @@ const HomePage = () => {
       nav: {
         home: 'Home',
         products: 'Products',
-        services: 'Services',
         projects: 'Projects',
         about: 'About',
         ecology: 'Ecology',
         contact: 'Contact'
       },
       hero: {
-        title: 'Nissal – Aluminum systems recognized worldwide',
-        subtitle: 'We create innovative solutions for modern construction that meet the needs of designers and investors',
+        title: 'Nissal aluminum systems - production and delivery of complete solutions.',
+        subtitle: 'We develop and deliver profile systems for windows, doors, awnings and glass railings, with technical support from concept to installation on the construction site.',
         ctaPrimary: 'View products',
         ctaSecondary: 'Request quote'
       },
@@ -165,15 +165,15 @@ const HomePage = () => {
         title: 'Our key values',
         quality: {
           title: 'Quality and reliability',
-          description: 'We manufacture according to the highest quality standards with ISO and CE certificates'
+          description: 'Compliance with EN standards and CE marking. Quality control processes according to ISO 9001:2015.'
         },
         innovation: {
-          title: 'Innovation and technology',
-          description: 'We use the latest production technologies and provide customized solutions'
+          title: 'Customized solutions',
+          description: 'We always offer stable and reliable solutions that meet the specific requirements of each project.'
         },
         experience: {
-          title: 'Experience and support',
-          description: 'Over 15 years of experience with expert team for consultations and support'
+          title: 'Experience since 1955',
+          description: 'Multi-decade practice that represents a huge capital of knowledge.'
         }
       },
       products: {
@@ -217,8 +217,7 @@ const HomePage = () => {
         quickLinks: {
           title: 'Quick links',
           products: 'Products',
-          services: 'Services',
-          projects: 'Projects',
+            projects: 'Projects',
           contact: 'Contact'
         },
         social: {
@@ -247,15 +246,14 @@ const HomePage = () => {
       nav: {
         home: 'Startseite',
         products: 'Produkte',
-        services: 'Dienstleistungen',
         projects: 'Projekte',
         about: 'Über uns',
         ecology: 'Ökologie',
         contact: 'Kontakt'
       },
       hero: {
-        title: 'Nissal – Weltweit anerkannte Aluminiumsysteme',
-        subtitle: 'Wir schaffen innovative Lösungen für modernes Bauen, die den Bedürfnissen von Planern und Investoren gerecht werden',
+        title: 'Nissal Aluminiumsysteme - Produktion und Lieferung kompletter Lösungen.',
+        subtitle: 'Wir entwickeln und liefern Profilsysteme für Fenster, Türen, Markisen und Glasgeländer mit technischer Unterstützung vom Konzept bis zur Montage auf der Baustelle.',
         ctaPrimary: 'Produkte ansehen',
         ctaSecondary: 'Angebot anfordern'
       },
@@ -263,15 +261,15 @@ const HomePage = () => {
         title: 'Unsere Kernwerte',
         quality: {
           title: 'Qualität und Zuverlässigkeit',
-          description: 'Wir fertigen nach höchsten Qualitätsstandards mit ISO- und CE-Zertifikaten'
+          description: 'Konformität mit EN-Standards und CE-Kennzeichnung. Qualitätskontrollprozesse nach ISO 9001:2015.'
         },
         innovation: {
-          title: 'Innovation und Technologie',
-          description: 'Wir verwenden neueste Produktionstechnologien und bieten maßgeschneiderte Lösungen'
+          title: 'Maßgeschneiderte Lösungen',
+          description: 'Wir bieten immer stabile und zuverlässige Lösungen, die den spezifischen Anforderungen jedes Projekts entsprechen.'
         },
         experience: {
-          title: 'Erfahrung und Support',
-          description: 'Über 15 Jahre Erfahrung mit Expertenteam für Beratung und Unterstützung'
+          title: 'Erfahrung seit 1955',
+          description: 'Jahrzehntelange Praxis, die ein enormes Wissenskapital darstellt.'
         }
       },
       products: {
@@ -315,8 +313,7 @@ const HomePage = () => {
         quickLinks: {
           title: 'Schnelllinks',
           products: 'Produkte',
-          services: 'Dienstleistungen',
-          projects: 'Projekte',
+            projects: 'Projekte',
           contact: 'Kontakt'
         },
         social: {
@@ -382,12 +379,40 @@ const HomePage = () => {
         const response = await homepageSettingsService.getFeaturedProducts();
         
         if (response.success && response.data) {
-          setProducts(response.data);
+          // Apply custom sort order to featured products
+          let products = response.data;
+          const customOrder = ['ALT-7500', 'ALS-57', 'ALU-004', 'ALU-007'];
+          
+          products.sort((a, b) => {
+            const aIndex = customOrder.indexOf(a.catalog?.catalogNumber);
+            const bIndex = customOrder.indexOf(b.catalog?.catalogNumber);
+            
+            if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+            if (aIndex !== -1) return -1;
+            if (bIndex !== -1) return 1;
+            return 0;
+          });
+          
+          setProducts(products);
         } else {
           // Fallback to regular products if no featured products are set
           const fallbackResponse = await productService.getProducts({ limit: 4 });
           if (fallbackResponse.success && fallbackResponse.data.products) {
-            setProducts(fallbackResponse.data.products);
+            // Apply custom sort order to fallback products
+            let products = fallbackResponse.data.products;
+            const customOrder = ['ALT-7500', 'ALS-57', 'ALU-004', 'ALU-007'];
+            
+            products.sort((a, b) => {
+              const aIndex = customOrder.indexOf(a.catalog?.catalogNumber);
+              const bIndex = customOrder.indexOf(b.catalog?.catalogNumber);
+              
+              if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+              if (aIndex !== -1) return -1;
+              if (bIndex !== -1) return 1;
+              return 0;
+            });
+            
+            setProducts(products);
           } else {
             setProductsError('Failed to fetch products');
           }
@@ -398,7 +423,21 @@ const HomePage = () => {
         try {
           const fallbackResponse = await productService.getProducts({ limit: 4 });
           if (fallbackResponse.success && fallbackResponse.data.products) {
-            setProducts(fallbackResponse.data.products);
+            // Apply custom sort order to fallback products in catch block
+            let products = fallbackResponse.data.products;
+            const customOrder = ['ALT-7500', 'ALS-57', 'ALU-004', 'ALU-007'];
+            
+            products.sort((a, b) => {
+              const aIndex = customOrder.indexOf(a.catalog?.catalogNumber);
+              const bIndex = customOrder.indexOf(b.catalog?.catalogNumber);
+              
+              if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+              if (aIndex !== -1) return -1;
+              if (bIndex !== -1) return 1;
+              return 0;
+            });
+            
+            setProducts(products);
           } else {
             setProductsError(error.message || 'Failed to fetch products');
           }
@@ -413,7 +452,7 @@ const HomePage = () => {
     fetchFeaturedProducts();
   }, []);
 
-  // Mouse tracking effect
+  // Enhanced mouse tracking effect with responsiveness
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (heroIconRef.current) {
@@ -421,15 +460,34 @@ const HomePage = () => {
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
         
-        const deltaX = (e.clientX - centerX) * 0.01;
-        const deltaY = (e.clientY - centerY) * 0.01;
+        // Adjust movement intensity based on screen size
+        const isMobile = window.innerWidth <= 768;
+        const movementIntensity = isMobile ? 0.005 : 0.01;
         
-        heroIconRef.current.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+        const deltaX = (e.clientX - centerX) * movementIntensity;
+        const deltaY = (e.clientY - centerY) * movementIntensity;
+        
+        // Limit maximum movement range
+        const maxMovement = isMobile ? 8 : 15;
+        const clampedX = Math.max(-maxMovement, Math.min(maxMovement, deltaX));
+        const clampedY = Math.max(-maxMovement, Math.min(maxMovement, deltaY));
+        
+        heroIconRef.current.style.transform = `translate(${clampedX}px, ${clampedY}px)`;
       }
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    return () => document.removeEventListener('mousemove', handleMouseMove);
+    // Only add mouse tracking on non-touch devices for better performance
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    if (!isTouchDevice) {
+      document.addEventListener('mousemove', handleMouseMove);
+    }
+    
+    return () => {
+      if (!isTouchDevice) {
+        document.removeEventListener('mousemove', handleMouseMove);
+      }
+    };
   }, []);
 
   // Enhanced scroll snap functionality with animations for desktop
@@ -559,54 +617,69 @@ const HomePage = () => {
       // Detect if this is likely a trackpad gesture (smaller deltaY values, rapid succession)
       const isTrackpadLikely = Math.abs(e.deltaY) < 50 && timeDelta < 100;
       
-      // For trackpad gestures, use accumulator to require sustained scrolling
+      // For trackpad gestures, implement scroll session control
       if (isTrackpadLikely) {
-        scrollAccumulatorRef.current += e.deltaY;
+        // Clear any existing timeout
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current);
+        }
+        
+        // If this is the start of a new scroll session
+        if (!scrollSessionActiveRef.current) {
+          scrollSessionActiveRef.current = true;
+          scrollAccumulatorRef.current = e.deltaY;
+        } else {
+          // Continue accumulating in the same session
+          scrollAccumulatorRef.current += e.deltaY;
+        }
+        
         lastScrollTimeRef.current = now;
         
-        // Reset accumulator if direction changes or too much time has passed
-        if ((scrollAccumulatorRef.current > 0 && e.deltaY < 0) || 
-            (scrollAccumulatorRef.current < 0 && e.deltaY > 0) ||
-            timeDelta > 150) {
-          scrollAccumulatorRef.current = e.deltaY;
-        }
-        
-        // Require larger accumulated scroll for section change
-        const threshold = 150;
-        
-        if (Math.abs(scrollAccumulatorRef.current) < threshold) {
-          // Allow small natural scrolling within sections for trackpad
-          return;
-        }
-        
-        // Reset accumulator after triggering section change
-        const scrollDirection = scrollAccumulatorRef.current > 0 ? 1 : -1;
-        scrollAccumulatorRef.current = 0;
-        
-        if (scrollDirection > 0) {
-          // Scrolling down
-          if (currentSectionIndexRef.current < sections.length - 1) {
-            e.preventDefault();
-            scrollToSection(currentSectionIndexRef.current + 1);
-          } else if (currentSectionIndexRef.current === sections.length - 1 && !isAtBottom) {
-            // Allow free scrolling to footer when at last section
-          } else if (isAtBottom) {
-            e.preventDefault();
+        // Set timeout to end scroll session when user stops scrolling
+        scrollTimeoutRef.current = setTimeout(() => {
+          // Check if we accumulated enough scroll to trigger section change
+          const threshold = 50; // Lower threshold for more responsive feeling
+          
+          if (Math.abs(scrollAccumulatorRef.current) >= threshold) {
+            const scrollDirection = scrollAccumulatorRef.current > 0 ? 1 : -1;
+            
+            if (scrollDirection > 0) {
+              // Scrolling down
+              if (currentSectionIndexRef.current < sections.length - 1) {
+                e.preventDefault();
+                scrollToSection(currentSectionIndexRef.current + 1);
+              } else if (currentSectionIndexRef.current === sections.length - 1 && !isAtBottom) {
+                // Allow free scrolling to footer when at last section
+              }
+            } else {
+              // Scrolling up
+              if (isAtBottom || scrollTop > sections[sections.length - 1].ref.current.offsetTop + 100) {
+                scrollToSection(sections.length - 1);
+              } else if (currentSectionIndexRef.current > 0) {
+                scrollToSection(currentSectionIndexRef.current - 1);
+              }
+            }
           }
-        } else {
-          // Scrolling up
-          if (isAtBottom || scrollTop > sections[sections.length - 1].ref.current.offsetTop + 100) {
-            e.preventDefault();
-            scrollToSection(sections.length - 1);
-          } else if (currentSectionIndexRef.current > 0) {
-            e.preventDefault();
-            scrollToSection(currentSectionIndexRef.current - 1);
-          }
-        }
+          
+          // Reset scroll session
+          scrollSessionActiveRef.current = false;
+          scrollAccumulatorRef.current = 0;
+          scrollTimeoutRef.current = null;
+        }, 150); // Wait 150ms after last scroll event before processing
+        
+        // Prevent default scrolling during trackpad sessions
+        e.preventDefault();
+        
       } else {
         // Traditional mouse wheel - immediate response
         lastScrollTimeRef.current = now;
-        scrollAccumulatorRef.current = 0; // Reset accumulator
+        scrollAccumulatorRef.current = 0;
+        scrollSessionActiveRef.current = false;
+        
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current);
+          scrollTimeoutRef.current = null;
+        }
         
         if (e.deltaY > 0) {
           // Scrolling down
@@ -642,6 +715,12 @@ const HomePage = () => {
       document.removeEventListener('wheel', handleWheel);
       window.removeEventListener('scroll', handleScrollbarAdjustment);
       delete window.scrollToSection;
+      
+      // Clear any pending scroll timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+        scrollTimeoutRef.current = null;
+      }
       
       const header = document.querySelector('header, .header, .site-header');
       if (header) {
@@ -683,7 +762,7 @@ const HomePage = () => {
       {/* Hero Section */}
       <section className={`home-hero ${elementsVisible.hero ? 'animate-in' : ''}`} ref={heroRef}>
         <div className="hero-background">
-          <img src="/images/header/pocetna-background.jpg" alt="" className="background-image" />
+          <img src="/images/hero-image-main.jpg" alt="" className="background-image" />
         </div>
         <div className="container">
           <div className="hero-content">
@@ -706,7 +785,7 @@ const HomePage = () => {
               </div>
             </div>
             <div className="hero-icon" ref={heroIconRef}>
-              <img src="/images/header/MAIN-ICON-HOMEPAGE.png" alt="Homepage Icon" className="icon-image" />
+              <img src="/images/FINAL-LOGO-BELI.png" alt="MTC Logo" className="icon-image" />
             </div>
           </div>
         </div>
@@ -719,21 +798,21 @@ const HomePage = () => {
           <div className="values-grid">
             <div className={`value-card ${elementsVisible.values ? 'slide-in-up delay-200' : ''}`}>
               <div className="value-icon">
-                <img src="/images/icons/quality.png" alt="Quality" />
+                <Award size={48} />
               </div>
               <h3>{currentContent.values.quality.title}</h3>
               <p>{currentContent.values.quality.description}</p>
             </div>
             <div className={`value-card ${elementsVisible.values ? 'slide-in-up delay-400' : ''}`}>
               <div className="value-icon">
-                <img src="/images/icons/idea.png" alt="Innovation" />
+                <Lightbulb size={48} />
               </div>
               <h3>{currentContent.values.innovation.title}</h3>
               <p>{currentContent.values.innovation.description}</p>
             </div>
             <div className={`value-card ${elementsVisible.values ? 'slide-in-up delay-600' : ''}`}>
               <div className="value-icon">
-                <img src="/images/icons/customer-support.png" alt="Support" />
+                <Users size={48} />
               </div>
               <h3>{currentContent.values.experience.title}</h3>
               <p>{currentContent.values.experience.description}</p>

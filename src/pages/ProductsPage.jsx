@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { productService } from '../services/productService';
 import useLanguage from '../hooks/useLanguage';
+import { Loader, XCircle, Package } from 'lucide-react';
 
 const ProductsPage = () => {
   const { language, changeLanguage } = useLanguage();
@@ -25,7 +26,29 @@ const ProductsPage = () => {
 
       try {
         const response = await productService.getProducts();
-        setProducts(response.data.products || []);
+        let products = response.data.products || [];
+        
+        // Custom sort order: ALT 7500, ALS 57, ALS 57 vrata, staklene ograde, then others
+        const customOrder = ['ALT-7500', 'ALS-57', 'ALU-004', 'ALU-007'];
+        
+        products.sort((a, b) => {
+          const aIndex = customOrder.indexOf(a.catalog?.catalogNumber);
+          const bIndex = customOrder.indexOf(b.catalog?.catalogNumber);
+          
+          // If both products are in custom order, sort by their positions
+          if (aIndex !== -1 && bIndex !== -1) {
+            return aIndex - bIndex;
+          }
+          
+          // If only one product is in custom order, prioritize it
+          if (aIndex !== -1) return -1;
+          if (bIndex !== -1) return 1;
+          
+          // If neither is in custom order, maintain original order
+          return 0;
+        });
+        
+        setProducts(products);
         setPagination(response.data.pagination || {});
       } catch (err) {
         setError(err.message);
@@ -59,7 +82,7 @@ const ProductsPage = () => {
       },
       hero: {
         title: 'Naši aluminijumski sistemi',
-        subtitle: 'Vrhunski aluminijumski profili i sistemi za moderne arhitektonske rešenja'
+        subtitle: 'Kvalitetno urađeni sa pažnjom na detalje i besprekoran kvalitet'
       },
       filters: {
         title: 'Filteri',
@@ -137,8 +160,8 @@ const ProductsPage = () => {
         contact: 'Kontakt'
       },
       hero: {
-        title: 'Unsere Aluminiumprodukte',
-        subtitle: 'Hochwertige Lösungen für alle Ihre Bauprojekte'
+        title: 'Unsere Aluminiumsysteme',
+        subtitle: 'Qualitätsarbeit mit Liebe zum Detail und tadellose Qualität'
       },
       filters: {
         title: 'Filter',
@@ -217,7 +240,7 @@ const ProductsPage = () => {
       },
       hero: {
         title: 'Our Aluminum Systems',
-        subtitle: 'Premium aluminum profiles and systems for modern architectural solutions'
+        subtitle: 'Quality crafted with attention to detail and impeccable quality'
       },
       filters: {
         title: 'Filters',
@@ -333,23 +356,14 @@ const ProductsPage = () => {
                 {loading ? (
                   <div className="loading-state">
                     <div className="loading-spinner">
-                      <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" strokeDasharray="31.416" strokeDashoffset="31.416">
-                          <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
-                          <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/>
-                        </circle>
-                      </svg>
+                      <Loader size={48} className="spinner-animate" />
                     </div>
                     <p>{currentContent.products.loading}</p>
                   </div>
                 ) : error ? (
                   <div className="error-state">
                     <div className="error-icon">
-                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-                        <line x1="15" y1="9" x2="9" y2="15" stroke="currentColor" strokeWidth="2"/>
-                        <line x1="9" y1="9" x2="15" y2="15" stroke="currentColor" strokeWidth="2"/>
-                      </svg>
+                      <XCircle size={48} />
                     </div>
                     <h3>{currentContent.products.error}</h3>
                     <p>{error}</p>
@@ -357,13 +371,7 @@ const ProductsPage = () => {
                 ) : products.length === 0 ? (
                   <div className="empty-state">
                     <div className="empty-icon">
-                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 7L4 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                        <path d="M10 11V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                        <path d="M14 11V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                        <path d="M5 7L6 19C6 20.1046 6.89543 21 8 21H16C17.1046 21 18 20.1046 18 19L19 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                        <path d="M9 7V4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                      </svg>
+                      <Package size={48} />
                     </div>
                     <h3>{currentContent.products.noProducts}</h3>
                     <p>{currentContent.products.tryDifferentFilters}</p>

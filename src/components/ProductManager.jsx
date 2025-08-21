@@ -32,7 +32,13 @@ const ProductManager = ({ onClose }) => {
       inStock: true,
       quantity: 0
     },
-    measurements: []
+    measurements: [],
+    plastificationTypes: {
+      sjajna: false,
+      matt: false,
+      strukturalna: false,
+      showOnProduct: false
+    }
   });
 
   const [images, setImages] = useState([]);
@@ -81,14 +87,17 @@ const ProductManager = ({ onClose }) => {
 
   const handleInputChange = (field, value) => {
     if (field.includes('.')) {
-      const [parent, child] = field.split('.');
-      setFormData(prev => ({
-        ...prev,
-        [parent]: {
-          ...prev[parent],
-          [child]: value
-        }
-      }));
+      const fieldParts = field.split('.');
+      if (fieldParts.length === 2) {
+        const [parent, child] = fieldParts;
+        setFormData(prev => ({
+          ...prev,
+          [parent]: {
+            ...prev[parent],
+            [child]: value
+          }
+        }));
+      }
     } else {
       setFormData(prev => ({ ...prev, [field]: value }));
     }
@@ -194,6 +203,10 @@ const ProductManager = ({ onClose }) => {
       submitData.append('price', JSON.stringify(formData.price));
       submitData.append('availability', JSON.stringify(formData.availability));
       submitData.append('measurements', JSON.stringify(formData.measurements));
+      submitData.append('plastificationTypes', JSON.stringify(formData.plastificationTypes));
+      
+      // Debug log
+      console.log('Sending plastificationTypes:', formData.plastificationTypes);
 
       // Add images
       images.forEach((image) => {
@@ -240,7 +253,13 @@ const ProductManager = ({ onClose }) => {
         inStock: true,
         quantity: 0
       },
-      measurements: []
+      measurements: [],
+      plastificationTypes: {
+        sjajna: false,
+        matt: false,
+        strukturalna: false,
+        showOnProduct: false
+      }
     });
     setImages([]);
     setEditingProduct(null);
@@ -256,7 +275,13 @@ const ProductManager = ({ onClose }) => {
       sizes: product.sizes || [],
       price: product.price,
       availability: product.availability,
-      measurements: product.measurements || []
+      measurements: product.measurements || [],
+      plastificationTypes: product.plastificationTypes || {
+        sjajna: false,
+        matt: false,
+        strukturalna: false,
+        showOnProduct: false
+      }
     });
     setActiveTab('add');
   };
@@ -888,6 +913,56 @@ const ProductManager = ({ onClose }) => {
                     );
                   })}
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Plastification Types */}
+          <div className="form-section">
+            <h3>Završna obrada plastifikacije</h3>
+            <div className="plastification-options">
+              <div className="form-group checkbox-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={formData.plastificationTypes.sjajna}
+                    onChange={(e) => handleInputChange('plastificationTypes.sjajna', e.target.checked)}
+                  />
+                  Sjajna
+                </label>
+              </div>
+              
+              <div className="form-group checkbox-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={formData.plastificationTypes.matt}
+                    onChange={(e) => handleInputChange('plastificationTypes.matt', e.target.checked)}
+                  />
+                  Matt
+                </label>
+              </div>
+              
+              <div className="form-group checkbox-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={formData.plastificationTypes.strukturalna}
+                    onChange={(e) => handleInputChange('plastificationTypes.strukturalna', e.target.checked)}
+                  />
+                  Strukturalna
+                </label>
+              </div>
+              
+              <div className="form-group checkbox-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={formData.plastificationTypes.showOnProduct}
+                    onChange={(e) => handleInputChange('plastificationTypes.showOnProduct', e.target.checked)}
+                  />
+                  Prikaži na stranici proizvoda
+                </label>
               </div>
             </div>
           </div>

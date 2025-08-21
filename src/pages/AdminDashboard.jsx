@@ -63,7 +63,7 @@ const AdminDashboard = () => {
         <div className="admin-header-container">
           <div className="admin-header-left">
             <div className="admin-logo">
-              <img src="/images/logo-mtc.png" alt="Nissal Admin" />
+              <img src="/images/FINAL-LOGO-BELI.png" alt="MTC Admin" />
             </div>
             <h1 className="admin-header-title">Admin Panel</h1>
           </div>

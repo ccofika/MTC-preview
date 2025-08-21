@@ -3,6 +3,7 @@ import './EcologyPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import useLanguage from '../hooks/useLanguage';
+import { Sun, RotateCcw, Trash2, Zap } from 'lucide-react';
 
 const EcologyPage = () => {
   const { language, changeLanguage } = useLanguage();
@@ -778,20 +779,10 @@ const EcologyPage = () => {
             {currentContent.sustainability.pillars.map((pillar, index) => (
               <div key={index} className="sustainability-card">
                 <div className="sustainability-icon">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {pillar.icon === 'solar' && (
-                      <path d="M12 2V4M12 20V22M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M2 12H4M20 12H22M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22M12 7C14.76 7 17 9.24 17 12S14.76 17 12 17S7 14.76 7 12S9.24 7 12 7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    )}
-                    {pillar.icon === 'recycle' && (
-                      <path d="M7 19H17L19 21H5L7 19ZM12 2L14 4H10L12 2ZM14.5 16.5L16 15H8L9.5 16.5H14.5ZM19 9L17 7V11L19 9ZM5 9L7 11V7L5 9Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    )}
-                    {pillar.icon === 'waste' && (
-                      <path d="M3 6H5H21M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    )}
-                    {pillar.icon === 'efficiency' && (
-                      <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    )}
-                  </svg>
+                  {pillar.icon === 'solar' && <Sun size={32} />}
+                  {pillar.icon === 'recycle' && <RotateCcw size={32} />}
+                  {pillar.icon === 'waste' && <Trash2 size={32} />}
+                  {pillar.icon === 'efficiency' && <Zap size={32} />}
                 </div>
                 <div className="sustainability-stats">
                   <div className="stat-number">{pillar.percentage}</div>
@@ -905,29 +896,6 @@ const EcologyPage = () => {
         </div>
       </section>
 
-      {/* Environmental Certifications */}
-      <section className="certifications-section">
-        <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">{currentContent.certifications.title}</h2>
-            <p className="section-subtitle">{currentContent.certifications.subtitle}</p>
-          </div>
-          <div className="certifications-grid">
-            {currentContent.certifications.items.map((cert, index) => (
-              <div key={index} className="certification-card">
-                <div className="certification-image">
-                  <img src={cert.image} alt={cert.name} />
-                </div>
-                <div className="certification-content">
-                  <h3>{cert.name}</h3>
-                  <p>{cert.description}</p>
-                  <div className="certification-year">Od {cert.year}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Footer Section */}
       <Footer content={currentContent} />

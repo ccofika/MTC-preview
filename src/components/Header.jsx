@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
-import logoStroke from '../assets/images/LOGO-STROKE.png';
-import logoNoStroke from '../assets/images/LOGO-NOSTROKE.png';
+import logoWhite from '../assets/images/FINAL-LOGO-BELI.png';
+import logoBlack from '../assets/images/FINAL-LOGO-CRNI.png';
+import { ChevronDown, X } from 'lucide-react';
 
 const Header = ({ language, onLanguageChange, content }) => {
   const location = useLocation();
@@ -126,8 +127,8 @@ const Header = ({ language, onLanguageChange, content }) => {
           <div className="logo">
             <Link to="/">
               <img 
-                src={isOverHero && hasHeroSection() ? logoStroke : logoNoStroke} 
-                alt="Nissal" 
+                src={isOverHero && hasHeroSection() ? logoWhite : logoBlack} 
+                alt="MTC" 
               />
             </Link>
           </div>
@@ -137,7 +138,6 @@ const Header = ({ language, onLanguageChange, content }) => {
             <ul>
               <li><Link to="/" className={location.pathname === '/' || location.pathname === '/home' ? 'active' : ''}>{content.nav.home}</Link></li>
               <li><Link to="/products" className={location.pathname === '/products' ? 'active' : ''}>{content.nav.products}</Link></li>
-              <li><Link to="/services" className={location.pathname === '/services' ? 'active' : ''}>{content.nav.services}</Link></li>
               <li><Link to="/projekti" className={location.pathname === '/projekti' ? 'active' : ''}>{content.nav.projects}</Link></li>
               <li><Link to="/ecology" className={location.pathname === '/ecology' ? 'active' : ''}>{content.nav.ecology}</Link></li>
               <li><Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>{content.nav.about}</Link></li>
@@ -154,9 +154,7 @@ const Header = ({ language, onLanguageChange, content }) => {
                 aria-expanded={isLanguageDropdownOpen}
               >
 {languageOptions.find(lang => lang.code === language)?.name}
-                <svg className="dropdown-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <ChevronDown size={16} />
               </button>
               {isLanguageDropdownOpen && (
                 <div className="language-dropdown">
@@ -173,8 +171,8 @@ const Header = ({ language, onLanguageChange, content }) => {
               )}
             </div>
             <div className="contact-info">
-              <span className="phone">+381 11 123 4567</span>
-              <span className="email">info@nissal.rs</span>
+              <span className="phone">+381 18 415 63 32</span>
+              <span className="email">office@mtc.co.rs</span>
             </div>
           </div>
 
@@ -226,9 +224,7 @@ const Header = ({ language, onLanguageChange, content }) => {
           onClick={() => setIsMobileMenuOpen(false)}
           aria-label="Close navigation menu"
         >
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+          <X size={24} />
         </button>
         
         <nav className="mobile-navigation">
@@ -249,15 +245,6 @@ const Header = ({ language, onLanguageChange, content }) => {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {content.nav.products}
-              </Link>
-            </li>
-            <li>
-              <Link 
-                to="/services" 
-                className={location.pathname === '/services' ? 'active' : ''}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {content.nav.services}
               </Link>
             </li>
             <li>
@@ -302,11 +289,11 @@ const Header = ({ language, onLanguageChange, content }) => {
           <div className="mobile-contact-info">
             <div className="mobile-contact-item">
               <span className="contact-label">Telefon:</span>
-              <a href="tel:+381111234567" className="contact-value">+381 11 123 4567</a>
+              <a href="tel:+381184156332" className="contact-value">+381 18 415 63 32</a>
             </div>
             <div className="mobile-contact-item">
               <span className="contact-label">Email:</span>
-              <a href="mailto:info@nissal.rs" className="contact-value">info@nissal.rs</a>
+              <a href="mailto:office@mtc.co.rs" className="contact-value">office@mtc.co.rs</a>
             </div>
           </div>
         </nav>

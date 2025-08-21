@@ -62,7 +62,7 @@ const AdminLogin = () => {
           <div className="admin-login-header">
             <div className="admin-logo">
               <div className="logo-container">
-                <img src="/images/logo-mtc.png" alt="Nissal Admin" className="logo-image" />
+                <img src="/images/FINAL-LOGO-BELI.png" alt="MTC Admin" className="logo-image" />
                 <div className="logo-glow"></div>
               </div>
             </div>

@@ -18,6 +18,7 @@ const ProductDetailPage = () => {
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedColorCategory, setSelectedColorCategory] = useState('Aloksaza');
   const [selectedSize, setSelectedSize] = useState('');
+  const [selectedPlastificationType, setSelectedPlastificationType] = useState('');
   const [activeTab, setActiveTab] = useState('description');
   const [imageLoading, setImageLoading] = useState(true);
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
@@ -330,6 +331,10 @@ const ProductDetailPage = () => {
     setSelectedSize(sizeName);
   };
 
+  const handlePlastificationTypeSelect = (typeName) => {
+    setSelectedPlastificationType(typeName);
+  };
+
   const handleRequestQuote = () => {
     if (!product) return;
     
@@ -338,6 +343,7 @@ const ProductDetailPage = () => {
       product: product.title,
       color: selectedColor,
       profile: selectedSize,
+      plastificationType: selectedPlastificationType,
       focus: 'contact-form'
     });
     
@@ -846,6 +852,44 @@ const ProductDetailPage = () => {
                     ))}
                   </div>
                 </div>
+              )}
+
+              {/* Plastification Types */}
+              {product.plastificationTypes && product.plastificationTypes.showOnProduct && (
+                (product.plastificationTypes.sjajna || product.plastificationTypes.matt || product.plastificationTypes.strukturalna) && (
+                  <div className="product-options">
+                    <h4>{language === 'SR' ? 'Završna obrada plastifikacije:' : language === 'EN' ? 'Plastification Finishing:' : 'Pulverbeschichtungs-Veredelung:'}</h4>
+                    <div className="plastification-types">
+                      {product.plastificationTypes.sjajna && (
+                        <button
+                          className={`plastification-type ${selectedPlastificationType === 'sjajna' ? 'selected' : ''}`}
+                          onClick={() => handlePlastificationTypeSelect('sjajna')}
+                          title={language === 'SR' ? 'Sjajna plastifikacija' : language === 'EN' ? 'Glossy plastification' : 'Glänzende Pulverbeschichtung'}
+                        >
+                          {language === 'SR' ? 'Sjajna' : language === 'EN' ? 'Glossy' : 'Glänzend'}
+                        </button>
+                      )}
+                      {product.plastificationTypes.matt && (
+                        <button
+                          className={`plastification-type ${selectedPlastificationType === 'matt' ? 'selected' : ''}`}
+                          onClick={() => handlePlastificationTypeSelect('matt')}
+                          title={language === 'SR' ? 'Matt plastifikacija' : language === 'EN' ? 'Matte plastification' : 'Matte Pulverbeschichtung'}
+                        >
+                          {language === 'SR' ? 'Matt' : language === 'EN' ? 'Matte' : 'Matt'}
+                        </button>
+                      )}
+                      {product.plastificationTypes.strukturalna && (
+                        <button
+                          className={`plastification-type ${selectedPlastificationType === 'strukturalna' ? 'selected' : ''}`}
+                          onClick={() => handlePlastificationTypeSelect('strukturalna')}
+                          title={language === 'SR' ? 'Strukturalna plastifikacija' : language === 'EN' ? 'Textured plastification' : 'Strukturierte Pulverbeschichtung'}
+                        >
+                          {language === 'SR' ? 'Strukturalna' : language === 'EN' ? 'Textured' : 'Strukturiert'}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )
               )}
 
               {/* Tiger Catalog Color Inquiry */}

@@ -108,8 +108,8 @@ const ProjectsPage = () => {
         contact: 'Kontakt'
       },
       hero: {
-        title: 'Naši projekti',
-        subtitle: 'Pogledajte realizovane projekte aluminijumskih sistema i konstrukcija'
+        title: 'Prikaz potencijalnih projekata',
+        subtitle: 'Naš cilj je da budući projekti koje realizujemo prikažu kvalitet, pažljivo odabrane detalje i usklađene boje.'
       },
       footer: {
         contact: {
@@ -148,8 +148,8 @@ const ProjectsPage = () => {
         contact: 'Contact'
       },
       hero: {
-        title: 'Our Projects',
-        subtitle: 'Explore our completed aluminum systems and construction projects'
+        title: 'Showcase of potential projects',
+        subtitle: 'Our goal is that the future projects we realize demonstrate quality, carefully selected details and coordinated colors.'
       },
       footer: {
         contact: {
@@ -188,8 +188,8 @@ const ProjectsPage = () => {
         contact: 'Kontakt'
       },
       hero: {
-        title: 'Unsere realisierten Projekte',
-        subtitle: 'Entdecken Sie eine Auswahl unserer erfolgreich abgeschlossenen Bauprojekte'
+        title: 'Präsentation potenzieller Projekte',
+        subtitle: 'Unser Ziel ist es, dass die zukünftigen Projekte, die wir realisieren, Qualität, sorgfältig ausgewählte Details und abgestimmte Farben zeigen.'
       },
       filters: {
         title: 'Filter',

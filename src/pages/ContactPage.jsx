@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { contactService } from '../services/contactService';
 import useLanguage from '../hooks/useLanguage';
+import { MapPin, Phone, Clock, CheckCircle, XCircle, Loader } from 'lucide-react';
 
 const ContactPage = () => {
   const { language, changeLanguage } = useLanguage();
@@ -230,21 +231,25 @@ const ContactPage = () => {
         title: 'Kontakt informacije',
         address: {
           title: 'Adresa',
-          street: 'Industrijska zona bb',
-          city: '11000 Beograd',
+          street: 'Mtc Nissal Centrala Gandijeva 235/13',
+          city: '11073 Beograd',
+          street2: 'Bulevar Sv. Cara Konstantina bb',
+          city2: 'Niš',
           country: 'Srbija'
         },
         phone: {
           title: 'Telefon/Email',
-          main: '+381 11 123 4567',
-          sales: '+381 11 123 4568',
-          service: '+381 11 123 4569',
-          email: 'info@nissal.rs'
+          centrala: '+381 18 415 63 32',
+          finansije1: '062 210 598',
+          finansije2: '064 844 3847',
+          email: 'office@mtc.co.rs',
+          centralaLabel: 'Centrala',
+          finansijeLabel: 'Finansije'
         },
         workingHours: {
           title: 'Radno vreme',
-          weekdays: 'Ponedeljak-Petak: 08:00-16:00',
-          saturday: 'Subota: 08:00-12:00',
+          weekdays: 'Ponedeljak i Petak: 08:00-16:00',
+          saturday: 'Subota: Zatvoreno',
           sunday: 'Nedelja: Zatvoreno'
         }
       },
@@ -271,6 +276,7 @@ const ContactPage = () => {
           complaint: 'Žalba',
           'upit za boju': 'Upit za boju'
         },
+        selectLabel: 'Izaberite...',
         submit: 'Pošalji poruku'
       },
       map: {
@@ -317,10 +323,10 @@ const ContactPage = () => {
       footer: {
         contact: {
           title: 'Kontakt informacije',
-          address: 'Industrijska zona bb, 11000 Beograd',
-          phone: '+381 11 123 4567',
-          email: 'info@nissal.rs',
-          workingHours: 'Pon-Pet: 08:00-16:00'
+          address: 'Gandijeva 235/13, 11073 Beograd',
+          phone: '+381 18 415 63 32',
+          email: 'office@mtc.co.rs',
+          workingHours: 'Ponedeljak i Petak'
         },
         quickLinks: {
           title: 'Brzi linkovi',
@@ -337,6 +343,9 @@ const ContactPage = () => {
         },
         certificates: {
           title: 'Sertifikati i partneri'
+        },
+        company: {
+          description: 'Vrhunski aluminijumski sistemi za modernu gradnju. Kvalitet, inovacija i pouzdanost od 2008. godine.'
         }
       }
     },
@@ -358,21 +367,25 @@ const ContactPage = () => {
         title: 'Contact Information',
         address: {
           title: 'Address',
-          street: 'Industrial zone bb',
-          city: '11000 Belgrade',
+          street: 'Mtc Nissal Centrala Gandijeva 235/13',
+          city: '11073 Belgrade',
+          street2: 'Bulevar Sv. Cara Konstantina bb',
+          city2: 'Niš',
           country: 'Serbia'
         },
         phone: {
           title: 'Phone/Email',
-          main: '+381 11 123 4567',
-          sales: '+381 11 123 4568',
-          service: '+381 11 123 4569',
-          email: 'info@nissal.rs'
+          centrala: '+381 18 415 63 32',
+          finansije1: '062 210 598',
+          finansije2: '064 844 3847',
+          email: 'office@mtc.co.rs',
+          centralaLabel: 'Main Office',
+          finansijeLabel: 'Finance'
         },
         workingHours: {
           title: 'Working Hours',
-          weekdays: 'Monday-Friday: 08:00-16:00',
-          saturday: 'Saturday: 08:00-12:00',
+          weekdays: 'Monday and Friday: 08:00-16:00',
+          saturday: 'Saturday: Closed',
           sunday: 'Sunday: Closed'
         }
       },
@@ -399,6 +412,7 @@ const ContactPage = () => {
           complaint: 'Complaint',
           'upit za boju': 'Color Inquiry'
         },
+        selectLabel: 'Select...',
         submit: 'Send Message'
       },
       map: {
@@ -445,10 +459,10 @@ const ContactPage = () => {
       footer: {
         contact: {
           title: 'Contact Information',
-          address: 'Industrial zone bb, 11000 Belgrade',
-          phone: '+381 11 123 4567',
-          email: 'info@nissal.rs',
-          workingHours: 'Mon-Fri: 08:00-16:00'
+          address: 'Gandijeva 235/13, 11073 Belgrade',
+          phone: '+381 18 415 63 32',
+          email: 'office@mtc.co.rs',
+          workingHours: 'Monday and Friday'
         },
         quickLinks: {
           title: 'Quick Links',
@@ -465,6 +479,9 @@ const ContactPage = () => {
         },
         certificates: {
           title: 'Certificates and Partners'
+        },
+        company: {
+          description: 'Premium aluminum systems for modern construction. Quality, innovation and reliability since 2008.'
         }
       }
     },
@@ -486,21 +503,25 @@ const ContactPage = () => {
         title: 'Kontaktinformationen',
         address: {
           title: 'Adresse',
-          street: 'Industriezone bb',
-          city: '11000 Belgrad',
+          street: 'Mtc Nissal Centrala Gandijeva 235/13',
+          city: '11073 Belgrad',
+          street2: 'Bulevar Sv. Cara Konstantina bb',
+          city2: 'Niš',
           country: 'Serbien'
         },
         phone: {
           title: 'Telefon/E-Mail',
-          main: '+381 11 123 4567',
-          sales: '+381 11 123 4568',
-          service: '+381 11 123 4569',
-          email: 'info@nissal.rs'
+          centrala: '+381 18 415 63 32',
+          finansije1: '062 210 598',
+          finansije2: '064 844 3847',
+          email: 'office@mtc.co.rs',
+          centralaLabel: 'Zentrale',
+          finansijeLabel: 'Finanzen'
         },
         workingHours: {
           title: 'Arbeitszeiten',
-          weekdays: 'Montag-Freitag: 08:00-16:00',
-          saturday: 'Samstag: 08:00-12:00',
+          weekdays: 'Montag und Freitag: 08:00-16:00',
+          saturday: 'Samstag: Geschlossen',
           sunday: 'Sonntag: Geschlossen'
         }
       },
@@ -527,6 +548,7 @@ const ContactPage = () => {
           complaint: 'Beschwerde',
           'upit za boju': 'Farbanfrage'
         },
+        selectLabel: 'Wählen Sie...',
         submit: 'Nachricht senden'
       },
       map: {
@@ -573,10 +595,10 @@ const ContactPage = () => {
       footer: {
         contact: {
           title: 'Kontaktinformationen',
-          address: 'Industriezone bb, 11000 Belgrad',
-          phone: '+381 11 123 4567',
-          email: 'info@nissal.rs',
-          workingHours: 'Mo-Fr: 08:00-16:00'
+          address: 'Gandijeva 235/13, 11073 Belgrad',
+          phone: '+381 18 415 63 32',
+          email: 'office@mtc.co.rs',
+          workingHours: 'Montag und Freitag'
         },
         quickLinks: {
           title: 'Schnelllinks',
@@ -593,6 +615,9 @@ const ContactPage = () => {
         },
         certificates: {
           title: 'Zertifikate und Partner'
+        },
+        company: {
+          description: 'Premium Aluminiumsysteme für moderne Bauwesen. Qualität, Innovation und Zuverlässigkeit seit 2008.'
         }
       }
     }
@@ -626,40 +651,36 @@ const ContactPage = () => {
           <div className="contact-info-grid">
             <div className="contact-info-card">
               <div className="contact-icon">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 21C15.5 17.4 19 14.1764 19 10.2C19 6.22355 15.866 3 12 3C8.13401 3 5 6.22355 5 10.2C5 14.1764 8.5 17.4 12 21Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <MapPin size={32} />
               </div>
               <h3>{currentContent.contactInfo.address.title}</h3>
               <div className="contact-details">
+                <p><strong>Beograd:</strong></p>
                 <p>{currentContent.contactInfo.address.street}</p>
                 <p>{currentContent.contactInfo.address.city}</p>
+                <p><strong>Niš:</strong></p>
+                <p>{currentContent.contactInfo.address.street2}</p>
+                <p>{currentContent.contactInfo.address.city2}</p>
                 <p>{currentContent.contactInfo.address.country}</p>
               </div>
             </div>
 
             <div className="contact-info-card">
               <div className="contact-icon">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6.5 10.5C6.5 10.5 7.5 12.5 10.5 15.5C13.5 18.5 15.5 19.5 15.5 19.5L18.5 16.5C19 16 19.8 16 20.3 16.5L22.5 18.7C23.2 19.4 23.2 20.6 22.5 21.3L20.5 23.3C20.1 23.7 19.6 24 19 24C18.9 24 18.8 24 18.7 24C15.1 23.8 11.6 22.3 8.9 19.6C6.2 16.9 4.7 13.4 4.5 9.8C4.5 9.2 4.8 8.7 5.2 8.3L7.2 6.3C7.9 5.6 9.1 5.6 9.8 6.3L12 8.5C12.5 9 12.5 9.8 12 10.3L6.5 10.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <Phone size={32} />
               </div>
               <h3>{currentContent.contactInfo.phone.title}</h3>
               <div className="contact-details">
-                <p><strong>Glavni:</strong> <a href={`tel:${currentContent.contactInfo.phone.main}`}>{currentContent.contactInfo.phone.main}</a></p>
-                <p><strong>Prodaja:</strong> <a href={`tel:${currentContent.contactInfo.phone.sales}`}>{currentContent.contactInfo.phone.sales}</a></p>
-                <p><strong>Servis:</strong> <a href={`tel:${currentContent.contactInfo.phone.service}`}>{currentContent.contactInfo.phone.service}</a></p>
+                <p><strong>{currentContent.contactInfo.phone.centralaLabel}:</strong> <a href={`tel:${currentContent.contactInfo.phone.centrala}`}>{currentContent.contactInfo.phone.centrala}</a></p>
+                <p><strong>{currentContent.contactInfo.phone.finansijeLabel}:</strong> <a href={`tel:${currentContent.contactInfo.phone.finansije1}`}>{currentContent.contactInfo.phone.finansije1}</a></p>
+                <p><strong>{currentContent.contactInfo.phone.finansijeLabel}:</strong> <a href={`tel:${currentContent.contactInfo.phone.finansije2}`}>{currentContent.contactInfo.phone.finansije2}</a></p>
                 <p><strong>Email:</strong> <a href={`mailto:${currentContent.contactInfo.phone.email}`}>{currentContent.contactInfo.phone.email}</a></p>
               </div>
             </div>
 
             <div className="contact-info-card">
               <div className="contact-icon">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <Clock size={32} />
               </div>
               <h3>{currentContent.contactInfo.workingHours.title}</h3>
               <div className="contact-details">
@@ -687,15 +708,9 @@ const ContactPage = () => {
                 <div className={`form-status ${submitStatus}`}>
                   <div className="status-icon">
                     {submitStatus === 'success' ? (
-                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
+                      <CheckCircle size={24} />
                     ) : (
-                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-                        <line x1="15" y1="9" x2="9" y2="15" stroke="currentColor" strokeWidth="2"/>
-                        <line x1="9" y1="9" x2="15" y2="15" stroke="currentColor" strokeWidth="2"/>
-                      </svg>
+                      <XCircle size={24} />
                     )}
                   </div>
                   <p className="status-message">{submitMessage}</p>
@@ -782,7 +797,7 @@ const ContactPage = () => {
                     onChange={handleInputChange}
                     required
                   >
-                    <option value="">Izaberite...</option>
+                    <option value="">{currentContent.form.selectLabel}</option>
                     <option value="general">{currentContent.form.inquiryTypes.general}</option>
                     <option value="quote">{currentContent.form.inquiryTypes.quote}</option>
                     <option value="service">{currentContent.form.inquiryTypes.service}</option>
@@ -848,32 +863,7 @@ const ContactPage = () => {
                   >
                     {isSubmitting ? (
                       <span className="loading-content">
-                        <svg className="loading-spinner" viewBox="0 0 24 24">
-                          <circle 
-                            cx="12" 
-                            cy="12" 
-                            r="10" 
-                            stroke="currentColor" 
-                            strokeWidth="2" 
-                            fill="none" 
-                            strokeLinecap="round" 
-                            strokeDasharray="31.416" 
-                            strokeDashoffset="31.416"
-                          >
-                            <animate 
-                              attributeName="stroke-dasharray" 
-                              dur="2s" 
-                              values="0 31.416;15.708 15.708;0 31.416" 
-                              repeatCount="indefinite"
-                            />
-                            <animate 
-                              attributeName="stroke-dashoffset" 
-                              dur="2s" 
-                              values="0;-15.708;-31.416" 
-                              repeatCount="indefinite"
-                            />
-                          </circle>
-                        </svg>
+                        <Loader size={20} className="loading-spinner" />
                         {language === 'SR' ? 'Šalje se...' : language === 'EN' ? 'Sending...' : 'Wird gesendet...'}
                       </span>
                     ) : (
@@ -893,15 +883,32 @@ const ContactPage = () => {
           <h2 className="section-title">{currentContent.map.title}</h2>
           <div className="map-container">
             <div className="map-placeholder">
-              <p>Interaktivna mapa - Google Maps integration</p>
-              <button className="btn btn-outline">{currentContent.map.navigation}</button>
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2896.3456789!2d21.8958333!3d43.3209444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4755b0c1234567890%3A0x1234567890abcdef!2sBulevar%20Sv.%20Cara%20Konstantina%20bb%2C%20Ni%C5%A1%2C%20Serbia!5e0!3m2!1sen!2srs!4v1234567890123!5m2!1sen!2srs"
+                width="100%" 
+                height="400" 
+                style={{border: 0}} 
+                allowFullScreen="" 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+                title="MTC Nissal Location - Niš"
+              ></iframe>
+              <a 
+                href="https://maps.app.goo.gl/3jHU1MT6ordQvYDG6" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="btn btn-outline"
+                style={{marginTop: '1rem'}}
+              >
+                {currentContent.map.navigation}
+              </a>
             </div>
           </div>
         </div>
       </section>
 
       {/* FAQ Section - Stable Version */}
-      <section 
+      {/* <section 
         className={`faq-section ${faqVisible ? 'visible' : ''}`}
         ref={faqSectionRef}
       >
@@ -947,7 +954,7 @@ const ContactPage = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Footer Section */}
       <Footer content={currentContent} />

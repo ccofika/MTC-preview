@@ -359,6 +359,52 @@
   border: 4px solid var(--color-white);
   border-radius: 50%;
   box-shadow: var(--shadow-base);
+  z-index: 3;
+}
+
+.about-page .timeline-hexagon-container {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) scale(2.0);
+  z-index: 2;
+}
+
+.about-page .timeline-hexagon-container.left {
+  right: -220px;
+}
+
+.about-page .timeline-hexagon-container.right {
+  left: -220px;
+}
+
+.about-page .timeline-hexagon {
+  width: 120px;
+  height: 120px;
+  background-color: var(--primary-color);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-lg);
+}
+
+.about-page .timeline-hexagon:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-xl);
+}
+
+.about-page .timeline-image {
+  width: 114px;
+  height: 114px;
+  object-fit: cover;
+  clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+  transition: all var(--transition-normal);
+}
+
+.about-page .timeline-hexagon:hover .timeline-image {
+  transform: scale(0.95);
 }
 
 .about-page .timeline-item.left .timeline-marker {
@@ -822,8 +868,27 @@
 
 .about-page .certificate-content p {
   color: var(--color-gray-600);
-  margin: 0;
+  margin: 0 0 var(--spacing-3) 0;
   font-size: var(--font-size-sm);
+}
+
+.about-page .certificate-action {
+  margin-top: var(--spacing-3);
+  padding-top: var(--spacing-3);
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.about-page .view-certificate {
+  font-size: var(--font-size-xs);
+  color: var(--primary-color);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color var(--transition-fast);
+}
+
+.about-page .clickable-certificate:hover .view-certificate {
+  color: var(--primary-light);
 }
 
 .about-page .quality-control {
@@ -1048,6 +1113,23 @@
     right: auto !important;
   }
   
+  .about-page .timeline-hexagon-container {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    transform: scale(1.2) !important;
+    display: flex;
+    justify-content: center;
+    margin-top: var(--spacing-12);
+  }
+  
+  .about-page .timeline-hexagon-container.left,
+  .about-page .timeline-hexagon-container.right {
+    left: auto !important;
+    right: auto !important;
+  }
+  
   .about-page .mission-grid {
     grid-template-columns: 1fr;
   }
@@ -1231,5 +1313,348 @@
   .about-page .team-card {
     box-shadow: none;
     border: 1px solid var(--color-gray-300);
+  }
+}
+
+/* Video Section - Scoped to about-page only */
+.about-page .video-section {
+  background: linear-gradient(135deg, 
+    var(--color-gray-50) 0%, 
+    var(--color-white) 50%, 
+    var(--color-gray-50) 100%
+  );
+  position: relative;
+  overflow: hidden;
+  padding: var(--spacing-20) 0 var(--spacing-24) 0;
+}
+
+.about-page .video-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -20%;
+  width: 40%;
+  height: 200%;
+  background: radial-gradient(ellipse, rgba(218, 89, 19, 0.02) 0%, transparent 70%);
+  animation: float 20s ease-in-out infinite;
+}
+
+.about-page .video-content {
+  position: relative;
+  z-index: 2;
+}
+
+.about-page .video-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  transition: transform var(--transition-normal);
+}
+
+.about-page .video-wrapper:hover {
+  transform: translateY(-4px) scale(1.01);
+}
+
+.about-page .video-wrapper iframe {
+  width: 100%;
+  height: 400px;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .about-page .video-wrapper iframe {
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-page .video-wrapper iframe {
+    height: 200px;
+  }
+}
+
+/* Company Story Section - Scoped to about-page only */
+.about-page .company-story-section {
+  background: linear-gradient(135deg, 
+    var(--color-white) 0%, 
+    var(--color-gray-50) 50%, 
+    var(--color-white) 100%
+  );
+  position: relative;
+  overflow: hidden;
+  padding: var(--spacing-20) 0 var(--spacing-24) 0;
+}
+
+.about-page .company-story-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 40%;
+  height: 200%;
+  background: radial-gradient(ellipse, rgba(218, 89, 19, 0.02) 0%, transparent 70%);
+  animation: float 22s ease-in-out infinite reverse;
+}
+
+.about-page .story-content {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: var(--spacing-16);
+  align-items: start;
+  position: relative;
+  z-index: 2;
+}
+
+.about-page .story-text h2 {
+  font-size: var(--font-size-4xl);
+  font-weight: 700;
+  margin: 0 0 var(--spacing-8) 0;
+  color: var(--color-black);
+  position: relative;
+}
+
+.about-page .story-text h2::after {
+  content: '';
+  position: absolute;
+  bottom: -var(--spacing-4);
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background-color: var(--primary-color);
+  border-radius: var(--radius-base);
+}
+
+.about-page .story-description {
+  font-size: var(--font-size-lg);
+  line-height: 1.7;
+  color: var(--color-gray-700);
+  margin: 0 0 var(--spacing-10) 0;
+}
+
+.about-page .story-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.about-page .story-item {
+  padding: var(--spacing-5);
+  background-color: var(--color-white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--primary-color);
+  transition: all var(--transition-normal);
+}
+
+.about-page .story-item:hover {
+  transform: translateX(8px);
+  box-shadow: var(--shadow-base);
+  border-left-width: 6px;
+}
+
+.about-page .story-year {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-2);
+}
+
+.about-page .story-detail {
+  color: var(--color-gray-600);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.about-page .story-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+  align-self: center;
+}
+
+.about-page .stat-item {
+  text-align: center;
+  padding: var(--spacing-8);
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.about-page .stat-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(218, 89, 19, 0.1), 
+    transparent
+  );
+  transition: left var(--transition-slow);
+}
+
+.about-page .stat-item:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: var(--shadow-xl);
+  border-color: rgba(218, 89, 19, 0.3);
+}
+
+.about-page .stat-item:hover::before {
+  left: 100%;
+}
+
+.about-page .stat-number {
+  font-size: var(--font-size-5xl);
+  font-weight: 900;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-3);
+  line-height: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.about-page .stat-label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-gray-700);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 1000px) {
+  .about-page .story-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-12);
+  }
+  
+  .about-page .story-stats {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-page .story-stats {
+    flex-direction: column;
+    gap: var(--spacing-6);
+  }
+  
+  .about-page .stat-item {
+    padding: var(--spacing-6);
+  }
+  
+  .about-page .stat-number {
+    font-size: var(--font-size-4xl);
+  }
+  
+  .about-page .story-text h2 {
+    font-size: var(--font-size-3xl);
+  }
+}
+
+/* Aluminum Production Section - Scoped to about-page only */
+.about-page .aluminum-production-section {
+  background: linear-gradient(135deg, 
+    var(--color-gray-900) 0%, 
+    var(--secondary-color) 50%, 
+    var(--color-gray-800) 100%
+  );
+  position: relative;
+  overflow: hidden;
+  padding: var(--spacing-20) 0 var(--spacing-24) 0;
+}
+
+.about-page .aluminum-production-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(ellipse at 30% 20%, rgba(218, 89, 19, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(218, 89, 19, 0.08) 0%, transparent 50%);
+  animation: subtleFloat 25s ease-in-out infinite;
+}
+
+.about-page .production-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-16);
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.about-page .production-image {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+}
+
+.about-page .production-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.about-page .production-image:hover img {
+  transform: scale(1.05);
+}
+
+.about-page .production-text {
+  color: var(--color-white);
+}
+
+.about-page .production-description {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  line-height: 1.6;
+  margin: 0 0 var(--spacing-6) 0;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.about-page .production-details {
+  font-size: var(--font-size-lg);
+  line-height: 1.7;
+  margin: 0 0 var(--spacing-6) 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.about-page .production-capacity {
+  font-size: var(--font-size-base);
+  line-height: 1.7;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 768px) {
+  .about-page .production-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-10);
+  }
+  
+  .about-page .production-description {
+    font-size: var(--font-size-lg);
+  }
+  
+  .about-page .production-details {
+    font-size: var(--font-size-base);
   }
 }

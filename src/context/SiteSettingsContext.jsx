@@ -13,16 +13,16 @@ export const useSiteSettings = () => {
 
 export const SiteSettingsProvider = ({ children }) => {
   const [siteSettings, setSiteSettings] = useState({
-    companyEmail: 'info@nissal.rs',
-    companyPhone: '+381 11 123 4567',
+    companyEmail: 'office@mtc.co.rs',
+    companyPhone: '+381 18 415 63 32',
     companyAddress: {
-      street: 'Industrijska zona bb',
-      city: '11000 Beograd',
+      street: 'Gandijeva 235/13',
+      city: '11073 Beograd',
       country: 'Srbija'
     },
     workingHours: {
-      weekdays: 'Ponedeljak-Petak: 08:00-16:00',
-      saturday: 'Subota: 08:00-12:00',
+      weekdays: 'Ponedeljak i Petak: 08:00-16:00',
+      saturday: 'Subota: Zatvoreno',
       sunday: 'Nedelja: Zatvoreno'
     },
     socialMedia: {

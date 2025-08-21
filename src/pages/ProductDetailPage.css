@@ -698,7 +698,8 @@
 }
 
 .product-detail-page .color-options,
-.product-detail-page .size-options {
+.product-detail-page .size-options,
+.product-detail-page .plastification-types {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
@@ -830,6 +831,56 @@
 .product-detail-page .size-option.unavailable {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Plastification Types Styles */
+.product-detail-page .plastification-type {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e0e6ed;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  color: #495057;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease-out both;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.product-detail-page .plastification-type:nth-child(1) { animation-delay: 0.7s; }
+.product-detail-page .plastification-type:nth-child(2) { animation-delay: 0.8s; }
+.product-detail-page .plastification-type:nth-child(3) { animation-delay: 0.9s; }
+
+.product-detail-page .plastification-type::before {
+  content: '✓';
+  color: #da5913;
+  font-weight: bold;
+  margin-right: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.product-detail-page .plastification-type:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-color: #da5913;
+}
+
+.product-detail-page .plastification-type.selected {
+  border-color: #da5913;
+  background: linear-gradient(135deg, #da5913 0%, #e67e22 100%);
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(218, 89, 19, 0.25);
+  transform: translateY(-1px);
+  font-weight: 600;
+}
+
+.product-detail-page .plastification-type.selected::before {
+  color: #ffffff;
 }
 
 /* Enhanced Action Buttons with Glass Morphism */

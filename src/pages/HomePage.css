@@ -219,12 +219,12 @@
   gap: var(--spacing-4);
 }
 
-/* Hero Icon - Single icon similar to EcologyPage */
+/* Hero Icon/Logo - Enhanced with smooth cursor tracking */
 .home-page .hero-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease-out;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   opacity: 1;
 }
 
@@ -232,14 +232,27 @@
   width: 100%;
   max-width: 400px;
   height: auto;
-  filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.3));
-  transition: transform 0.2s ease-out;
+  filter: drop-shadow(2px 2px 12px rgba(0, 0, 0, 0.25));
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: block;
   opacity: 1;
+  transform-origin: center;
 }
 
 .home-page .hero-icon:hover .icon-image {
-  transform: scale(1.02);
+  transform: scale(1.03);
+  filter: drop-shadow(3px 3px 15px rgba(0, 0, 0, 0.3));
+}
+
+/* Reduce cursor movement on mobile devices */
+@media (max-width: 768px) {
+  .home-page .hero-icon {
+    transition: transform 0.2s ease-out;
+  }
+  
+  .home-page .hero-icon .icon-image {
+    transition: transform 0.2s ease-out;
+  }
 }
 
 /* Button System - Complete Implementation */
@@ -545,8 +558,8 @@
 
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(1deg); }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
 }
 
 .home-page .values .container {
@@ -665,7 +678,7 @@
 }
 
 .home-page .value-card:hover .value-icon {
-  transform: scale(1.1) rotate(5deg);
+  transform: scale(1.1);
   background: linear-gradient(135deg, 
     rgba(218, 89, 19, 0.2) 0%, 
     rgba(218, 89, 19, 0.1) 50%, 
@@ -676,13 +689,8 @@
 
 .home-page .value-card:hover .value-icon::before {
   opacity: 1;
-  animation: rotate 3s linear infinite;
 }
 
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
 
 .home-page .value-icon img {
   width: 40px;
@@ -753,7 +761,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/images/mtcslika5.jpg');
+  background-image: url('../assets/images/warehouse-background.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1174,7 +1182,7 @@
 }
 
 .home-page .project-slide:hover .project-image img {
-  transform: scale(1.08) rotate(1deg);
+  transform: scale(1.08);
   filter: brightness(1) contrast(1.2) saturate(1.2);
 }
 
@@ -1619,8 +1627,14 @@
   
 }
 
-/* Responsive Design for Hero Icon */
-@media (min-width: 1400px) {
+/* Enhanced Responsive Design for Hero Icon/Logo */
+@media (min-width: 1600px) {
+  .home-page .hero-icon .icon-image {
+    max-width: 450px;
+  }
+}
+
+@media (min-width: 1400px) and (max-width: 1599px) {
   .home-page .hero-icon .icon-image {
     max-width: 400px;
   }
@@ -1644,13 +1658,19 @@
   }
 }
 
-@media (min-width: 481px) and (max-width: 767px) {
+@media (min-width: 601px) and (max-width: 767px) {
   .home-page .hero-icon .icon-image {
-    max-width: 240px;
+    max-width: 250px;
   }
 }
 
-@media (max-width: 480px) {
+@media (min-width: 481px) and (max-width: 600px) {
+  .home-page .hero-icon .icon-image {
+    max-width: 220px;
+  }
+}
+
+@media (min-width: 376px) and (max-width: 480px) {
   .home-page .hero .container,
   .home-page .values .container,
   .home-page .products-overview .container,
@@ -1661,7 +1681,22 @@
   }
   
   .home-page .hero-icon .icon-image {
-    max-width: 180px;
+    max-width: 190px;
+  }
+}
+
+@media (max-width: 375px) {
+  .home-page .hero .container,
+  .home-page .values .container,
+  .home-page .products-overview .container,
+  .home-page .stats .container,
+  .home-page .recent-projects .container,
+  .home-page .page-container {
+    padding: 0 var(--spacing-2);
+  }
+  
+  .home-page .hero-icon .icon-image {
+    max-width: 160px;
   }
 }
   

@@ -3,6 +3,17 @@
   min-height: 100vh;
 }
 
+/* Lucide icons animations */
+.loading-spinner,
+.spinner-animate {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 /* Page transition styles */
 .page-wrapper {
   width: 100%;
