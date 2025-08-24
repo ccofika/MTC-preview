@@ -5,6 +5,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { productService } from '../services/productService';
 import useLanguage from '../hooks/useLanguage';
+import { getLocalizedProduct, getLocalizedContent } from '../utils/multilingual';
+import { safeRender } from '../utils/safeRender';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -23,7 +25,10 @@ const ProductDetailPage = () => {
   const [imageLoading, setImageLoading] = useState(true);
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
 
-
+  // Create localized product that updates when language changes
+  const localizedProduct = React.useMemo(() => {
+    return product ? getLocalizedProduct(product, language) : null;
+  }, [product, language]);
 
   // Function to determine if a color is light or dark
   const isLightColor = (hexColor) => {
@@ -85,11 +90,11 @@ const ProductDetailPage = () => {
           
           const initialColor = response.data.colors?.[0];
           if (initialColor) {
-            setSelectedColor(initialColor.name);
+            setSelectedColor(safeRender(initialColor.name, language));
             // Set initial checkmark color based on first color
             updateCheckmarkColor(initialColor.hexCode);
           }
-          setSelectedSize(response.data.sizes?.[0]?.name || '');
+          setSelectedSize(response.data.sizes?.[0] ? safeRender(response.data.sizes[0].name, language) : '');
           
           // Fetch related products from same category
           if (response.data.catalog?.category) {
@@ -152,13 +157,50 @@ const ProductDetailPage = () => {
     return () => clearInterval(interval);
   }, [id, product, selectedImageIndex]);
 
+  // Update selected color and size labels when language changes
+  useEffect(() => {
+    if (product && product.colors && product.colors.length > 0) {
+      // Find the currently selected color object by Serbian name (stored value)
+      const currentColorObj = product.colors.find(color => 
+        safeRender(color.name, 'SR') === (typeof selectedColor === 'object' ? safeRender(selectedColor, 'SR') : selectedColor) ||
+        safeRender(color.name, language) === selectedColor
+      );
+      
+      if (currentColorObj) {
+        const newColorName = safeRender(currentColorObj.name, language);
+        if (newColorName !== selectedColor) {
+          setSelectedColor(newColorName);
+        }
+      }
+    }
+    
+    if (product && product.sizes && product.sizes.length > 0) {
+      // Find the currently selected size object by Serbian name (stored value)
+      const currentSizeObj = product.sizes.find(size => 
+        safeRender(size.name, 'SR') === (typeof selectedSize === 'object' ? safeRender(selectedSize, 'SR') : selectedSize) ||
+        safeRender(size.name, language) === selectedSize
+      );
+      
+      if (currentSizeObj) {
+        const newSizeName = safeRender(currentSizeObj.name, language);
+        if (newSizeName !== selectedSize) {
+          setSelectedSize(newSizeName);
+        }
+      }
+    }
+  }, [language, product]); // Run when language or product changes
+
   // Load images for initially selected color (but not on initial load)
   useEffect(() => {
     if (product && selectedColor && product.gallery && product.gallery.length > 0) {
+      // Find the color object to get Serbian name for image matching
+      const selectedColorObj = product.colors.find(color => safeRender(color.name, language) === selectedColor);
+      const serbianColorName = selectedColorObj ? safeRender(selectedColorObj.name, 'SR') : selectedColor;
+      
       // Only update if we're changing color, not on initial load
-      updateImagesForColor(selectedColor);
+      updateImagesForColor(serbianColorName);
     }
-  }, [selectedColor]); // Remove product dependency to avoid initial override
+  }, [selectedColor, language, product]); // Add language and product dependencies
 
   // Keyboard navigation for images
   useEffect(() => {
@@ -315,16 +357,21 @@ const ProductDetailPage = () => {
     setSelectedColor(colorName);
     
     // Find the selected color object to get hex code and category
-    const selectedColorObj = product.colors.find(color => color.name === colorName);
+    const selectedColorObj = product.colors.find(color => safeRender(color.name, language) === colorName);
     if (selectedColorObj) {
       updateCheckmarkColor(selectedColorObj.hexCode);
       if (selectedColorObj.category !== selectedColorCategory) {
         setSelectedColorCategory(selectedColorObj.category);
+        // Reset plastification type when switching away from Plastifikacija
+        if (selectedColorObj.category !== 'Plastifikacija') {
+          setSelectedPlastificationType('');
+        }
       }
     }
     
-    // Update images based on selected color and its category
-    await updateImagesForColor(colorName, selectedColorObj?.category);
+    // Update images based on selected color and its category - use Serbian name for backend matching
+    const serbianColorName = selectedColorObj ? safeRender(selectedColorObj.name, 'SR') : colorName;
+    await updateImagesForColor(serbianColorName, selectedColorObj?.category);
   };
 
   const handleSizeSelect = (sizeName) => {
@@ -338,12 +385,29 @@ const ProductDetailPage = () => {
   const handleRequestQuote = () => {
     if (!product) return;
     
+    // Combine color and plastification type when both are selected
+    let colorDescription = selectedColor;
+    if (selectedColorCategory === 'Plastifikacija' && selectedPlastificationType) {
+      const plastificationTypeLabel = language === 'SR' ? 
+        (selectedPlastificationType === 'sjajna' ? 'Sjajna' : 
+         selectedPlastificationType === 'matt' ? 'Matt' : 
+         selectedPlastificationType === 'strukturalna' ? 'Strukturalna' : selectedPlastificationType) :
+        language === 'EN' ? 
+        (selectedPlastificationType === 'sjajna' ? 'Glossy' : 
+         selectedPlastificationType === 'matt' ? 'Matte' : 
+         selectedPlastificationType === 'strukturalna' ? 'Textured' : selectedPlastificationType) :
+        (selectedPlastificationType === 'sjajna' ? 'Glänzend' : 
+         selectedPlastificationType === 'matt' ? 'Matt' : 
+         selectedPlastificationType === 'strukturalna' ? 'Strukturiert' : selectedPlastificationType);
+      
+      colorDescription = `${selectedColor} - ${plastificationTypeLabel}`;
+    }
+    
     // Create URL parameters with product details
     const params = new URLSearchParams({
-      product: product.title,
-      color: selectedColor,
+      product: safeRender(product.title, language),
+      color: colorDescription,
       profile: selectedSize,
-      plastificationType: selectedPlastificationType,
       focus: 'contact-form'
     });
     
@@ -377,7 +441,7 @@ const ProductDetailPage = () => {
         outOfStock: 'Trenutno nedostupno',
         pieces: 'm',
         colors: 'Dostupne RAL boje',
-        aloksazaColors: 'Dostupne boje za Aloksazu',
+        aloksazaColors: 'Dostupne boje za anodnu oksidaciju',
         plastifikacijaColors: 'Dostupne boje za plastifikaciju',
         tigerCatalogInfo: 'Dostupne su i dodatne boje iz Tiger kataloga. Za upit o specifičnim bojama koristite dugme ispod.',
         requestColorInquiry: 'Zatraži upit za boju',
@@ -668,7 +732,7 @@ const ProductDetailPage = () => {
             <span className="breadcrumb-separator">›</span>
             <Link to="/products">{currentContent.breadcrumb.products}</Link>
             <span className="breadcrumb-separator">›</span>
-            <span className="breadcrumb-current">{product.title}</span>
+            <span className="breadcrumb-current">{safeRender(localizedProduct?.localizedTitle, language)}</span>
           </nav>
         </div>
       </section>
@@ -755,7 +819,7 @@ const ProductDetailPage = () => {
                           }}
                           title={`${language === 'SR' ? 'Slika' : language === 'EN' ? 'Image' : 'Bild'} ${index + 1}`}
                         >
-                          <img src={image.url} alt={image.alt || `${product.title} - Image ${index + 1}`} />
+                          <img src={image.url} alt={image.alt || `${safeRender(localizedProduct?.localizedTitle, language)} - Image ${index + 1}`} />
                         </button>
                       ))}
                     </div>
@@ -780,13 +844,13 @@ const ProductDetailPage = () => {
             {/* Product Info */}
             <div className="product-info">
               <div className="product-meta">
-                <span className="product-category">{product.catalog.category}</span>
+                <span className="product-category">{safeRender(product.catalog.category, language)}</span>
                 <span className="catalog-number">
                   {currentContent.product.catalogNumber}: {product.catalog.catalogNumber}
                 </span>
               </div>
 
-              <h1 className="product-title">{product.title}</h1>
+              <h1 className="product-title">{safeRender(localizedProduct?.localizedTitle, language)}</h1>
               
               {/* Removed product price display */}
 
@@ -803,7 +867,7 @@ const ProductDetailPage = () => {
               </div>
 
               <div className="product-description">
-                <p>{product.description}</p>
+                <p>{safeRender(localizedProduct?.localizedDescription, language)}</p>
               </div>
 
               {/* Aloksaza Colors */}
@@ -813,17 +877,17 @@ const ProductDetailPage = () => {
                   <div className="color-options">
                     {product.colors.filter(color => color.category === 'Aloksaza').map(color => (
                       <button
-                        key={color.name}
-                        className={`color-option ${selectedColor === color.name ? 'selected' : ''} ${!color.available ? 'unavailable' : ''}`}
-                        onClick={() => handleColorSelect(color.name)}
+                        key={safeRender(color.name, language)}
+                        className={`color-option ${selectedColor === safeRender(color.name, language) ? 'selected' : ''} ${!color.available ? 'unavailable' : ''}`}
+                        onClick={() => handleColorSelect(safeRender(color.name, language))}
                         disabled={!color.available}
-                        title={color.name}
+                        title={safeRender(color.name, language)}
                       >
                         <span 
                           className="color-sample"
                           style={{ backgroundColor: color.hexCode }}
                         ></span>
-                        <span className="color-name">{color.name}</span>
+                        <span className="color-name">{safeRender(color.name, language)}</span>
                       </button>
                     ))}
                   </div>
@@ -837,25 +901,26 @@ const ProductDetailPage = () => {
                   <div className="color-options">
                     {product.colors.filter(color => color.category === 'Plastifikacija').map(color => (
                       <button
-                        key={color.name}
-                        className={`color-option ${selectedColor === color.name ? 'selected' : ''} ${!color.available ? 'unavailable' : ''}`}
-                        onClick={() => handleColorSelect(color.name)}
+                        key={safeRender(color.name, language)}
+                        className={`color-option ${selectedColor === safeRender(color.name, language) ? 'selected' : ''} ${!color.available ? 'unavailable' : ''}`}
+                        onClick={() => handleColorSelect(safeRender(color.name, language))}
                         disabled={!color.available}
-                        title={color.name}
+                        title={safeRender(color.name, language)}
                       >
                         <span 
                           className="color-sample"
                           style={{ backgroundColor: color.hexCode }}
                         ></span>
-                        <span className="color-name">{color.name}</span>
+                        <span className="color-name">{safeRender(color.name, language)}</span>
                       </button>
                     ))}
                   </div>
                 </div>
               )}
 
-              {/* Plastification Types */}
-              {product.plastificationTypes && product.plastificationTypes.showOnProduct && (
+              {/* Plastification Types - only show when Plastifikacija color is selected */}
+              {product.plastificationTypes && product.plastificationTypes.showOnProduct && 
+               selectedColorCategory === 'Plastifikacija' && (
                 (product.plastificationTypes.sjajna || product.plastificationTypes.matt || product.plastificationTypes.strukturalna) && (
                   <div className="product-options">
                     <h4>{language === 'SR' ? 'Završna obrada plastifikacije:' : language === 'EN' ? 'Plastification Finishing:' : 'Pulverbeschichtungs-Veredelung:'}</h4>
@@ -910,7 +975,7 @@ const ProductDetailPage = () => {
                     className="btn btn-secondary"
                     onClick={() => {
                       const params = new URLSearchParams({
-                        product: product.title,
+                        product: safeRender(product.title, language),
                         focus: 'contact-form',
                         inquiryType: 'upit za boju'
                       });
@@ -930,11 +995,11 @@ const ProductDetailPage = () => {
                     {product.sizes.map(size => (
                       <button
                         key={size.code}
-                        className={`size-option ${selectedSize === size.name ? 'selected' : ''} ${!size.available ? 'unavailable' : ''}`}
-                        onClick={() => handleSizeSelect(size.name)}
+                        className={`size-option ${selectedSize === safeRender(size.name, language) ? 'selected' : ''} ${!size.available ? 'unavailable' : ''}`}
+                        onClick={() => handleSizeSelect(safeRender(size.name, language))}
                         disabled={!size.available}
                       >
-                        {size.name}
+                        {safeRender(size.name, language)}
                       </button>
                     ))}
                   </div>
@@ -1012,13 +1077,13 @@ const ProductDetailPage = () => {
               {activeTab === 'description' && (
                 <div className="tab-panel">
                   <div className="description-content">
-                    <p>{product.description}</p>
+                    <p>{safeRender(localizedProduct?.localizedDescription, language)}</p>
                     {product.catalog.tags && product.catalog.tags.length > 0 && (
                       <div className="product-tags">
                         <h4>{language === 'SR' ? 'Ključne reči:' : language === 'EN' ? 'Keywords:' : 'Schlüsselwörter:'}</h4>
                         <div className="tags">
-                          {product.catalog.tags.map(tag => (
-                            <span key={tag} className="tag">{tag}</span>
+                          {product.catalog.tags.map((tag, index) => (
+                            <span key={index} className="tag">{safeRender(tag, language)}</span>
                           ))}
                         </div>
                       </div>

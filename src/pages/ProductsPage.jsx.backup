@@ -379,7 +379,7 @@ const ProductsPage = () => {
                   </div>
                 ) : (
                   <div className="products-grid">
-                    {products.map((product) => {
+                    {products.map(product => {
                       const localizedProduct = getLocalizedProduct(product, language);
                       return (
                         <div key={product._id} className="product-card">
@@ -408,53 +408,52 @@ const ProductsPage = () => {
                               }
                             </p>
                           
-                            <div className="product-details">
-                              <div className="catalog-number">
-                                {currentContent.products.catalogNumber}: {product.catalog.catalogNumber}
-                              </div>
-                              
-                              {localizedProduct.localizedColors.length > 0 && (
-                                <div className="product-colors">
-                                  {localizedProduct.localizedColors.slice(0, 4).map((color, index) => (
-                                    <span 
-                                      key={color.localizedName || index}
-                                      className="color-dot"
-                                      style={{ backgroundColor: color.hexCode }}
-                                      title={color.localizedName}
-                                    ></span>
-                                  ))}
-                                  {localizedProduct.localizedColors.length > 4 && (
-                                    <span className="more-colors">+{localizedProduct.localizedColors.length - 4}</span>
-                                  )}
-                                </div>
-                              )}
+                          <div className="product-details">
+                            <div className="catalog-number">
+                              {currentContent.products.catalogNumber}: {product.catalog.catalogNumber}
                             </div>
-
-                            <div className="product-footer">
-                              <div className="product-stock">
-                                {product.availability.inStock ? (
-                                  <span className="in-stock">
-                                    {currentContent.products.inStock}
-                                  </span>
-                                ) : (
-                                  <span className="out-of-stock">
-                                    {currentContent.products.outOfStock}
-                                  </span>
+                            
+                            {localizedProduct.localizedColors.length > 0 && (
+                              <div className="product-colors">
+                                {localizedProduct.localizedColors.slice(0, 4).map((color, index) => (
+                                  <span 
+                                    key={color.localizedName || index}
+                                    className="color-dot"
+                                    style={{ backgroundColor: color.hexCode }}
+                                    title={color.localizedName}
+                                  ></span>
+                                ))}
+                                {localizedProduct.localizedColors.length > 4 && (
+                                  <span className="more-colors">+{localizedProduct.localizedColors.length - 4}</span>
                                 )}
                               </div>
-                            </div>
+                            )}
+                          </div>
 
-                            <div className="product-actions">
-                              <Link 
-                                to={`/products/${product._id}`} 
-                                className="btn btn-outline btn-sm"
-                              >
-                                {currentContent.products.viewDetails}
-                              </Link>
-                              <button className="btn btn-primary btn-sm">
-                                {currentContent.products.requestQuote}
-                              </button>
+                          <div className="product-footer">
+                            <div className="product-stock">
+                              {product.availability.inStock ? (
+                                <span className="in-stock">
+                                  {currentContent.products.inStock}
+                                </span>
+                              ) : (
+                                <span className="out-of-stock">
+                                  {currentContent.products.outOfStock}
+                                </span>
+                              )}
                             </div>
+                          </div>
+
+                          <div className="product-actions">
+                            <Link 
+                              to={`/products/${product._id}`} 
+                              className="btn btn-outline btn-sm"
+                            >
+                              {currentContent.products.viewDetails}
+                            </Link>
+                            <button className="btn btn-primary btn-sm">
+                              {currentContent.products.requestQuote}
+                            </button>
                           </div>
                         </div>
                       );

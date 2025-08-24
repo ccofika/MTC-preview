@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { productService } from '../services/productService';
 import { homepageSettingsService } from '../services/homepageSettingsService';
+import { getLocalizedContent } from '../utils/multilingual';
 import './FeaturedProductsManager.css';
 
 const FeaturedProductsManager = ({ onClose }) => {
@@ -271,12 +272,12 @@ const FeaturedProductsManager = ({ onClose }) => {
                     <div key={product._id} className="product-item">
                       <img 
                         src={product.gallery?.[0]?.url || '/images/placeholder/product-placeholder.jpg'} 
-                        alt={product.title} 
+                        alt={getLocalizedContent(product.title, 'SR')} 
                         className="product-image"
                       />
                       <div className="product-info">
-                        <h4>{product.title}</h4>
-                        <p>{product.category}</p>
+                        <h4>{getLocalizedContent(product.title, 'SR')}</h4>
+                        <p>{getLocalizedContent(product.catalog?.category, 'SR')}</p>
                         <button 
                           className="add-btn"
                           onClick={() => handleAddProduct(product)}

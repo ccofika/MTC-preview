@@ -7,6 +7,7 @@ import { projectService } from '../services/projectService';
 import { productService } from '../services/productService';
 import { homepageSettingsService } from '../services/homepageSettingsService';
 import useLanguage from '../hooks/useLanguage';
+import { getLocalizedProduct, getLocalizedProject } from '../utils/multilingual';
 import { Award, Lightbulb, Users } from 'lucide-react';
 
 const HomePage = () => {
@@ -846,39 +847,42 @@ const HomePage = () => {
             </div>
           ) : (
             <div className={`product-slideshow ${elementsVisible.products ? 'fade-in-scale delay-400' : ''}`}>
-              {products.map(product => (
-                <div 
-                  key={product._id} 
-                  className="product-slide"
-                  onClick={() => navigate(`/products/${product._id}`)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <div className="product-image">
-                    <img 
-                      src={product.gallery?.[0]?.url || '/images/placeholder/product-placeholder.jpg'} 
-                      alt={product.title}
-                      loading="lazy"
-                    />
-                    <div className="product-overlay">
-                      <div className="product-details">
-                        <h3>{product.title}</h3>
-                        <div className="product-button-container">
-                          <button 
-                            className="btn btn-primary"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              navigate(`/products/${product._id}`);
-                            }}
-                          >
-                            {language === 'SR' ? 'Vidi jos' : 'View More'}
-                          </button>
+              {products.map(product => {
+                const localizedProduct = getLocalizedProduct(product, language);
+                return (
+                  <div 
+                    key={product._id} 
+                    className="product-slide"
+                    onClick={() => navigate(`/products/${product._id}`)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <div className="product-image">
+                      <img 
+                        src={product.gallery?.[0]?.url || '/images/placeholder/product-placeholder.jpg'} 
+                        alt={localizedProduct.localizedTitle}
+                        loading="lazy"
+                      />
+                      <div className="product-overlay">
+                        <div className="product-details">
+                          <h3>{localizedProduct.localizedTitle}</h3>
+                          <div className="product-button-container">
+                            <button 
+                              className="btn btn-primary"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(`/products/${product._id}`);
+                              }}
+                            >
+                              {language === 'SR' ? 'Vidi jos' : 'View More'}
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <h3 className="product-title">{localizedProduct.localizedTitle}</h3>
                   </div>
-                  <h3 className="product-title">{product.title}</h3>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -920,30 +924,33 @@ const HomePage = () => {
             </div>
           ) : (
             <div className={`projects-slider ${elementsVisible.projects ? 'fade-in-scale delay-400' : ''}`}>
-              {projects.map(project => (
-                <div 
-                  key={project._id} 
-                  className="project-slide"
-                  onClick={() => navigate(`/projekti/${project._id}`)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <div className="project-image">
-                    <img 
-                      src={project.gallery?.[0]?.url || '/images/placeholder/project-placeholder.jpg'} 
-                      alt={project.title}
-                      loading="lazy"
-                    />
-                    <div className="project-overlay">
-                      <h3>{project.title}</h3>
-                      <p>{project.location}</p>
-                      <span className="project-year">
-                        {new Date(project.completionDate).getFullYear()}
-                      </span>
-                      <span className="project-type">{project.category}</span>
+              {projects.map(project => {
+                const localizedProject = getLocalizedProject(project, language);
+                return (
+                  <div 
+                    key={project._id} 
+                    className="project-slide"
+                    onClick={() => navigate(`/projekti/${project._id}`)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <div className="project-image">
+                      <img 
+                        src={project.gallery?.[0]?.url || '/images/placeholder/project-placeholder.jpg'} 
+                        alt={localizedProject.localizedTitle}
+                        loading="lazy"
+                      />
+                      <div className="project-overlay">
+                        <h3>{localizedProject.localizedTitle}</h3>
+                        <p>{localizedProject.localizedLocation}</p>
+                        <span className="project-year">
+                          {new Date(project.completionDate).getFullYear()}
+                        </span>
+                        <span className="project-type">{localizedProject.localizedCategory}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { productService } from '../services/productService';
+import { translationService } from '../services/translationService';
+import { getLocalizedContent } from '../utils/multilingual';
+import { safeRender } from '../utils/safeRender';
 import './ProductManager.css';
 
 const ProductManager = ({ onClose }) => {
@@ -11,16 +14,18 @@ const ProductManager = ({ onClose }) => {
   const [showHidden, setShowHidden] = useState(false);
   const [catalogPdfFile, setCatalogPdfFile] = useState(null);
   const [uploadingCatalog, setUploadingCatalog] = useState(null);
+  const [translatingProducts, setTranslatingProducts] = useState(new Set());
+  const [currentLanguage, setCurrentLanguage] = useState('SR'); // SR, EN, DE
 
-  // Form state
+  // Form state - now multilingual
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
+    title: { sr: '', en: '', de: '' },
+    description: { sr: '', en: '', de: '' },
     catalog: {
       catalogNumber: '',
-      category: '',
-      subcategory: '',
-      tags: []
+      category: { sr: '', en: '', de: '' },
+      subcategory: { sr: '', en: '', de: '' },
+      tags: { sr: [], en: [], de: [] }
     },
     colors: [],
     sizes: [],
@@ -103,6 +108,36 @@ const ProductManager = ({ onClose }) => {
     }
   };
 
+  // New multilingual input handler
+  const handleMultilingualInputChange = (field, value, language = currentLanguage) => {
+    const langCode = language.toLowerCase();
+    
+    if (field.includes('.')) {
+      const fieldParts = field.split('.');
+      if (fieldParts.length === 2) {
+        const [parent, child] = fieldParts;
+        setFormData(prev => ({
+          ...prev,
+          [parent]: {
+            ...prev[parent],
+            [child]: {
+              ...prev[parent][child],
+              [langCode]: value
+            }
+          }
+        }));
+      }
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [field]: {
+          ...prev[field],
+          [langCode]: value
+        }
+      }));
+    }
+  };
+
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
     setImages(files);
@@ -164,17 +199,25 @@ const ProductManager = ({ onClose }) => {
 
   const handleTagsChange = (e) => {
     const tags = e.target.value.split(',').map(tag => tag.trim()).filter(Boolean);
+    const langCode = currentLanguage.toLowerCase();
     setFormData(prev => ({
       ...prev,
-      catalog: { ...prev.catalog, tags }
+      catalog: { 
+        ...prev.catalog, 
+        tags: {
+          ...prev.catalog.tags,
+          [langCode]: tags
+        }
+      }
     }));
   };
 
   const validateForm = () => {
-    if (!formData.title.trim()) return 'Naziv proizvoda je obavezan';
-    if (!formData.description.trim()) return 'Opis proizvoda je obavezan';
+    // Check if at least Serbian version is filled (as it's the default language)
+    if (!formData.title.sr?.trim()) return 'Naziv proizvoda na srpskom je obavezan';
+    if (!formData.description.sr?.trim()) return 'Opis proizvoda na srpskom je obavezan';
     if (!formData.catalog.catalogNumber.trim()) return 'Kataloski broj je obavezan';
-    if (!formData.catalog.category.trim()) return 'Kategorija je obavezna';
+    if (!formData.catalog.category.sr?.trim()) return 'Kategorija na srpskom je obavezna';
     if (!formData.price.amount || formData.price.amount <= 0) return 'Cena mora biti veća od 0';
     return null;
   };
@@ -194,9 +237,9 @@ const ProductManager = ({ onClose }) => {
     try {
       const submitData = new FormData();
       
-      // Add form data
-      submitData.append('title', formData.title);
-      submitData.append('description', formData.description);
+      // Add form data - now multilingual
+      submitData.append('title', JSON.stringify(formData.title));
+      submitData.append('description', JSON.stringify(formData.description));
       submitData.append('catalog', JSON.stringify(formData.catalog));
       submitData.append('colors', JSON.stringify(formData.colors));
       submitData.append('sizes', JSON.stringify(formData.sizes));
@@ -205,7 +248,12 @@ const ProductManager = ({ onClose }) => {
       submitData.append('measurements', JSON.stringify(formData.measurements));
       submitData.append('plastificationTypes', JSON.stringify(formData.plastificationTypes));
       
-      // Debug log
+      // Debug logs
+      console.log('FormData before sending:', {
+        title: formData.title,
+        description: formData.description,
+        catalog: formData.catalog
+      });
       console.log('Sending plastificationTypes:', formData.plastificationTypes);
 
       // Add images
@@ -235,13 +283,13 @@ const ProductManager = ({ onClose }) => {
 
   const resetForm = () => {
     setFormData({
-      title: '',
-      description: '',
+      title: { sr: '', en: '', de: '' },
+      description: { sr: '', en: '', de: '' },
       catalog: {
         catalogNumber: '',
-        category: '',
-        subcategory: '',
-        tags: []
+        category: { sr: '', en: '', de: '' },
+        subcategory: { sr: '', en: '', de: '' },
+        tags: { sr: [], en: [], de: [] }
       },
       colors: [],
       sizes: [],
@@ -263,14 +311,36 @@ const ProductManager = ({ onClose }) => {
     });
     setImages([]);
     setEditingProduct(null);
+    setCurrentLanguage('SR');
   };
 
   const handleEdit = (product) => {
     setEditingProduct(product);
+    
+    // Helper function to ensure multilingual structure
+    const ensureMultilingual = (field, fallback = '') => {
+      if (typeof field === 'string') {
+        return { sr: field, en: fallback, de: fallback };
+      }
+      return field || { sr: fallback, en: fallback, de: fallback };
+    };
+    
+    const ensureMultilingualArray = (field) => {
+      if (Array.isArray(field)) {
+        return { sr: field, en: [], de: [] };
+      }
+      return field || { sr: [], en: [], de: [] };
+    };
+    
     setFormData({
-      title: product.title,
-      description: product.description,
-      catalog: product.catalog,
+      title: ensureMultilingual(product.title),
+      description: ensureMultilingual(product.description),
+      catalog: {
+        catalogNumber: product.catalog?.catalogNumber || '',
+        category: ensureMultilingual(product.catalog?.category),
+        subcategory: ensureMultilingual(product.catalog?.subcategory),
+        tags: ensureMultilingualArray(product.catalog?.tags)
+      },
       colors: product.colors || [],
       sizes: product.sizes || [],
       price: product.price,
@@ -350,6 +420,31 @@ const ProductManager = ({ onClose }) => {
       fetchProducts();
     } catch (err) {
       setError('Greška pri brisanju kataloga');
+    }
+  };
+
+  const handleTranslateProduct = async (productId) => {
+    if (!window.confirm('Da li ste sigurni da želite da prevedete ovaj proizvod na engleski i nemački jezik pomoću AI?')) {
+      return;
+    }
+
+    setTranslatingProducts(prev => new Set(prev.add(productId)));
+    
+    try {
+      const token = localStorage.getItem('adminToken');
+      await translationService.translateProduct(productId, ['en', 'de'], token);
+      setError(null);
+      alert('Proizvod je uspešno preveden!');
+      fetchProducts(); // Refresh the list
+    } catch (err) {
+      console.error('Translation error:', err);
+      setError('Greška pri prevođenju proizvoda: ' + err.message);
+    } finally {
+      setTranslatingProducts(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(productId);
+        return newSet;
+      });
     }
   };
 
@@ -566,7 +661,7 @@ const ProductManager = ({ onClose }) => {
                   <div className="product-image">
                     <img 
                       src={product.gallery?.[0]?.url || '/images/placeholder/product-placeholder.jpg'} 
-                      alt={product.title}
+                      alt={safeRender(product.title, 'SR')}
                     />
                     {product.isHidden && (
                       <div className="hidden-overlay">
@@ -575,8 +670,8 @@ const ProductManager = ({ onClose }) => {
                     )}
                   </div>
                   <div className="product-info">
-                    <h4>{product.title}</h4>
-                    <p>{product.catalog.category}</p>
+                    <h4>{safeRender(product.title, 'SR')}</h4>
+                    <p>{safeRender(product.catalog?.category, 'SR')}</p>
                     <p>Br: {product.catalog.catalogNumber}</p>
                     <div className="product-status">
                       {product.isHidden ? (
@@ -613,12 +708,20 @@ const ProductManager = ({ onClose }) => {
                       ) : (
                         <div className="catalog-upload">
                           <span>📋 Nema kataloga</span>
+                          <p className="catalog-size-limit">Max veličina: 10MB</p>
                           <input
                             type="file"
                             accept=".pdf"
                             onChange={(e) => {
                               if (e.target.files[0]) {
-                                handleCatalogUpload(product._id, e.target.files[0]);
+                                const file = e.target.files[0];
+                                const fileSizeMB = file.size / (1024 * 1024);
+                                if (fileSizeMB > 10) {
+                                  alert(`PDF fajl je prevelik (${fileSizeMB.toFixed(2)} MB). Maksimalna veličina je 10MB. Molimo kompresujte PDF pre otpreme.`);
+                                  e.target.value = ''; // Reset file input
+                                  return;
+                                }
+                                handleCatalogUpload(product._id, file);
                               }
                             }}
                             disabled={uploadingCatalog === product._id}
@@ -639,6 +742,29 @@ const ProductManager = ({ onClose }) => {
                   <div className="product-actions">
                     <button onClick={() => handleEdit(product)} className="edit-btn">
                       Uredi
+                    </button>
+                    
+                    <button 
+                      onClick={() => handleTranslateProduct(product._id)} 
+                      className="translate-btn"
+                      disabled={translatingProducts.has(product._id)}
+                      title="Prevedi na drugi jezici pomoću AI"
+                    >
+                      {translatingProducts.has(product._id) ? (
+                        <>
+                          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="spinning">
+                            <path d="M12 2V6M12 18V22M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07M2 12H6M18 12H22M4.93 19.07L7.76 16.24M16.24 7.76L19.07 4.93" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                          </svg>
+                          Prevodi...
+                        </>
+                      ) : (
+                        <>
+                          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 8L3 6L5 4M9 20L7 18L9 16M15 4L17 6L15 8M19 16L21 18L19 20M2 12H8M16 12H22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                          AI prevod
+                        </>
+                      )}
                     </button>
                     
                     {product.isHidden ? (
@@ -670,6 +796,59 @@ const ProductManager = ({ onClose }) => {
 
       {activeTab === 'add' && (
         <form className="product-form" onSubmit={handleSubmit}>
+          {/* Language Switcher */}
+          <div className="language-switcher" style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '5px' }}>
+            <label style={{ marginRight: '10px', fontWeight: 'bold' }}>Jezik editovanja:</label>
+            <button 
+              type="button" 
+              className={currentLanguage === 'SR' ? 'active' : ''}
+              onClick={() => setCurrentLanguage('SR')}
+              style={{ 
+                margin: '0 5px', 
+                padding: '5px 10px', 
+                backgroundColor: currentLanguage === 'SR' ? '#007bff' : '#fff',
+                color: currentLanguage === 'SR' ? '#fff' : '#000',
+                border: '1px solid #007bff',
+                borderRadius: '3px',
+                cursor: 'pointer'
+              }}
+            >
+              Srpski
+            </button>
+            <button 
+              type="button" 
+              className={currentLanguage === 'EN' ? 'active' : ''}
+              onClick={() => setCurrentLanguage('EN')}
+              style={{ 
+                margin: '0 5px', 
+                padding: '5px 10px', 
+                backgroundColor: currentLanguage === 'EN' ? '#007bff' : '#fff',
+                color: currentLanguage === 'EN' ? '#fff' : '#000',
+                border: '1px solid #007bff',
+                borderRadius: '3px',
+                cursor: 'pointer'
+              }}
+            >
+              Engleski
+            </button>
+            <button 
+              type="button" 
+              className={currentLanguage === 'DE' ? 'active' : ''}
+              onClick={() => setCurrentLanguage('DE')}
+              style={{ 
+                margin: '0 5px', 
+                padding: '5px 10px', 
+                backgroundColor: currentLanguage === 'DE' ? '#007bff' : '#fff',
+                color: currentLanguage === 'DE' ? '#fff' : '#000',
+                border: '1px solid #007bff',
+                borderRadius: '3px',
+                cursor: 'pointer'
+              }}
+            >
+              Nemački
+            </button>
+          </div>
+
           {/* Basic Info */}
           <div className="form-section">
             <h3>Osnovne informacije</h3>
@@ -678,9 +857,9 @@ const ProductManager = ({ onClose }) => {
                 <label>Naziv sistema *</label>
                 <input
                   type="text"
-                  value={formData.title}
-                  onChange={(e) => handleInputChange('title', e.target.value)}
-                  placeholder="Unesite naziv aluminijumskog sistema"
+                  value={formData.title[currentLanguage.toLowerCase()] || ''}
+                  onChange={(e) => handleMultilingualInputChange('title', e.target.value)}
+                  placeholder={`Unesite naziv na ${currentLanguage === 'SR' ? 'srpskom' : currentLanguage === 'EN' ? 'engleskom' : 'nemačkom'} jeziku`}
                   required
                 />
               </div>
@@ -699,13 +878,13 @@ const ProductManager = ({ onClose }) => {
               <div className="form-group">
                 <label>Kategorija *</label>
                 <select
-                  value={formData.catalog.category}
-                  onChange={(e) => handleInputChange('catalog.category', e.target.value)}
+                  value={formData.catalog.category[currentLanguage.toLowerCase()] || ''}
+                  onChange={(e) => handleMultilingualInputChange('catalog.category', e.target.value)}
                   required
                 >
                   <option value="">Izaberite kategoriju</option>
-                  {categoryOptions.map(cat => (
-                    <option key={cat} value={cat}>{cat}</option>
+                  {categoryOptions.map((cat, index) => (
+                    <option key={`category-${index}`} value={cat}>{cat}</option>
                   ))}
                 </select>
               </div>
@@ -714,8 +893,8 @@ const ProductManager = ({ onClose }) => {
                 <label>Potkategorija</label>
                 <input
                   type="text"
-                  value={formData.catalog.subcategory}
-                  onChange={(e) => handleInputChange('catalog.subcategory', e.target.value)}
+                  value={formData.catalog.subcategory[currentLanguage.toLowerCase()] || ''}
+                  onChange={(e) => handleMultilingualInputChange('catalog.subcategory', e.target.value)}
                   placeholder="Opciono"
                 />
               </div>
@@ -724,9 +903,9 @@ const ProductManager = ({ onClose }) => {
             <div className="form-group">
               <label>Opis sistema *</label>
               <textarea
-                value={formData.description}
-                onChange={(e) => handleInputChange('description', e.target.value)}
-                placeholder="Detaljni opis aluminijumskog sistema..."
+                value={formData.description[currentLanguage.toLowerCase()] || ''}
+                onChange={(e) => handleMultilingualInputChange('description', e.target.value)}
+                placeholder={`Detaljni opis na ${currentLanguage === 'SR' ? 'srpskom' : currentLanguage === 'EN' ? 'engleskom' : 'nemačkom'} jeziku...`}
                 rows="4"
                 required
               />
@@ -736,7 +915,7 @@ const ProductManager = ({ onClose }) => {
               <label>Tagovi (odvojeni zarezom)</label>
               <input
                 type="text"
-                value={formData.catalog.tags.join(', ')}
+                value={formData.catalog.tags[currentLanguage.toLowerCase()]?.join(', ') || ''}
                 onChange={handleTagsChange}
                 placeholder="aluminum, prozor, modern"
               />
@@ -814,9 +993,9 @@ const ProductManager = ({ onClose }) => {
                             <option value="">Generička slika</option>
                             {formData.colors
                               .filter(color => !image.categoryAssociation || color.category === image.categoryAssociation)
-                              .map(color => (
-                              <option key={color.name} value={color.name}>
-                                {color.name} ({color.category})
+                              .map((color, index) => (
+                              <option key={`color-${index}-${color.name}`} value={safeRender(color.name, 'SR')}>
+                                {safeRender(color.name, 'SR')} ({color.category})
                               </option>
                             ))}
                           </select>
@@ -835,10 +1014,10 @@ const ProductManager = ({ onClose }) => {
                           <span 
                             className="color-dot"
                             style={{ 
-                              backgroundColor: formData.colors.find(c => c.name === image.colorAssociation)?.hexCode || '#000' 
+                              backgroundColor: formData.colors.find(c => safeRender(c.name, 'SR') === image.colorAssociation)?.hexCode || '#000' 
                             }}
                           ></span>
-                          <span>{image.colorAssociation}</span>
+                          <span>{safeRender(image.colorAssociation, 'SR')}</span>
                         </div>
                       )}
                     </div>
@@ -886,7 +1065,7 @@ const ProductManager = ({ onClose }) => {
                           className="color-preview" 
                           style={{ backgroundColor: color.hexCode }}
                         ></span>
-                        <span>{color.name}</span>
+                        <span>{safeRender(color.name, 'SR')}</span>
                         <span className="color-category-badge">Aloksaza</span>
                         <button type="button" onClick={() => removeColor(originalIndex)} className="remove-btn">×</button>
                       </div>
@@ -906,7 +1085,7 @@ const ProductManager = ({ onClose }) => {
                           className="color-preview" 
                           style={{ backgroundColor: color.hexCode }}
                         ></span>
-                        <span>{color.name}</span>
+                        <span>{safeRender(color.name, 'SR')}</span>
                         <span className="color-category-badge">Plastifikacija</span>
                         <button type="button" onClick={() => removeColor(originalIndex)} className="remove-btn">×</button>
                       </div>
@@ -989,7 +1168,7 @@ const ProductManager = ({ onClose }) => {
             <div className="added-items">
               {formData.sizes.map((size, index) => (
                 <div key={index} className="size-item">
-                  <span>{size.name} ({size.code})</span>
+                  <span>{safeRender(size.name, 'SR')} ({size.code})</span>
                   <button type="button" onClick={() => removeSize(index)} className="remove-btn">×</button>
                 </div>
               ))}
@@ -1102,7 +1281,7 @@ const ProductManager = ({ onClose }) => {
               {formData.measurements.map((measurement, index) => (
                 <div key={index} className="measurement-item">
                   <span>
-                    {measurement.size}: {measurement.dimensions.length}×{measurement.dimensions.width}×{measurement.dimensions.height}mm 
+                    {safeRender(measurement.size, 'SR')}: {measurement.dimensions.length}×{measurement.dimensions.width}×{measurement.dimensions.height}mm 
                     {measurement.dimensions.weight && `, ${measurement.dimensions.weight}kg`}
                   </span>
                   <button type="button" onClick={() => removeMeasurement(index)} className="remove-btn">×</button>

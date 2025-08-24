@@ -4,6 +4,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { projectService } from '../services/projectService';
 import useLanguage from '../hooks/useLanguage';
+import { getLocalizedProject } from '../utils/multilingual';
+import { safeRender } from '../utils/safeRender';
 import './ProjectsPage.css';
 
 const ProjectsPage = () => {
@@ -358,7 +360,7 @@ const ProjectsPage = () => {
               >
                 <option value="">Sve kategorije</option>
                 {categories.map(category => (
-                  <option key={category} value={category}>{category}</option>
+                  <option key={category} value={category}>{safeRender(category, language)}</option>
                 ))}
               </select>
             </div>
@@ -435,7 +437,7 @@ const ProjectsPage = () => {
                   <div className="results-info">
                     <h2>
                       Pronađeno {pagination.total || 0} projekata
-                      {filters.category && ` u kategoriji "${filters.category}"`}
+                      {filters.category && ` u kategoriji "${safeRender(filters.category, language)}"`}
                       {filters.year && ` iz ${filters.year}. godine`}
                       {filters.search && ` za "${filters.search}"`}
                     </h2>
@@ -444,49 +446,51 @@ const ProjectsPage = () => {
 
                 {/* Projects grid */}
                 <div className="projects-grid">
-                  {projects.map(project => (
-                    <Link
-                      key={project._id}
-                      to={`/projekti/${project._id}`}
-                      className="project-card"
-                    >
-                      <div className="project-image">
-                        <img
-                          src={project.gallery?.[0]?.url || '/images/placeholder/project-placeholder.jpg'}
-                          alt={project.title}
-                          loading="lazy"
-                        />
-                        {project.featured && (
-                          <div className="featured-badge">
-                            <svg viewBox="0 0 24 24" fill="none">
-                              <path
-                                d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"
-                                fill="currentColor"
-                              />
-                            </svg>
-                          </div>
-                        )}
-                      </div>
-                      <div className="project-content">
-                        <div className="project-meta">
-                          <span className="project-category">{project.category}</span>
-                          {project.completionDate && (
-                            <span className="project-date">{formatDate(project.completionDate)}</span>
+                  {projects.map(project => {
+                    const localizedProject = getLocalizedProject(project, language);
+                    return (
+                      <Link
+                        key={project._id}
+                        to={`/projekti/${project._id}`}
+                        className="project-card"
+                      >
+                        <div className="project-image">
+                          <img
+                            src={project.gallery?.[0]?.url || '/images/placeholder/project-placeholder.jpg'}
+                            alt={safeRender(localizedProject.localizedTitle, language)}
+                            loading="lazy"
+                          />
+                          {project.featured && (
+                            <div className="featured-badge">
+                              <svg viewBox="0 0 24 24" fill="none">
+                                <path
+                                  d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"
+                                  fill="currentColor"
+                                />
+                              </svg>
+                            </div>
                           )}
                         </div>
-                        <h3 className="project-title">{project.title}</h3>
-                        <p className="project-description">
-                          {project.description.length > 120
-                            ? `${project.description.substring(0, 120)}...`
-                            : project.description
-                          }
-                        </p>
-                        {project.client && (
-                          <div className="project-client">
-                            <span>Klijent: {project.client}</span>
+                        <div className="project-content">
+                          <div className="project-meta">
+                            <span className="project-category">{safeRender(localizedProject.localizedCategory, language)}</span>
+                            {project.completionDate && (
+                              <span className="project-date">{formatDate(project.completionDate)}</span>
+                            )}
                           </div>
-                        )}
-                        {project.location && (
+                          <h3 className="project-title">{safeRender(localizedProject.localizedTitle, language)}</h3>
+                          <p className="project-description">
+                            {safeRender(localizedProject.localizedDescription, language).length > 120
+                              ? `${safeRender(localizedProject.localizedDescription, language).substring(0, 120)}...`
+                              : safeRender(localizedProject.localizedDescription, language)
+                            }
+                          </p>
+                          {localizedProject.localizedClient && (
+                            <div className="project-client">
+                              <span>Klijent: {safeRender(localizedProject.localizedClient, language)}</span>
+                            </div>
+                          )}
+                          {localizedProject.localizedLocation && (
                           <div className="project-location">
                             <svg viewBox="0 0 24 24" fill="none">
                               <path
@@ -496,12 +500,13 @@ const ProjectsPage = () => {
                               />
                               <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2"/>
                             </svg>
-                            <span>{project.location}</span>
+                            <span>{safeRender(localizedProject.localizedLocation, language)}</span>
                           </div>
                         )}
-                      </div>
-                    </Link>
-                  ))}
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
 
                 {/* Pagination */}

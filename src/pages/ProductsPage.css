@@ -436,7 +436,7 @@
 }
 
 .products-page .product-card:hover .product-image img {
-  transform: scale(1.1) rotate(1deg);
+  transform: scale(1.1);
   filter: brightness(1.05) saturate(1.2);
 }
 

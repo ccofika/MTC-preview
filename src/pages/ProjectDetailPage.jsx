@@ -4,6 +4,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { projectService } from '../services/projectService';
 import useLanguage from '../hooks/useLanguage';
+import { getLocalizedProject } from '../utils/multilingual';
+import { safeRender } from '../utils/safeRender';
 import './ProjectDetailPage.css';
 
 const ProjectDetailPage = () => {
@@ -14,6 +16,11 @@ const ProjectDetailPage = () => {
   const [error, setError] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [relatedProjects, setRelatedProjects] = useState([]);
+
+  // Create localized project that updates when language changes
+  const localizedProject = React.useMemo(() => {
+    return project ? getLocalizedProject(project, language) : null;
+  }, [project, language]);
 
   useEffect(() => {
     loadProject();
@@ -275,7 +282,7 @@ const ProjectDetailPage = () => {
             <span className="breadcrumb-separator">/</span>
             <Link to="/projekti">Projekti</Link>
             <span className="breadcrumb-separator">/</span>
-            <span className="breadcrumb-current">{project.title}</span>
+            <span className="breadcrumb-current">{safeRender(localizedProject?.localizedTitle, language)}</span>
           </nav>
         </div>
       </div>
@@ -285,7 +292,7 @@ const ProjectDetailPage = () => {
           {/* Project Header */}
           <header className="project-header">
             <div className="project-meta">
-              <span className="project-category">{project.category}</span>
+              <span className="project-category">{safeRender(localizedProject?.localizedCategory, language)}</span>
               {project.featured && (
                 <span className="featured-badge">
                   <svg viewBox="0 0 24 24" fill="none">
@@ -298,18 +305,18 @@ const ProjectDetailPage = () => {
                 </span>
               )}
             </div>
-            <h1 className="project-title">{project.title}</h1>
+            <h1 className="project-title">{safeRender(localizedProject?.localizedTitle, language)}</h1>
             <div className="project-details">
-              {project.client && (
+              {localizedProject?.localizedClient && (
                 <div className="detail-item">
                   <span className="detail-label">Klijent:</span>
-                  <span className="detail-value">{project.client}</span>
+                  <span className="detail-value">{safeRender(localizedProject?.localizedClient, language)}</span>
                 </div>
               )}
-              {project.location && (
+              {localizedProject?.localizedLocation && (
                 <div className="detail-item">
                   <span className="detail-label">Lokacija:</span>
-                  <span className="detail-value">{project.location}</span>
+                  <span className="detail-value">{safeRender(localizedProject?.localizedLocation, language)}</span>
                 </div>
               )}
               {project.completionDate && (
@@ -327,7 +334,7 @@ const ProjectDetailPage = () => {
               <div className="main-image">
                 <img
                   src={project.gallery[selectedImageIndex]?.url}
-                  alt={project.gallery[selectedImageIndex]?.alt || project.title}
+                  alt={project.gallery[selectedImageIndex]?.alt || safeRender(localizedProject?.localizedTitle, language)}
                   className="gallery-main-img"
                 />
                 {project.gallery.length > 1 && (
@@ -367,7 +374,7 @@ const ProjectDetailPage = () => {
                     >
                       <img
                         src={image.url}
-                        alt={image.alt || `${project.title} ${index + 1}`}
+                        alt={image.alt || `${safeRender(localizedProject?.localizedTitle, language)} ${index + 1}`}
                       />
                     </button>
                   ))}
@@ -380,7 +387,7 @@ const ProjectDetailPage = () => {
           <section className="project-description">
             <h2>O projektu</h2>
             <div className="description-content">
-              {project.description.split('\n').map((paragraph, index) => (
+              {safeRender(localizedProject?.localizedDescription, language).split('\n').map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>

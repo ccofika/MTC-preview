@@ -82,19 +82,19 @@ const EcologyPage = () => {
         phases: [
           {
             title: 'Proizvodnja',
-            description: 'Čista energija u proizvodnji',
+            description: 'Koristimo obnovljive izvore energije',
             duration: '1-2 meseca',
-            impact: 'Niska emisija CO₂'
+            impact: 'Niska emisija CO2'
           },
           {
             title: 'Korišćenje',
-            description: 'Dugotrajnost 50+ godina',
+            description: 'Dugotrajnost proizvoda od aluminijuma',
             duration: '50+ godina',
             impact: 'Energetska efikasnost'
           },
           {
             title: 'Reciklaža',
-            description: 'Potpuna reciklaža materijala',
+            description: 'Maksimalna reciklaža aluminijuma',
             duration: 'Beskonačno',
             impact: '95% manje energije'
           }
@@ -191,24 +191,14 @@ const EcologyPage = () => {
         subtitle: 'Merljivi rezultati naše posvećenosti zaštiti prirode',
         metrics: [
           {
-            value: '2,500',
-            unit: 'tona CO₂',
-            description: 'Smanjili smo emisiju ugljenika u 2023. godini'
+            value: '1250t',
+            unit: 'CO2',
+            description: 'Smanjili smo godišnju emisiju CO2'
           },
           {
-            value: '850',
-            unit: 'MWh',
-            description: 'Proizvedeno iz solarnih panela na našoj fabrici'
-          },
-          {
-            value: '15,000',
-            unit: 'm³',
-            description: 'Ušteda vode kroz reciklažu i čišćenje'
-          },
-          {
-            value: '95%',
-            unit: 'otpada',
-            description: 'Uspešno recikliran ili ponovo iskorišćen'
+            value: '1200',
+            unit: 'KWp',
+            description: 'Aktivnih solarnih panela'
           }
         ]
       },
@@ -292,33 +282,21 @@ const EcologyPage = () => {
         phases: [
           {
             title: 'Production',
-            description: 'Using clean energy in the production process',
+            description: 'We use renewable energy sources',
             duration: '1-2 months',
-            impact: 'Low CO₂ emissions'
-          },
-          {
-            title: 'Transport',
-            description: 'Optimized logistics routes to reduce transportation',
-            duration: '1-7 days',
-            impact: 'Minimal fuel consumption'
-          },
-          {
-            title: 'Installation',
-            description: 'Fast and efficient installation without harmful materials',
-            duration: '1-3 days',
-            impact: 'No emissions during installation'
+            impact: 'Low CO2 emissions'
           },
           {
             title: 'Usage',
-            description: 'Durability of 50+ years with minimal maintenance',
+            description: 'Durability of aluminum products',
             duration: '50+ years',
-            impact: 'Building energy efficiency'
+            impact: 'Energy efficiency'
           },
           {
             title: 'Recycling',
-            description: 'Complete recycling without material property loss',
+            description: 'Maximum aluminum recycling',
             duration: 'Infinite',
-            impact: '95% less energy for recycling'
+            impact: '95% less energy'
           }
         ]
       },
@@ -427,24 +405,14 @@ const EcologyPage = () => {
         subtitle: 'Measurable results of our commitment to nature protection',
         metrics: [
           {
-            value: '2,500',
-            unit: 'tons CO₂',
-            description: 'We reduced carbon emissions in 2023'
+            value: '1250t',
+            unit: 'CO2',
+            description: 'We reduced annual CO2 emissions'
           },
           {
-            value: '850',
-            unit: 'MWh',
-            description: 'Generated from solar panels at our factory'
-          },
-          {
-            value: '15,000',
-            unit: 'm³',
-            description: 'Water savings through recycling and purification'
-          },
-          {
-            value: '95%',
-            unit: 'waste',
-            description: 'Successfully recycled or reused'
+            value: '1200',
+            unit: 'KWp',
+            description: 'Active solar panels'
           }
         ]
       },
@@ -528,33 +496,21 @@ const EcologyPage = () => {
         phases: [
           {
             title: 'Produktion',
-            description: 'Verwendung sauberer Energie im Produktionsprozess',
+            description: 'Wir nutzen erneuerbare Energiequellen',
             duration: '1-2 Monate',
-            impact: 'Niedrige CO₂-Emissionen'
-          },
-          {
-            title: 'Transport',
-            description: 'Optimierte Logistikrouten zur Reduzierung des Transports',
-            duration: '1-7 Tage',
-            impact: 'Minimaler Kraftstoffverbrauch'
-          },
-          {
-            title: 'Installation',
-            description: 'Schnelle und effiziente Installation ohne schädliche Materialien',
-            duration: '1-3 Tage',
-            impact: 'Keine Emissionen während der Installation'
+            impact: 'Niedrige CO2-Emissionen'
           },
           {
             title: 'Nutzung',
-            description: 'Langlebigkeit von 50+ Jahren mit minimaler Wartung',
+            description: 'Langlebigkeit von Aluminiumprodukten',
             duration: '50+ Jahre',
-            impact: 'Energieeffizienz des Gebäudes'
+            impact: 'Energieeffizienz'
           },
           {
             title: 'Recycling',
-            description: 'Vollständiges Recycling ohne Verlust der Materialeigenschaften',
+            description: 'Maximales Aluminiumrecycling',
             duration: 'Unendlich',
-            impact: '95% weniger Energie für Recycling'
+            impact: '95% weniger Energie'
           }
         ]
       },
@@ -663,24 +619,14 @@ const EcologyPage = () => {
         subtitle: 'Messbare Ergebnisse unseres Engagements für den Naturschutz',
         metrics: [
           {
-            value: '2,500',
-            unit: 'Tonnen CO₂',
-            description: 'Wir haben die Kohlenstoffemissionen im Jahr 2023 reduziert'
+            value: '1250t',
+            unit: 'CO2',
+            description: 'Wir haben die jährlichen CO2-Emissionen reduziert'
           },
           {
-            value: '850',
-            unit: 'MWh',
-            description: 'Erzeugt durch Solarpanels in unserer Fabrik'
-          },
-          {
-            value: '15,000',
-            unit: 'm³',
-            description: 'Wassereinsparungen durch Recycling und Reinigung'
-          },
-          {
-            value: '95%',
-            unit: 'Abfall',
-            description: 'erfolgreich recycelt oder wiederverwendet'
+            value: '1200',
+            unit: 'KWp',
+            description: 'Aktive Solarpanels'
           }
         ]
       },
@@ -784,10 +730,6 @@ const EcologyPage = () => {
                   {pillar.icon === 'waste' && <Trash2 size={32} />}
                   {pillar.icon === 'efficiency' && <Zap size={32} />}
                 </div>
-                <div className="sustainability-stats">
-                  <div className="stat-number">{pillar.percentage}</div>
-                  <div className="stat-label">{pillar.label}</div>
-                </div>
                 <h3>{pillar.title}</h3>
                 <p>{pillar.description}</p>
               </div>
@@ -810,10 +752,7 @@ const EcologyPage = () => {
                 <div className="phase-content">
                   <h3>{phase.title}</h3>
                   <p className="phase-description">{phase.description}</p>
-                  <div className="phase-meta">
-                    <span className="phase-duration">{phase.duration}</span>
                     <span className="phase-impact">{phase.impact}</span>
-                  </div>
                 </div>
               </div>
             ))}
